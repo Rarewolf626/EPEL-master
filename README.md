@@ -24,18 +24,14 @@ Please, fill the following sections about your project.
 >
 > Hint: some good pointers for finding quality publicly available datasets ([Google dataset search](https://datasetsearch.research.google.com/), [Kaggle](https://www.kaggle.com/datasets), [OpenSwissData](https://opendata.swiss/en/), [SNAP](https://snap.stanford.edu/data/) and [FiveThirtyEight](https://data.fivethirtyeight.com/)), you could use also the DataSets proposed by the ENAC (see the Announcements section on Zulip).
 
-1. **[MyAnimeList Dataset](https://www.kaggle.com/azathoth42/myanimelist)**: contains data that was scrapped from [MyAnimeList (MAL) website](https://myanimelist.net). It contains information about anime, manga, characters, people, and reviews. The dataset is available on [Kaggle] and is updated every month.
-    - [UserList.csv](data/UserList.csv) contains information about the users of MAL, such as the username, location, birthdate. The dataset also comprises a filtered version which consists in only the users who have all of birth date, location, and gender defined, and a cleaned version which additionally removes users who have "suspicious" values (too many episodes watches, too young or too old, etc.).
-        - [users_filtered.csv](data/users_filtered.csv) contains the data about the users.
-        - [users_cleaned.csv](data/users_cleaned.csv) contains the data about the users.
-    - [AnimeList.csv](data/AnimeList.csv) contains the data about the anime. The dataset includes as well a filtered and cleaned version which remove the ratings from the users of the corresponding filtered and cleaned user datasets.
-        - [anime_filtered.csv](data/anime_filtered.csv)
-        - [anime_cleaned.csv](data/anime_cleaned.csv)
-    - [UserAnimeList.csv](data/UserAnimeList.csv) contains the data about the anime. As the file exceeds the maximum size of 100MB, it is not available on GitHub.
-2. **[Anime Recommendations Database vol.2]()**: contains data that was scrapped from MAL website as well.
-    - [animes.csv](data/animes.csv) contains the data about the anime.
-    - [ratings.csv]() contains the data about the ratings.
-3. **[Anime Character Traits Dataset](https://www.kaggle.com/datasets/mjrone/anime-character-traits-dataset?select=Anime_Triats.csv)**: contains information on anime characters such as their name, gender, hair color, their physical and temperamental traits, the anime/manga they appear in. The data was scrapped from [Anime Characters Database (ADB) website](https://www.animecharactersdatabase.com). 
+1. **[MyAnimeList Dataset](https://www.kaggle.com/azathoth42/myanimelist)**: contains data that was scrapped from [MyAnimeList](https://myanimelist.net) website, a social network and catalogue centered around animes and mangas. The dataset contains information on 302,673 users and 14,478 animes, and is composed of three main files:
+    - [UserList.csv](data/UserList.csv) contains information about the users, such as the username, location, birthdate. The dataset also comprises a filtered version which retains only the users who have all of birth date, location, and gender defined, and a cleaned version which additionally removes users who have "suspicious" values (too many watched episodes, too young or too old, etc.): [users_filtered.csv](data/users_filtered.csv) and [users_cleaned.csv](data/users_cleaned.csv)
+    - [AnimeList.csv](data/AnimeList.csv) contains information about the anime, such as the title, genres, studio, the URL of the image, among others. The dataset includes as well a filtered and cleaned version which remove the ratings from the users of the corresponding filtered and cleaned user datasets: [anime_filtered.csv](data/anime_filtered.csv) and [anime_cleaned.csv](data/anime_cleaned.csv)
+    - [UserAnimeList.csv](data/UserAnimeList.csv) contains the anime lists of all users. As the file exceeds the maximum size of 100MB allowed by GitHub, it needs to downloaded separately [here](https://www.kaggle.com/datasets/azathoth42/myanimelist?select=UserAnimeList.csv).
+2. **[Anime Recommendations Database vol.2](https://www.kaggle.com/datasets/noiruuuu/anime-recommendations-database-vol2)**: gathers 11,039,694 ratings from 108,024 MyAnimeList users on 15,221 animes.
+    - [animes.csv](data/animes.csv) contains information about the anime, similarly as AnimeList.csv
+    - [ratings.csv](data/ratings.csv) contains the ratings, ranging from 0 to 10. Must be downloaded separataly [here](https://www.kaggle.com/datasets/noiruuuu/anime-recommendations-database-vol2?select=ratings.csv)
+3. **[Anime Character Traits Dataset](https://www.kaggle.com/datasets/mjrone/anime-character-traits-dataset?select=Anime_Triats.csv)**: contains information on 119,824 anime characters such as their name, gender, hair color, their physical and temperamental traits, or the anime they appear in. The data was scrapped from [Anime Characters Database](https://www.animecharactersdatabase.com). 
     - [Anime_Traits.csv ](data/Anime_Traits.csv) contains the data about the characters.
 
 
@@ -65,14 +61,41 @@ The target audience for this project includes anime enthusiasts but also researc
 > Pre-processing of the data set you chose
 > - Show some basic statistics and get insights about the data
 
-The [UserList.csv](data/UserList.csv) file contains the most number of users (116,133). Based on
+We divided our data analysis into three main axes:
+
+#### Mapping location data to countries ([eda_country.ipynb](/preprocessing/eda_country.ipynb))
+
+As we are interested in the worldwide influence of animes, we began by cleaning the location data that was scrapped from MyAnimeList in UserList and mapping it to the corresponding countries, if possible. We applied a function to the unique 55280 location strings retrieved from the 302673 users of the dataset, that leverages [GeoPy's API](https://geopy.readthedocs.io/en/stable/#) geolocation services to resolve the full location from the string, and keep only the country name. Many location strings (in total 10%) failed however to be mapped, for one of the following reasons:
+- The string contains typos (e.g. "Las Veags,Nevada") which are not recognized by the geocoding service. Translating the string to English (using []()) corrects some of them
+- The string is fictional (e.g. "Mordor, Middle-Earth") or not a location at all (e.g. "1871", "I don't think soo")
+- The string contains additional words that make the geocoder fail, e,g., "Portland Oregon AKA The city of roses".
+In total, 15595 users (9.95%) have a undefined country.
+
+Below we plot the countries having the most number of users:
+United States is largely represented, which is not surprising given that MyAnimeList was founded and is based in this country.
+
+![Number of users per country](data/plots/Number%20of%20users%20per%20country.png)
+
+We are also interested in the studios whose animes are watched in the highest number of countries:
+
+![Number of countries per studio](data/plots/Number%20of%20country%20per%20Studio.png)
+
+We observe that the most popular studios worldwide do not necessarily produce the most popular animes in terms of ratings:
+
+![Number of ratings per Studio](data/plots/Number%20of%20ratings%20per%20Studio.png)
 
 
-Histogram: group by genre
+#### Genres ([eda_genre.ipynb](/preprocessing/eda_genre.ipynb))
+We are also interested in the most popular genres in terms of number of animes:
 
-Histogram: users per country
+![Number of anime per genre](/data/plots/Number%20of%20anime%20per%20genre.png)
 
-Histogram: genres which have the best ratings
+
+#### Characters ([eda_character.ipybb](/preprocessing/eda_character.ipynb))
+Finally, we derived the most common traits of anime characters. 
+
+![Most common traits for animes characteristics](/data/plots/Most%20common%20traits%20for%20animes%20characters.png)
+
 
 ### Related work
 
