@@ -46,7 +46,7 @@ The main topic of this project is to explore the spread of Japan's culture world
 
 > - What am I trying to show with my visualization?
 
-The purpose of our visualization project is to showcase the global popularity of anime industry, an art form with a wide variety of genres that appeal to diverse audiences worldwide, to the point of becoming a major contributor to Japan's soft power strategy. Anime features characters that are relatable and resonate with people across different cultures, regions and age groups, contributing to its worldwide appreciation.
+The purpose of our visualization project is to showcase the global popularity of anime industry, an art form with a wide variety of genres that appeal to diverse audiences worldwide, to the point of becoming a major contributor to Japan's soft power strategy. Anime features characters that are relatable and resonate with people across different cultures, regions and age groups, contributing to its worldwide appreciation. We will try to showcase the repetition of some patterns in different countries with respect to the popularity of genres, character traits or studios.
 
 
 > - Think of an overview for the project, your motivation, and the target audience.
@@ -63,11 +63,11 @@ The target audience for this project includes anime enthusiasts but also researc
 
 We divided our data analysis into three main axes:
 
-#### Mapping location data to countries ([eda_country.ipynb](/preprocessing/eda_country.ipynb))
+#### **Mapping location data to countries ([eda_country.ipynb](/preprocessing/eda_country.ipynb))**
 
-As we are interested in the worldwide influence of animes, we began by cleaning the location data that was scrapped from MyAnimeList in UserList and mapping it to the corresponding countries, if possible. We applied a function to the unique 55280 location strings retrieved from the 302673 users of the dataset, that leverages [GeoPy's API](https://geopy.readthedocs.io/en/stable/#) geolocation services to resolve the full location from the string, and keep only the country name. Many location strings (in total 10%) failed however to be mapped, for one of the following reasons:
-- The string contains typos (e.g. "Las Veags,Nevada") which are not recognized by the geocoding service. Translating the string to English (using []()) corrects some of them
-- The string is fictional (e.g. "Mordor, Middle-Earth") or not a location at all (e.g. "1871", "I don't think soo")
+As we are interested in the worldwide influence of animes, we began by cleaning the location data that was scrapped from MyAnimeList in UserList and mapping it to the corresponding countries, if possible. We applied a function to the unique 55,280 location strings retrieved from the 302,673 users of the dataset, that leverages [GeoPy's API](https://geopy.readthedocs.io/en/stable/#) geolocation services to resolve the full location from the string, and keep only the country name. Many location strings (in total 10%) failed however to be mapped, for one of the following reasons:
+- The string contains typos (e.g. "Las Veags,Nevada") which are not recognized by the geocoding service. Translating the string to English (using []()) corrects some of them.
+- The string is fictional (e.g. "Mordor, Middle-Earth") or not a location at all (e.g. "1871", "I don't think soo").
 - The string contains additional words that make the geocoder fail, e,g., "Portland Oregon AKA The city of roses".
 In total, 15595 users (9.95%) have a undefined country.
 
@@ -85,13 +85,13 @@ We observe that the most popular studios worldwide do not necessarily produce th
 ![Number of ratings per Studio](data/plots/Number%20of%20ratings%20per%20Studio.png)
 
 
-#### Genres ([eda_genre.ipynb](/preprocessing/eda_genre.ipynb))
+#### **Genres ([eda_genre.ipynb](/preprocessing/eda_genre.ipynb))**
 We are also interested in the most popular genres in terms of number of animes:
 
 ![Number of anime per genre](/data/plots/Number%20of%20anime%20per%20genre.png)
 
 
-#### Characters ([eda_character.ipybb](/preprocessing/eda_character.ipynb))
+#### **Characters ([eda_character.ipybb](/preprocessing/eda_character.ipynb))**
 Finally, we derived the most common traits of anime characters. 
 
 ![Most common traits for animes characteristics](/data/plots/Most%20common%20traits%20for%20animes%20characters.png)
@@ -99,15 +99,17 @@ Finally, we derived the most common traits of anime characters.
 
 ### Related work
 
-> - What others have already done with the data?
+> What others have already done with the data?
 
-The [worldwideweebz](https://github.com/com-480-data-visualization/com-480-project-worldwideweebz) group already used the MyAnimeList dataset in 2020 for this class.
+- The [worldwideweebz](https://github.com/com-480-data-visualization/com-480-project-worldwideweebz) group already used the MyAnimeList dataset in 2020 for this class, and centered its 
+- 
 
-> - Why is your approach original?
+> Why is your approach original?
 
+We place a strong emphasis on animes as an artform that overcomes lingual and cultural barriers. We believe this aspect has not been analyzed before on the basis of information gathered from social network datasets, especially since we will try to make it as interactive as possible.
 
-> - What source of inspiration do you take? Visualizations that you found on other websites or magazines (might be unrelated to your data).
-
+> What source of inspiration do you take? Visualizations that you found on other websites or magazines (might be unrelated to your data).
+????
 
 ## Milestone 2 (7th May, 5pm)
 
