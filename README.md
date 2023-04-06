@@ -3,6 +3,7 @@
 | Student's name | SCIPER |
 | -------------- | ------ |
 | Métivier Antoine | 297138 |
+| Mettler Julien | 309999 |
 | Monnin Etienne | 295852 |
 | | |
 
