@@ -74,7 +74,7 @@ We are also interested in the most popular genres in terms of number of animes:
 ![Number of anime per genre](/data/plots/Number%20of%20anime%20per%20genre.png)
 
 
-#### **Characters ([eda_character.ipybb](/preprocessing/eda_character.ipynb))**
+#### **Characters ([eda_character.ipynb](/preprocessing/eda_character.ipynb))**
 Finally, we derived the most common traits of anime characters. 
 
 ![Most common traits for animes characteristics](/data/plots/Most%20common%20traits%20for%20animes%20characters.png)
