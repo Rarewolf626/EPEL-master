@@ -101,15 +101,12 @@ Finally, we derived the most common traits of anime characters.
 
 > What others have already done with the data?
 
-- The [worldwideweebz](https://github.com/com-480-data-visualization/com-480-project-worldwideweebz) group already used the MyAnimeList dataset in 2020 for this class, and centered its 
-- 
+- The [worldwideweebz](https://github.com/com-480-data-visualization/com-480-project-worldwideweebz) group already used the MyAnimeList dataset in 2020 for this class and has focused its analysis on the diversity of anime, their growing popularity and the voice actor network.
 
 > Why is your approach original?
 
 We place a strong emphasis on animes as an artform that overcomes lingual and cultural barriers. We believe this aspect has not been analyzed before on the basis of information gathered from social network datasets, especially since we will try to make it as interactive as possible.
 
-> What source of inspiration do you take? Visualizations that you found on other websites or magazines (might be unrelated to your data).
-????
 
 ## Milestone 2 (7th May, 5pm)
 
