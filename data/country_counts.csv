@@ -1,0 +1,322 @@
+country,counts
+Afghanistan,1
+Albania,32
+Algeria,98
+Andorra,6
+Angola,8
+Anguilla,1
+Antarctica,70
+Antigua and Barbuda,5
+Argentina,943
+Armenia,6
+Aruba,11
+Australia,3957
+Austria,521
+Azerbaijan,53
+Bahamas,13
+Bahrain,96
+Bangladesh,348
+Barbados,13
+Belarus,184
+Belgium,958
+Belize,8
+Bermuda,3
+Bhutan,8
+Bolivia,14
+Bosnia and Herzegovina,123
+Botswana,3
+Bouvet Island,1
+Brazil,8160
+British Virgin Islands,2
+Brunei Darussalam,51
+Bulgaria,965
+Burkina Faso,4
+Cabo Verde,2
+Cambodia,14
+Cameroon,2
+Canada,7150
+Canarias,41
+Cayman Islands,4
+Chad,2
+Chile,647
+China,342
+Christmas Island,1
+Colombia,369
+Congo,1
+Congo DRC,4
+Costa Rica,139
+Croatia,603
+Cuba,5
+Curacao,2
+Cyprus,40
+Czech Republic,568
+Côte d'Ivoire,1
+Denmark,792
+Djibouti,3
+Dominica,4
+Dominican Republic,77
+Ecuador,60
+Egypt,295
+El Salvador,38
+Equatorial Guinea,1
+Estonia,400
+Eswatini,2
+Faroe Islands,11
+Fiji,7
+Finland,1646
+France,2917
+French Guiana,1
+French Polynesia,4
+Gabon,1
+Georgia,127
+Germany,4171
+Ghana,4
+Greece,931
+Greenland,9
+Grenada,3
+Guam,22
+Guatemala,55
+Guernsey,32
+Guinea,2
+Guyana,5
+Haiti,3
+Honduras,24
+Hungary,1079
+Iceland,81
+India,1198
+Indonesia,3273
+Iran,120
+Iraq,86
+Ireland,484
+Isle of Man,4
+Israel,614
+Italy,1917
+Jamaica,50
+Japan,2122
+Jersey,14
+Jordan,76
+Kazakhstan,71
+Kenya,28
+Kiribati,1
+Kosovo,8
+Kuwait,159
+Kyrgyzstan,2
+Laos,2
+Latvia,427
+Lebanon,51
+Liberia,2
+Libya,36
+Liechtenstein,5
+Lithuania,807
+Luxembourg,37
+Madagascar,11
+Malaysia,1293
+Maldives,27
+Mali,3
+Malta,73
+Marshall Islands,1
+Mauritania,1
+Mauritius,42
+Mexico,1105
+Moldova,58
+Monaco,5
+Mongolia,83
+Montenegro,22
+Morocco,165
+Mozambique,2
+Myanmar,25
+Namibia,2
+Nepal,57
+Netherlands,3191
+New Caledonia,2
+New Zealand,779
+Nicaragua,11
+Nigeria,30
+North Korea,14
+North Macedonia,46
+Northern Mariana Islands,2
+Norway,1493
+Null Island,1
+Oman,30
+Pakistan,200
+Palestinian Territory,21
+Panama,64
+Papua New Guinea,6
+Paraguay,28
+Peru,239
+Philippines,4501
+Pitcairn,2
+Poland,8234
+Portugal,2474
+Puerto Rico,217
+Qatar,68
+Romania,1534
+Russian Federation,4548
+Réunion,6
+Saint Kitts and Nevis,4
+Saint Lucia,7
+Saint Pierre and Miquelon,2
+Saint Vincent and the Grenadines,3
+Samoa,1
+San Marino,2
+Saudi Arabia,795
+Senegal,1
+Serbia,505
+Seychelles,2
+Sierra Leone,2
+Singapore,1124
+Slovakia,407
+Slovenia,162
+Solomon Islands,1
+Somalia,2
+South Africa,347
+South Georgia and South Sandwich Islands,2
+South Korea,213
+Spain,2112
+Sri Lanka,55
+Sudan,24
+Suriname,9
+Svalbard,3
+Sweden,2464
+Switzerland,313
+Syria,55
+Taiwan,52
+Tanzania,4
+Thailand,302
+Togo,1
+Trinidad and Tobago,69
+Tunisia,117
+Turkey,1340
+Turks and Caicos Islands,1
+US Virgin Islands,1
+Uganda,7
+Ukraine,772
+United Arab Emirates,466
+United Kingdom,7590
+United States,34030
+Uruguay,93
+Uzbekistan,10
+Vatican City,3
+Venezuela,318
+Vietnam,261
+Yemen,10
+Zambia,2
+Zimbabwe,9
+"['Aland Islands', 'Estonia']",1
+"['Australia', 'Canada']",1
+"['Australia', 'Greece']",1
+"['Australia', 'Hong Kong']",1
+"['Australia', 'Malaysia']",1
+"['Australia', 'North Korea']",1
+"['Australia', 'Philippines']",1
+"['Australia', 'Singapore']",1
+"['Austria', 'Germany']",1
+"['Austria', 'Hungary']",1
+"['Austria', 'Serbia']",1
+"['Belgium', 'Canada']",1
+"['Belgium', 'Netherlands']",1
+"['Belgium', 'Thailand']",1
+"['Bosnia and Herzegovina', 'Singapore']",1
+"['Bulgaria', 'Norway']",1
+"['Bulgaria', 'South Korea']",1
+"['Canada', 'Montenegro']",1
+"['Canada', 'New Zealand']",1
+"['Canada', 'Turkey']",1
+"['Canada', 'United States Virgin Islands']",1
+"['Canada', 'United States']",1
+"['Canada', 'Vietnam']",1
+"['China', 'Netherlands']",1
+"['China', 'Vietnam']",1
+"['Comoros', 'France']",1
+"['Costa Rica', 'Liberia']",2
+"['Czech Republic', 'Slovakia']",1
+"['Egypt', 'Indonesia']",1
+"['Egypt', 'Libya']",1
+"['Estonia', 'Sweden', 'United States']",1
+"['Finland', 'New Zealand']",1
+"['Finland', 'Poland']",1
+"['Finland', 'Serbia']",1
+"['Finland', 'Sweden']",1
+"['France', 'Japan', 'USA']",1
+"['France', 'Japan']",1
+"['France', 'Philippines']",1
+"['France', 'United States']",2
+"['Germany', 'Greece']",1
+"['Germany', 'Japan']",1
+"['Germany', 'Luxembourg']",1
+"['Germany', 'Russian Federation']",1
+"['Germany', 'South Korea']",1
+"['Germany', 'Turkey']",3
+"['Germany', 'United States']",1
+"['Greece', 'Japan']",1
+"['Greece', 'Poland']",1
+"['Greece', 'United Kingdom']",1
+"['Guyana', 'Trinidad and Tobago']",1
+"['Hong Kong', 'United States']",1
+"['India', 'Saudi Arabia']",2
+"['India', 'United Arab Emirates']",1
+"['Indonesia', 'Japan', 'Taiwan']",1
+"['Indonesia', 'Japan']",1
+"['Indonesia', 'Singapore']",1
+"['Ireland', 'Moldova']",1
+"['Italy', 'Netherlands']",1
+"['Jamaica', 'United States']",2
+"['Japan', 'Canada']",1
+"['Japan', 'Kazakhstan', 'Turkey']",1
+"['Japan', 'Netherlands', 'Turkey']",1
+"['Japan', 'Netherlands']",1
+"['Japan', 'Poland']",1
+"['Japan', 'South Korea', 'United States']",1
+"['Japan', 'Switzerland']",1
+"['Japan', 'Taiwan', 'United States']",1
+"['Japan', 'United States']",3
+"['Latvia', 'Sweden']",1
+"['Lithuania', 'United Kingdom']",1
+"['Malaysia', 'Indonesia']",1
+"['Malaysia', 'Penang']",1
+"['Malaysia', 'Singapore']",2
+"['Maldives', 'Singapore']",1
+"['Mexico', 'United States']",1
+"['Netherlands', 'Greece']",1
+"['Netherlands', 'Poland']",1
+"['Netherlands', 'United Kingdom']",1
+"['Netherlands', 'United States']",1
+"['New Zealand', 'Taiwan']",1
+"['New Zealand', 'United Kingdom']",1
+"['Nigeria', 'Benin']",1
+"['Nigeria', 'United States']",1
+"['North Macedonia', 'Turkey']",1
+"['Norway', 'Spain']",1
+"['Palestine', 'Qatar']",1
+"['Philippines', 'United States']",1
+"['Poland', 'Spain']",1
+"['Poland', 'Sweden']",2
+"['Poland', 'Ukraine']",1
+"['Poland', 'United Kingdom']",1
+"['Poland', 'United States']",1
+"['Portugal', 'Luxembourg']",1
+"['Portugal', 'Spain']",1
+"['Portugal', 'United Kingdom']",1
+"['Qatar', 'India']",1
+"['Qatar', 'Tunisia']",2
+"['Romania', 'Spain']",1
+"['Romania', 'Switzerland']",1
+"['Singapore', 'Australia']",1
+"['Singapore', 'China']",1
+"['Singapore', 'United Arab Emirates']",1
+"['Slovakia', 'Poland']",1
+"['South Africa', 'Taiwan']",1
+"['South Korea', 'Australia']",1
+"['South Korea', 'Turkey', 'United States']",1
+"['Spain', 'Russian Federation']",1
+"['Spain', 'Switzerland']",1
+"['Syria', 'Saudi Arabia']",1
+"['Taiwan', 'Poland']",1
+"['Thailand', 'New Zealand']",1
+"['Thailand', 'United States']",1
+"['Tokyo', 'United States']",1
+"['United Arab Emirates', 'India']",1
+"['United States', 'Puerto Rico']",1
+"['United States', 'Spain']",1
+"['Venezuela', 'United States']",1
+ambiguous,358
