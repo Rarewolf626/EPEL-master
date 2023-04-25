@@ -1,16 +1,15 @@
-COUNTRY,counts
+COUNTRYAFF,counts
 Afghanistan,1
 Albania,32
 Algeria,98
 Andorra,6
 Angola,8
-Anguilla,1
 Antarctica,70
 Antigua and Barbuda,5
 Argentina,943
 Armenia,6
 Aruba,11
-Australia,3965
+Australia,3966
 Austria,524
 Azerbaijan,53
 Bahamas,13
@@ -21,14 +20,11 @@ Belarus,184
 Belgium,961
 Belize,8
 Benin,1
-Bermuda,3
 Bhutan,8
 Bolivia,14
 Bosnia and Herzegovina,124
 Botswana,3
-Bouvet Island,1
 Brazil,8160
-British Virgin Islands,2
 Brunei Darussalam,51
 Bulgaria,967
 Burkina Faso,4
@@ -36,12 +32,9 @@ Cabo Verde,2
 Cambodia,14
 Cameroon,2
 Canada,7159
-Canarias,41
-Cayman Islands,4
 Chad,2
 Chile,647
 China,347
-Christmas Island,1
 Colombia,369
 Comoros,1
 Congo,1
@@ -49,11 +42,10 @@ Congo DRC,4
 Costa Rica,141
 Croatia,603
 Cuba,5
-Curacao,2
 Cyprus,40
 Czech Republic,569
 Côte d'Ivoire,1
-Denmark,792
+Denmark,812
 Djibouti,3
 Dominica,4
 Dominican Republic,77
@@ -63,22 +55,16 @@ El Salvador,38
 Equatorial Guinea,1
 Estonia,402
 Eswatini,2
-Faroe Islands,11
 Fiji,7
 Finland,1651
-France,2923
-French Guiana,1
-French Polynesia,4
+France,2938
 Gabon,1
 Georgia,127
 Germany,4177
 Ghana,4
 Greece,937
-Greenland,9
 Grenada,3
-Guam,22
 Guatemala,55
-Guernsey,32
 Guinea,2
 Guyana,6
 Haiti,3
@@ -90,11 +76,9 @@ Indonesia,3278
 Iran,120
 Iraq,86
 Ireland,485
-Isle of Man,4
 Israel,614
 Italy,1918
 Jamaica,52
-Jersey,14
 Jordan,76
 Kazakhstan,72
 Kenya,28
@@ -128,15 +112,13 @@ Mozambique,2
 Myanmar,25
 Namibia,2
 Nepal,57
-Netherlands,3200
-New Caledonia,2
+Netherlands,3202
 New Zealand,784
 Nicaragua,11
 Nigeria,32
 North Korea,15
 North Macedonia,47
-Northern Mariana Islands,2
-Norway,1495
+Norway,1499
 Null Island,1
 Oman,30
 Pakistan,200
@@ -146,17 +128,13 @@ Papua New Guinea,6
 Paraguay,28
 Peru,239
 Philippines,4504
-Pitcairn,2
 Poland,8246
 Portugal,2477
-Puerto Rico,218
 Qatar,72
 Romania,1536
 Russian Federation,4550
-Réunion,6
 Saint Kitts and Nevis,4
 Saint Lucia,7
-Saint Pierre and Miquelon,2
 Saint Vincent and the Grenadines,3
 Samoa,1
 San Marino,2
@@ -171,13 +149,11 @@ Slovenia,162
 Solomon Islands,1
 Somalia,2
 South Africa,348
-South Georgia and South Sandwich Islands,2
 South Korea,218
-Spain,2119
+Spain,2160
 Sri Lanka,55
 Sudan,24
 Suriname,9
-Svalbard,3
 Sweden,2469
 Switzerland,316
 Syria,56
@@ -188,13 +164,11 @@ Togo,1
 Trinidad and Tobago,70
 Tunisia,119
 Turkey,1348
-Turks and Caicos Islands,1
-US Virgin Islands,3
 Uganda,7
 Ukraine,773
 United Arab Emirates,469
-United Kingdom,7596
-United States,34054
+United Kingdom,7661
+United States,34299
 Uruguay,93
 Uzbekistan,10
 Vatican City,3
