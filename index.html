@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<link href="style.css" rel="stylesheet" type="text/css">
+
+	<title>COM-480 Data visualization</title>
+
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+
+
+	<style type="text/css">
+		html {
+			scroll-behavior: smooth;
+		}
+
+		body {
+			width: "100%";
+			height: "100vh";
+
+			background-color: #e9e7e7;
+			font-family: sans-serif;
+			font-size: 100%;
+			color: #333;
+		}
+
+		/*.float-container {
+			border: 3px solid #fff;
+			padding: 20px;
+		}*/
+
+		.float-child {
+			/*width: 50%;*/
+			float: left;
+			/*padding: 10px;*/
+			margin: 10px;
+			/*border: 2px solid red;*/
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<!-- Create a CENTERED TITLE-->
+	<div style="text-align:center">
+		<h1>COM-480 Data visualization</h1>
+		<h2> Visualizing the worlwide influence of Animes</h2>
+	</div>
+
+	<!-- Create a NAVIGATION BAR-->
+	<!-- <div class="topnav">
+		<a href="#graph1">Graph 1</a>
+		<a href="#graph2">Graph 2</a>
+		<a href="#graph3">Graph 3</a>
+		<a href="#graph4">Graph 4</a>
+		<a href="#graph5">Graph 5</a>
+	</div> -->
+
+
+	<div id="graph1"></div>
+
+	<div id="graph2"></div>
+
+	<div id="graph3">
+		<div id="map-options">
+			<select id="countrySelector" class="form-control" onchange="map_changeCountry()">
+			</select>
+
+			<button id="map-btn" class="btn btn-default">Filter</button>
+			
+
+		</div>
+
+		<!-- World map -->
+		<div class="float-container">
+			<div class="float-child" style="width:70%">
+				<svg id="map" class="svg-content" viewBox="100 0 870 450"></svg>
+			</div>
+
+			<!-- Info pane -->
+			<div class="float-child">
+
+				<div id="infoPane" class="info-pane">
+					<p>Hover over a country to see the number of animes produced there.</p>
+					<div id="infoPaneTitle" class="info-pane-title">
+						<h2 id="countryName"></h2>
+					</div>
+					<div id="infoPaneContent" class="info-pane-content">
+						<p id="numAnimes"></p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<script type="text/javascript">
+
+		</script>
+	</div>
+
+	<div id="graph4"></div>
+
+	<div id="graph5"></div>
+
+	<script src="map.js"></script>
+
+</body>
+
+</html>
