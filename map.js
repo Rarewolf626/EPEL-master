@@ -14,12 +14,42 @@ countToColor = function (color, d) {
     }
 }
 
+//Number formatting for population values
+let formatAsThousands = d3.format(",");  //e.g. converts 123456 to "123,456"
+
 let countrySelector = d3.select("#countrySelector");
 let btn = d3.select("#map-btn");
 btn.on("click", function () {
     console.log("yes")
     map_update(true);
 })
+
+let infoPane = d3.select("#infoPane");
+
+// Display the top 10 countries in terms of counts (country_counts.csv); first column = name, second column = counts
+let rankTableBody = d3.select("#rankTable").select("tbody");
+d3.csv("data/country_counts.csv", function (data) {
+    let rankedCountries = data.sort(function (a, b) {
+        return parseInt(b.counts) - parseInt(a.counts);
+    }).slice(0, 10);
+
+    for (var i = 0; i < rankedCountries.length; i++) {
+        /* Append a new element             
+            <tr>
+                <td>i</td>
+                <td>top10Data[i].country</td>
+                <td>top10Data[i].counts</td>
+            </tr>
+        */
+        let tr = rankTableBody.append("tr")
+        tr.append("td").text(i + 1)
+        tr.append("td").text(rankedCountries[i].country)
+        tr.append("td").text(formatAsThousands(rankedCountries[i].counts))
+    }
+});
+
+
+// Display the total number of countries and the total number of users
 
 // Default country
 let map_selectedCountry = "Switzerland";
@@ -29,30 +59,44 @@ const map_update = (filtered) => {
     const w = 870;
     const h = 450;
 
-    //Number formatting for population values
-    let formatAsThousands = d3.format(",");  //e.g. converts 123456 to "123,456"
+    // Load all the json data from data/map asynchronously
+    // and call the ready function to draw the map
 
-    let infoPane = d3.select("#infoPane");
 
     d3.queue()
         .defer(d3.json, "data/map/world.geojson")
         .defer(d3.csv, "data/country_counts.csv", function (data) {
-            if (data.COUNTRY == map_selectedCountry) {
+            // Change the rows
+            // data.forEach(function (d) {
+            //     if (d.country == "Czech Republic") {
+            //         d.country = "Czechia";
+            //     } else if (d.country == "Bahamas") {
+            //         d.country = "The Bahamas";
+            //     } else if (d.country == "Brunei Darussalam") {
+            //         d.country = "Brunei";
+            //     } else if (d.country == "Congo") {
+            //         d.country = "Republic of the Congo";
+            //     } else if (d.country == "Congo DRC") {
+            //         d.country = "Democratic Republic of the Congo";
+            //     } else if (d.country == "Côte d'Ivoire") {
+            //         d.country = "Ivory Coast";
+            //     } else if (d.country == "Palestinian Territory") {
+            //         d.country = "Palestine";
+            //     } else if (d.country == "Russian Federation") {
+            //         d.country = "Russia";
+            //     } else if (d.country == "Serbia") {
+            //         d.country = "Republic of Serbia";
+            //     } else if (d.country == "Tanzania") {
+            //         d.country = "United Republic of Tanzania";
+            //     } else if (d.country == "United States") {
+            //         d.country = "United States of America";
+            //     }
 
-            }
-
-            // let numCountries = 0;
-            // let numUsers = 0;
-            // for (var i = 0; i < data.length; i++) {
-            //     numCountries++;
-            //     numUsers += parseInt(data[i].counts)
-            // }
-
-
-            // Calculate the same values again but in a cleaner way:
-            // x users from y countries
-            let numCountries = data.length;
-            let numUsers = d3.sum(data, function (d) { return parseInt(d.counts); });
+            //     // Calculate the same values again but in a cleaner way:
+            //     // x users from y countries
+            //     // let numCountries = data.length;
+            //     // let numUsers = d3.sum(data, function (d) { return parseInt(d.counts); });
+            // });
         }).await(ready);
     // x users from y countries
     // infoPane.append("text").attr("id", "numCountries").text("Number of countries: " + numCountries);
@@ -70,14 +114,15 @@ const map_update = (filtered) => {
                 .enter()
                 .append("option")
                 .attr("value", function (d) {
-                    return d["COUNTRY"];
+                    return d["country"];
                 })
                 .text(function (d) {
-                    return d["COUNTRY"];
+                    return d["country"];
                 }) // Display the text in bold
                 .exit();
             countrySelector.node().value = "Switzerland";
         });
+
 
         // When selecting a country, retrieve the data and update the map
 
@@ -99,10 +144,7 @@ const map_update = (filtered) => {
         //Colors derived from ColorBrewer, by Cynthia Brewer, and included in
         //https://github.com/d3/d3-scale-chromatic
 
-
-
-
-        //Create SVG element
+        // Create SVG element
         let svg = d3.select("#map")
 
         //Define what to do when panning or zooming
@@ -128,7 +170,7 @@ const map_update = (filtered) => {
 
         //Then define the zoom behavior
         let zoom = d3.zoom()
-            .scaleExtent([0.5, 4.0])  //This limits how far you can zoom in
+            .scaleExtent([0.5, 12.0])  //This limits how far you can zoom in
             //.translateExtent([[-1000, -1000], [w + 10, h + 10]])  //This limits how far you can pan out
             .on("zoom", zooming);
 
@@ -166,7 +208,7 @@ const map_update = (filtered) => {
                 for (var i = 0; i < data.length; i++) {
 
                     //Grab state name
-                    var dataName = data[i].COUNTRY;
+                    var dataName = data[i].country;
 
                     //Grab data value, and convert from string to float
                     var dataCounts = parseFloat(data[i].counts);
@@ -201,6 +243,9 @@ const map_update = (filtered) => {
                         return countToColor(color, d)
                     })
                     .on("mouseover", function (d) {
+
+                        d3.select("#rankTable").selectAll("*").remove();
+
                         // Brighten the color on mouseover
                         d3.select(this).style("fill", d => d3.rgb(countToColor(color, d)).brighter(0.8));
 
@@ -212,14 +257,13 @@ const map_update = (filtered) => {
                         d3.select("#countryName").text(country);
 
                         if (count) {
-                            // If count exists, display the count
                             d3.select("#numAnimes").text(formatAsThousands(count)).append("i").text(" otakus");
                         } else {
-                            // If count does not exist, display "N/A"
                             d3.select("#numAnimes").text("No otakus here :(");
                         }
                         // Display the tooltip
                         d3.select("#tooltip").classed("hidden", false);
+
 
                     })
                     .on("mouseout", function (d) {
@@ -227,41 +271,92 @@ const map_update = (filtered) => {
                         // empty #countryName and #numAnimes if country does not exist
                         d3.select("#countryName").text("");
                         d3.select("#numAnimes").text("");
+
+                        // Delete everything under div with id genderPieChart
+                        d3.select("#genderPieChart").selectAll("*").remove();
+
                     })
                     .on("click", function (d) {
                         // don't stop event propagation
                         d3.event.stopPropagation();
 
-                        console.log(d.properties.admin);
-                        console.log(d.properties.value);
-                        console.log(d);;
+                        // Get the country name and count
+                        let country = d.properties.admin;
+                        let count = d.properties.value;
+
+                        // Display the gender balance pie chart
+                        d3.csv("data/stats/country_gender_balance.csv", function (data) {
+                            // Get the data corresponding to the country
+                            let countryData = data.find(d => d.country == country);
+                            if (!countryData) return;
+
+                            // set the dimensions and margins of the graph
+                            let width = 300
+                            let height = 300
+                            let margin = 40
+
+                            // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
+                            var radius = Math.min(width, height) / 2 - margin
+
+                            // Create a pie chart with countryData["Male"], countryData["Female"], countryData["Non-Binary"]
+                            let svg = d3.select("#genderPieChart")
+                                .append("svg")
+                                .attr("width", width)
+                                .attr("height", height)
+                                .append("g")
+                                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+                            let genderBalance = { "Male": countryData["Male"], "Female": countryData["Female"], "Non-Binary": countryData["Non-Binary"] }
+
+                            // set the color scale
+                            let color = d3.scaleOrdinal().domain(genderBalance).range(d3.schemeDark2);
+
+                            // Compute the position of each group on the pie:
+                            let pie = d3.pie()
+                                .value(function (d) { return d.value; })
+                            let data_ready = pie(d3.entries(genderBalance));
+
+                            // shape helper to build arcs:
+                            var arcGenerator = d3.arc()
+                                .innerRadius(0)
+                                .outerRadius(radius)
+
+                            // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
+                            svg
+                                .selectAll('whatever')
+                                .data(data_ready)
+                                .enter()
+                                .append('path')
+                                .transition()
+                                .duration(1000)
+                                .attr('d', arcGenerator)
+                                .attr('fill', function (d) { return (color(d.data.key)) })
+                                .attr("stroke", "black")
+                                .style("stroke-width", "2px")
+                                .style("opacity", 0.7)
+
+                            // Now add the annotation. Use the centroid method to get the best coordinates
+                            svg
+                                .selectAll('whatever')
+                                .data(data_ready)
+                                .enter()
+                                .append('text')
+                                .text(function (d) { return d.data.key })
+                                .attr("transform", function (d) { return "translate(" + arcGenerator.centroid(d) + ")"; })
+                                .style("text-anchor", "middle")
+                                .style("font-size", 17)
+                                .append('text')
+                                .text(function (d) { return d.data.value })
+                                .attr("transform", function (d) { return "translate(" + arcGenerator.centroid(d) + ")"; })
+                                .style("text-anchor", "middle")
+                                .style("font-size", 10)
+                                .style("font-weight", "bold")
+                        });
+                        // If click again, prevent the same pie chart from being appended again IF NO MOUSEOVER IN BETWEEN
                     });
             });
         });
-
-        // d3.json("data/map/oceans.json", function (json) {
-
-        //     //Bind data and create one path per GeoJSON feature
-        //     svg.selectAll("path")
-        //         .data(json.features)
-        //         .enter()
-        //         .append("path")
-        //         .attr("d", path)
-        //         .style("fill", "steelblue");
-
-        // });
     }
 }
 
 map_update(false);
-
-// Subsequently update map whenever year is changed.
-const map_changeCountry = () => {
-    map_selectedCountry = document.getElementById('countrySelector').value;
-
-    // map_selectedYear = document.getElementById('year').value;
-    // map_update();
-    // scatter_changeYear();
-    // bar_changeYear(map_selectedYear);
-    // radar_changeYear(map_selectedYear);
-};

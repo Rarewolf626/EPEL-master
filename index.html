@@ -8,8 +8,11 @@
 
 	<title>COM-480 Data visualization</title>
 
+	<!-- Load d3.js -->
 	<script src="https://d3js.org/d3.v4.min.js"></script>
 
+	<!-- Color scale -->
+	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 
 	<style type="text/css">
 		html {
@@ -65,12 +68,13 @@
 	<div id="graph2"></div>
 
 	<div id="graph3">
+		<h3> A very diverse community... </h3>
 		<div id="map-options">
 			<select id="countrySelector" class="form-control" onchange="map_changeCountry()">
 			</select>
 
 			<button id="map-btn" class="btn btn-default">Filter</button>
-			
+
 
 		</div>
 
@@ -85,12 +89,28 @@
 
 				<div id="infoPane" class="info-pane">
 					<p>Hover over a country to see the number of animes produced there.</p>
+
 					<div id="infoPaneTitle" class="info-pane-title">
 						<h2 id="countryName"></h2>
 					</div>
+
 					<div id="infoPaneContent" class="info-pane-content">
 						<p id="numAnimes"></p>
 					</div>
+
+					<table id="rankTable">
+						<caption> The countries with largest communities </caption>
+						<thead>
+							<tr>
+								<th>Ranking</th>
+								<th>Country</th>
+								<th>Number of <i>otakus</i></th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+
+					<div id="genderPieChart"></div>
 				</div>
 			</div>
 
