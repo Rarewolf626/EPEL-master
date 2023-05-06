@@ -1,27 +1,16 @@
-# Project of Data Visualization (COM-480)
-
-| Student's name | SCIPER |
-| -------------- | ------ |
-| Métivier Antoine | 297138 |
-| Mettler Julien | 309999 |
-| Monnin Etienne | 295852 |
-| | |
-
-[Milestone 1](#milestone-1) • [Milestone 2](#milestone-2) • [Milestone 3](#milestone-3)
-
 ## Milestone 1 (7th April, 5pm)
 
 ### Datasets
 
 1. **[MyAnimeList Dataset](https://www.kaggle.com/azathoth42/myanimelist)**: contains data that was scrapped from [MyAnimeList](https://myanimelist.net) website, a social network and catalogue centered around animes and mangas. The dataset contains information on 302,673 users and 14,478 animes, and is composed of three main files:
-    - [UserList.csv](data/UserList.csv) contains information about the users, such as the username, location, birthdate. The dataset also comprises a filtered version which retains only the users who have all of birth date, location, and gender defined, and a cleaned version which additionally removes users who have "suspicious" values (too many watched episodes, too young or too old, etc.): [users_filtered.csv](data/users_filtered.csv) and [users_cleaned.csv](data/users_cleaned.csv).
-    - [AnimeList.csv](data/AnimeList.csv) contains information about the anime, such as the title, genres, studio, or the URL of the poster image. The dataset includes as well a filtered and cleaned version which remove the ratings from the users of the corresponding filtered and cleaned user datasets: [anime_filtered.csv](data/anime_filtered.csv) and [anime_cleaned.csv](data/anime_cleaned.csv).
-    - [UserAnimeList.csv](data/UserAnimeList.csv) contains the anime lists of all users. As the file exceeds the maximum size of 100MB allowed by GitHub, it needs to downloaded separately [here](https://www.kaggle.com/datasets/azathoth42/myanimelist?select=UserAnimeList.csv).
+    - [UserList.csv](../../data/UserList.csv) contains information about the users, such as the username, location, birthdate. The dataset also comprises a filtered version which retains only the users who have all of birth date, location, and gender defined, and a cleaned version which additionally removes users who have "suspicious" values (too many watched episodes, too young or too old, etc.): [users_filtered.csv](../../data/users_filtered.csv) and [users_cleaned.csv](../../data/users_cleaned.csv).
+    - [AnimeList.csv](../../data/AnimeList.csv) contains information about the anime, such as the title, genres, studio, or the URL of the poster image. The dataset includes as well a filtered and cleaned version which remove the ratings from the users of the corresponding filtered and cleaned user datasets: [anime_filtered.csv](../../data/anime_filtered.csv) and [anime_cleaned.csv](../../data/anime_cleaned.csv).
+    - [UserAnimeList.csv](../../data/UserAnimeList.csv) contains the anime lists of all users. As the file exceeds the maximum size of 100MB allowed by GitHub, it needs to downloaded separately [here](https://www.kaggle.com/datasets/azathoth42/myanimelist?select=UserAnimeList.csv).
 2. **[Anime Recommendations Database vol.2](https://www.kaggle.com/datasets/noiruuuu/anime-recommendations-database-vol2)**: gathers 11,039,694 ratings from 108,024 MyAnimeList users on 15,221 animes.
-    - [animes.csv](data/animes.csv) contains information about the anime, similarly as AnimeList.csv.
-    - [ratings.csv](data/ratings.csv) contains the ratings, ranging from 0 to 10. Must be downloaded separataly [here](https://www.kaggle.com/datasets/noiruuuu/anime-recommendations-database-vol2?select=ratings.csv).
+    - [animes.csv](../../data/animes.csv) contains information about the anime, similarly as AnimeList.csv.
+    - [ratings.csv](../../data/ratings.csv) contains the ratings, ranging from 0 to 10. Must be downloaded separataly [here](https://www.kaggle.com/datasets/noiruuuu/anime-recommendations-database-vol2?select=ratings.csv).
 3. **[Anime Character Traits Dataset](https://www.kaggle.com/datasets/mjrone/anime-character-traits-dataset?select=Anime_Triats.csv)**: contains information on 119,824 anime characters such as their name, gender, hair color, their physical and temperamental traits, or the anime they appear in. The data was scrapped from [Anime Characters Database](https://www.animecharactersdatabase.com). 
-    - [Anime_Traits.csv ](data/Anime_Traits.csv) contains the data about the characters.
+    - [Anime_Traits.csv ](../../data/Anime_Traits.csv) contains the data about the characters.
 
 
 
@@ -45,7 +34,7 @@ The target audience for this project includes anime enthusiasts but also researc
 ### Exploratory Data Analysis
 We divided our data analysis into three main axes:
 
-#### **Mapping location data to countries ([eda_country.ipynb](/preprocessing/eda_country.ipynb))**
+#### **Mapping location data to countries ([eda_country.ipynb](../../preprocessing/eda_country.ipynb))**
 
 As we are interested in the worldwide influence of animes, we began by cleaning the location data that was scrapped from MyAnimeList in [UserList.csv](/data/UserList.csv) by mapping it to the corresponding countries, if possible. We applied a function to the unique 55,280 location strings retrieved from the 302,673 users of the dataset, that leverages [GeoPy's API](https://geopy.readthedocs.io/en/stable/#) geolocation services to resolve the full location from the string, and keep only the country name. Many location strings failed however to be mapped, for one of the following reasons:
 - The string contains typos (e.g. "Las Veags,Nevada") which are not recognized by the geocoding service. Translating the string to English (using []()) corrects some of them.
@@ -57,27 +46,27 @@ In total, 15,595 users (9.95%) have a undefined country.
 The following graph displays the countries with the highest number of users:
 It's no surprise that the United States is prominently featured, considering that MyAnimeList was established and operates in this country.
 
-![Number of users per country](/data/plots/country_num_users.png)
+![Number of users per country](../../data/plots/country_num_users.png)
 
 We are also interested in the studios whose animes are watched in the highest number of countries:
 
-![Number of countries per studio](/data/plots/studio_num_countries.png)
+![Number of countries per studio](../../data/plots/studio_num_countries.png)
 
 We observe that the most popular studios worldwide do not necessarily produce the most popular animes in terms of ratings:
 
-![Number of ratings per studio](/data/plots/studio_num_ratings.png)
+![Number of ratings per studio](../../data/plots/studio_num_ratings.png)
 
 
-#### **Genres ([eda_genre.ipynb](/preprocessing/eda_genre.ipynb))**
+#### **Genres ([eda_genre.ipynb](../../preprocessing/eda_genre.ipynb))**
 We are also interested in the most popular genres in terms of number of animes:
 
-![Number of animes per genre](/data/plots/genre_num_animes.png)
+![Number of animes per genre](../../data/plots/genre_num_animes.png)
 
 
-#### **Characters ([eda_character.ipynb](/preprocessing/eda_character.ipynb))**
+#### **Characters ([eda_character.ipynb](../../preprocessing/eda_character.ipynb))**
 Finally, we derived the most common traits of anime characters. 
 
-![Most common traits for animes characteristics](/data/plots/anime_characters_traits.png)
+![Most common traits for animes characteristics](../../data/plots/anime_characters_traits.png)
 
 
 ### Related work
@@ -89,33 +78,3 @@ Finally, we derived the most common traits of anime characters.
 > Why is your approach original?
 
 We place a strong emphasis on animes as an artform that overcomes lingual and cultural barriers. We believe this aspect has not been analyzed before on the basis of information gathered from social network datasets, especially since we will try to make it as interactive as possible.
-
-
-## Milestone 2 (7th May, 5pm)
-
-**10% of the final grade**
-
-### **Graph 4**
-We want to see the proportion of genres in animes, if comedy animes are also slice of life animes or not, for example. In this sketch 1, we can see a pie chart showing the proportion of the most common genres in anime.
-
-![Sketch 1 and 2](/milestone2/graph4/sketch_1_2.png)
-
-In the sketch 2, if the mouse passes in one part of the pie chart, we can see the corresponding genre and the percent of animes which are of this genre. We can click it and we are the graph representing in sketch 3. The second piechart represents the proportion of genre in "precedent genre (in first pie chart)" (like comedy) anime.
-
-![Sketch 3 and 4](/milestone2/graph4/sketch_3_4.png)
-
-We can click on one part of the second pie chart and we obtain the graph representing in the sketch 4. The third pie chart represents the proportion of genres in "precedents genres (in first and in second pie chart)" (like comedy and Slice of Life) anime. We can click on one part of the third pie chart and we obtain the graph representing in the sketch 5. We can see the top of the best "genre 1 and genre 2 and genre 3" (like comedy and Slice of life and School) anime.
-
-![Sketch 5](/milestone2/graph4/sketch_5.png)
-
-We can see an arrow on the bottom right of the graph. This arrow allows you to go back to the precedent sketch. To make this graph, I use the d3 library and svg library.
-## Milestone 3 (4th June, 5pm)
-
-**80% of the final grade**
-
-
-## Late policy
-
-- < 24h: 80% of the grade for the milestone
-- < 48h: 70% of the grade for the milestone
-
