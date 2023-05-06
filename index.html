@@ -5,19 +5,23 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
 	<link href="style.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 	<title>COM-480 Data visualization</title>
 
 	<!-- Load d3.js -->
 	<script src="https://d3js.org/d3.v4.min.js"></script>
+
 	<!-- Color scale -->
 	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-	<!--<script src="https://d3js.org/d3.v4.min.js"></script>-->
+
+	<!-- Load JS code -->
+	<script src="js/graph3/map.js"></script>
+
 	<script src="js/graph4/pieChart.js"></script>
 	<script src="js/graph4/pieLegend.js"></script>
 	<script src="js/graph4/pieCompose.js" defer></script>
-	<script src="js/graph3/map.js"></script>
 
 	<style type="text/css">
 		html {
@@ -74,20 +78,20 @@
 
 
 	<div id="graph1">
-		<div class ="row no-gutters">
-			<div class ="col-8 no-gutters">
+		<div class="row no-gutters">
+			<div class="col-8 no-gutters">
 				<div class="leftside">
-				  <svg id = "plot" width="850" height="850"></svg>
+					<svg id="plot" width="850" height="850"></svg>
 				</div>
 			</div>
-			<div class ="col no-gutters">
-					<div class="rightside">
-					  <p id="year">year</p>
-					  <p id="nb_ratings">percentage : </p>
-					  <svg id = "plot_desc" width = "500" height = "850"></svg>
-					</div>
+			<div class="col no-gutters">
+				<div class="rightside">
+					<p id="year">year</p>
+					<p id="nb_ratings">percentage : </p>
+					<svg id="plot_desc" width="500" height="850"></svg>
+				</div>
 			</div>
-		</div>   
+		</div>
 		<script src="js/graph1/groupedBarChart.js"></script>
 		<script src="js/graph1/circles.js"></script>
 	</div>
