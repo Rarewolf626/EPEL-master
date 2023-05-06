@@ -78,3 +78,72 @@ tr:nth-child(3) {
 caption {
     padding: 10px;
 }
+
+.label,
+.node--root{
+  pointer-events: none;
+}
+
+.label {
+  font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-anchor: middle;
+  font-size: 20px;
+  fill: white;
+  display: block;
+}
+
+circle {
+  opacity: 60%;
+}
+
+.node {
+  cursor: pointer;
+}
+
+.node:hover {
+  stroke: #71797E;
+  stroke-width: 1.5px;
+}
+.node--leaf:hover {
+    stroke: black;
+    stroke-width: 1.5px;
+  }
+
+.leftside, .rightside{
+    width: 100%;
+    height: 100vh;
+}
+
+.leftside {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    background: #202020;
+}
+
+.rightside{
+    background: black;
+    opacity: 90%;
+    height: 100%;
+}
+#plot{
+    display: block;
+    margin: auto;
+}
+
+#year {
+    text-align: center;
+    font-size: 50px;
+    color: white;
+    opacity: 90%;
+    font-family : "Roboto";
+    text-decoration: underline;
+}
+#nb_ratings {
+    text-align: center;
+    font-size: 30px;
+    color: white;
+    opacity: 90%;
+    font-family : "Roboto";
+    margin-top: 50px;
+}
