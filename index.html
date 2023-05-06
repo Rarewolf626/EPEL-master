@@ -8,11 +8,16 @@
 
 	<title>COM-480 Data visualization</title>
 
+	<!-- Load d3.js -->
 	<script src="https://d3js.org/d3.v4.min.js"></script>
-	<script src="javascript/graph_4/pieChart.js"></script>
-    <script src="javascript/graph_4/pieLegend.js"></script>
-    <script src="javascript/graph_4/pieCompose.js" defer></script>
 
+	<!-- Color scale -->
+	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="javascript/graph4/pieChart.js"></script>
+	<script src="javascript/graph4/pieLegend.js"></script>
+	<script src="javascript/graph4/pieCompose.js" defer></script>
+	<script src="javascript/graph3/map.js"></script>
 
 	<style type="text/css">
 		html {
@@ -41,6 +46,7 @@
 			margin: 10px;
 			/*border: 2px solid red;*/
 		}
+
 		/*#graph4 {
 			font-family: sans-serif;
 			background-color: black;
@@ -74,12 +80,10 @@
 	<div id="graph3">
 		<h3> A very diverse community... </h3>
 		<div id="map-options">
-			<select id="countrySelector" class="form-control" onchange="map_changeCountry()">
+			<select id="countrySelector" class="form-control">
 			</select>
 
 			<button id="map-btn" class="btn btn-default">Filter</button>
-			
-
 		</div>
 
 		<!-- World map -->
@@ -113,6 +117,8 @@
 						</thead>
 						<tbody></tbody>
 					</table>
+
+					<div id="genderPieChart"></div>
 				</div>
 			</div>
 
@@ -125,26 +131,23 @@
 
 	<div id="graph4">
 		<script>
-			d3.csv("data/pieChart (Graph 4)/data.csv", function(error1, d) {
+			d3.csv("data/graph4_pie_chart/data.csv", function (error1, d) {
 				if (error1) throw error1;
-				
+
 
 				//format data if required...
 				//draw chart
-				d3.csv("data/pieChart (Graph 4)/dataColors.csv", function(error2, c){
+				d3.csv("data/graph4_pie_chart/dataColors.csv", function (error2, c) {
 					if (error2) throw error2;
 					const compose = new ComposePieChart(d, c[0], 0, 0, 8, 12, '100%', '2000')
 					compose.connectedCallback()
 					//const compose = new Legend(c[0], 0, 0, '100%', '100%')
 				});
-		  });            
+			});            
 		</script>
 	</div>
-	
 
 	<div id="graph5"></div>
-
-	<script src="map.js"></script>
 
 </body>
 

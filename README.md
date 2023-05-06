@@ -57,27 +57,27 @@ In total, 15,595 users (9.95%) have a undefined country.
 The following graph displays the countries with the highest number of users:
 It's no surprise that the United States is prominently featured, considering that MyAnimeList was established and operates in this country.
 
-![Number of users per country](data/plots/Number%20of%20users%20per%20country.png)
+![Number of users per country](/data/plots/country_num_users.png)
 
 We are also interested in the studios whose animes are watched in the highest number of countries:
 
-![Number of countries per studio](data/plots/Number%20of%20country%20per%20Studio.png)
+![Number of countries per studio](/data/plots/studio_num_countries.png)
 
 We observe that the most popular studios worldwide do not necessarily produce the most popular animes in terms of ratings:
 
-![Number of ratings per Studio](data/plots/Number%20of%20ratings%20per%20Studio.png)
+![Number of ratings per Studio](/data/plots/studio_num_ratings.png)
 
 
 #### **Genres ([eda_genre.ipynb](/preprocessing/eda_genre.ipynb))**
 We are also interested in the most popular genres in terms of number of animes:
 
-![Number of anime per genre](/data/plots/Number%20of%20anime%20per%20genre.png)
+![Number of anime per genre](/data/plots/genre_num_animes.png)
 
 
 #### **Characters ([eda_character.ipynb](/preprocessing/eda_character.ipynb))**
 Finally, we derived the most common traits of anime characters. 
 
-![Most common traits for animes characteristics](/data/plots/Most%20common%20traits%20for%20animes%20characters.png)
+![Most common traits for animes characteristics](/data/plots/anime_characters_traits.png)
 
 
 ### Related work
@@ -98,15 +98,15 @@ We place a strong emphasis on animes as an artform that overcomes lingual and cu
 ### **Graph 4**
 We want to see the proportion of genres in animes, if comedy animes are also slice of life animes or not, for example. In this sketch 1, we can see a pie chart showing the proportion of the most common genres in anime.
 
-![Sketch 1 and 2](/milestone_2/Graph_4/sketch%201%20and%202.png)
+![Sketch 1 and 2](/milestone2/graph4/sketch%201%20and%202.png)
 
 In the sketch 2, if the mouse passes in one part of the pie chart, we can see the corresponding genre and the percent of animes which are of this genre. We can click it and we are the graph representing in sketch 3. The second piechart represents the proportion of genre in "precedent genre (in first pie chart)" (like comedy) anime.
 
-![Sketch 3 and 4](/milestone_2/Graph_4/sketch%203%20and%204.png)
+![Sketch 3 and 4](/milestone2/graph4/sketch%203%20and%204.png)
 
 We can click on one part of the second pie chart and we obtain the graph representing in the sketch 4. The third pie chart represents the proportion of genres in "precedents genres (in first and in second pie chart)" (like comedy and Slice of Life) anime. We can click on one part of the third pie chart and we obtain the graph representing in the sketch 5. We can see the top of the best "genre 1 and genre 2 and genre 3" (like comedy and Slice of life and School) anime.
 
-![Sketch 5](/milestone_2/Graph_4/sketch%205.png)
+![Sketch 5](/milestone2/graph4/sketch%205.png)
 
 We can see an arrow on the bottom right of the graph. This arrow allows you to go back to the precedent sketch. To make this graph, I use the d3 library and svg library.
 ## Milestone 3 (4th June, 5pm)
