@@ -95,20 +95,8 @@ We place a strong emphasis on animes as an artform that overcomes lingual and cu
 
 **10% of the final grade**
 
-### **Graph 4**
-We want to see the proportion of genres in animes, if comedy animes are also slice of life animes or not, for example. In this sketch 1, we can see a pie chart showing the proportion of the most common genres in anime.
+See [Milestone2.pdf](/reports/milestone2/Milestone2.pdf) for the report.
 
-![Sketch 1 and 2](/reports/milestone2/sketches/graph4/sketch_1_2.png)
-
-In the sketch 2, if the mouse passes in one part of the pie chart, we can see the corresponding genre and the percent of animes which are of this genre. We can click it and we are the graph representing in sketch 3. The second piechart represents the proportion of genre in "precedent genre (in first pie chart)" (like comedy) anime.
-
-![Sketch 3 and 4](/reports/milestone2/sketches/graph4/sketch_3_4.png)
-
-We can click on one part of the second pie chart and we obtain the graph representing in the sketch 4. The third pie chart represents the proportion of genres in "precedents genres (in first and in second pie chart)" (like comedy and Slice of Life) anime. We can click on one part of the third pie chart and we obtain the graph representing in the sketch 5. We can see the top of the best "genre 1 and genre 2 and genre 3" (like comedy and Slice of life and School) anime.
-
-![Sketch 5](/reports/milestone2/sketches/graph4/sketch_5.png)
-
-We can see an arrow on the bottom right of the graph. This arrow allows you to go back to the precedent sketch. To make this graph, I use the d3 library and svg library.
 ## Milestone 3 (4th June, 5pm)
 
 **80% of the final grade**
