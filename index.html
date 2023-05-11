@@ -119,8 +119,20 @@
 				//draw chart
 				d3.csv("data/graph4_pie_chart/dataColors.csv", function (error2, c) {
 					if (error2) throw error2;
-					const compose = new ComposePieChart(d, c[0], 0, 0, 8, 12, '100%', '2000')
+					const ratio = window.innerHeight/12
+					const width = parseInt(window.innerWidth/ratio, 10)
+					const compose = new ComposePieChart(d, c[0], 0, 0, width, 12, '100%', '100%')
 					compose.connectedCallback()
+					window.addEventListener('resize', function() {
+						// viewport and full window dimensions will change
+						
+						const ratio = window.innerHeight/12
+						const width = parseInt(window.innerWidth/ratio, 10)
+						const pc = document.getElementById("pc")
+						pc.remove()
+						const compose = new ComposePieChart(d, c[0], 0, 0, width, 12, '100%', '100%')
+						compose.connectedCallback()
+					});
 					//const compose = new Legend(c[0], 0, 0, '100%', '100%')
 				});
 			});            

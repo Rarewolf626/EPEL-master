@@ -13,14 +13,15 @@ class ComposePieChart extends HTMLElement {
             }
         `
         const compose = document.querySelector('#graph4')
-        compose.style.setProperty("width", `${widthpx}px`)
-        compose.style.setProperty('height', `${heightpx}px`)
+        compose.style.setProperty("width", `100%`)
+        compose.style.setProperty('height', `100vh`)
         compose.style.setProperty('--tooltip-bg', 'red')
 
         this.widthpx = parseFloat(widthpx)
         this.heightpx = parseFloat(heightpx)
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
         svg.setAttribute('viewBox',`${x} ${y} ${width} ${height}`)
+        svg.setAttribute('id', 'pc')
 
         //const data = [80,50,80,20,10,10]
         this.datas = datas
