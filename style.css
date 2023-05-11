@@ -1,23 +1,101 @@
-/* .svg-container {
-    display: inline-block;
-    position: relative;
-    width: 100%;
-    padding-bottom: 50%;
-    vertical-align: top;
-    overflow: hidden;
-} */
-
-#mapContainer {
-    border: 2px solid black;
+html {
+    scroll-behavior: smooth;
 }
 
-/* .svg-content {
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    left: 0;
-} */
+body {
+    width: "100%";
+    height: "100vh";
 
+    background-color: #e9e7e7;
+    font-family: sans-serif;
+    font-size: 100%;
+    color: #333;
+}
+
+/*.float-container {
+    border: 3px solid #fff;
+    padding: 20px;
+}*/
+
+.float-child {
+    /*width: 50%;*/
+    float: left;
+    /*padding: 10px;*/
+    margin: 10px;
+    /*border: 2px solid red;*/
+}
+
+/* ======================================== GRAPH 1 ======================================== */
+caption {
+    padding: 10px;
+}
+
+.label,
+node--root {
+    pointer-events: none;
+}
+
+.label {
+    font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-anchor: middle;
+    font-size: 20px;
+    fill: white;
+    display: block;
+}
+
+circle {
+    opacity: 60%;
+}
+
+.node {
+    cursor: pointer;
+}
+
+.node:hover {
+    stroke: #71797E;
+    stroke-width: 1.5px;
+}
+
+.node--leaf:hover {
+    stroke: black;
+    stroke-width: 1.5px;
+}
+
+.leftside,
+.rightside {
+    width: 100%;
+    height: 100vh;
+}
+
+#graph1 .leftside {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    background: #202020;
+}
+
+#graph1 .rightside {
+    background: black;
+    opacity: 90%;
+    height: 100%;
+}
+
+#plot {
+    display: block;
+    margin: auto;
+}
+
+#year {
+    text-align: center;
+    font-size: 50px;
+    color: white;
+    opacity: 90%;
+    font-family: "Roboto";
+    text-decoration: underline;
+}
+
+
+/* ======================================== GRAPH 3 ======================================== */
 /* .infoPane {
     position: absolute;
     top: 0;
@@ -75,75 +153,44 @@ tr:nth-child(3) {
     background-color: #cd7f32;
 }
 
-caption {
-    padding: 10px;
-}
-
-.label,
-.node--root{
-  pointer-events: none;
-}
-
-.label {
-  font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
-  text-anchor: middle;
-  font-size: 20px;
-  fill: white;
-  display: block;
-}
-
-circle {
-  opacity: 60%;
-}
-
-.node {
-  cursor: pointer;
-}
-
-.node:hover {
-  stroke: #71797E;
-  stroke-width: 1.5px;
-}
-.node--leaf:hover {
-    stroke: black;
-    stroke-width: 1.5px;
-  }
-
-.leftside, .rightside{
-    width: 100%;
-    height: 100vh;
-}
-
-.leftside {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    background: #202020;
-}
-
-.rightside{
-    background: black;
-    opacity: 90%;
-    height: 100%;
-}
-#plot{
-    display: block;
-    margin: auto;
-}
-
-#year {
-    text-align: center;
-    font-size: 50px;
-    color: white;
-    opacity: 90%;
-    font-family : "Roboto";
-    text-decoration: underline;
-}
 #nb_ratings {
     text-align: center;
     font-size: 30px;
     color: white;
     opacity: 90%;
-    font-family : "Roboto";
+    font-family: "Roboto";
     margin-top: 50px;
+}
+
+.pan rect,
+.zoom rect {
+    fill: black;
+    opacity: 0.2;
+}
+
+/*.zoom rect {
+    rx: 5;
+    ry: 5;
+}*/
+
+.pan text,
+.zoom text {
+    fill: black;
+    font-size: 18px;
+    text-anchor: middle;
+}
+
+.pan:hover rect,
+.pan:hover text,
+.zoom:hover rect,
+.zoom:hover text {
+    fill: blue;
+}
+
+
+/* ======================================== GRAPH 4 ======================================== */
+
+#graph4 {
+    font-family: sans-serif;
+    background-color: black;
 }
