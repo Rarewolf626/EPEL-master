@@ -1,12 +1,18 @@
+// var triggerTabList = [].slice.call(document.querySelectorAll('#myTab a'))
+// triggerTabList.forEach(function (triggerEl) {
+//     var tabTrigger = new bootstrap.Tab(triggerEl)
+
+//     triggerEl.addEventListener('click', function (event) {
+//         event.preventDefault()
+//         tabTrigger.show()
+//     })
+// })
+
 const data_path = "../../data/";
 const map_path = data_path + "graph3_map/";
 const geojson_path = map_path + "geojson/";
 const stat_path = map_path + "stats/";
 
-const div = d3.select("#graph3");
-console.log(div)
-
-// Create a map such that the key is "Czech Republic" and the value is "Czechia", etc.
 const country_name_map = new Map([
     ["Czech Republic", "Czechia"],
     ["Bahamas", "The Bahamas"],
@@ -21,11 +27,29 @@ const country_name_map = new Map([
     ["United States", "United States of America"]
 ]);
 
+var countryTabTriggerEl = document.querySelector('#country-tab')
+var countryTab = new bootstrap.Tab(countryTabTriggerEl)
 
-// Function that maps num_users to color
-// arguments: a color scale, a data
-// returns: a color
-countToColor = function (color, d) {
+
+
+var triggerTabList = [].slice.call(document.querySelectorAll('#myTab a'))
+triggerTabList.forEach(function (triggerEl) {
+    var tabTrigger = new bootstrap.Tab(triggerEl)
+
+    triggerEl.addEventListener('click', function (event) {
+        event.preventDefault()
+        tabTrigger.show()
+    })
+})
+
+
+/**
+ * 
+ * @param {*} color 
+ * @param {*} d 
+ * @returns 
+ */
+function countToColor(color, d) {
     //Get data value
     let value = d.properties.value;
 
@@ -47,7 +71,7 @@ btn.on("click", function () {
     map_update(true);
 })
 
-let infoPane = d3.select("#infoPane");
+// let infoPane = d3.select("#infoPane");
 
 
 // Display the total number of countries and the total number of users
@@ -114,33 +138,33 @@ const map_update = (filtered) => {
         .defer(d3.csv, stat_path + "country_num_users.csv", function (d) {
             return {
                 country: country_name_map.get(d.country) || d.country,
+                country_aff: country_name_map.get(d.country_aff) || d.country_aff,
                 num_users: +d.num_users
             }
         })
-        .defer(d3.csv, stat_path + "country_gender_balance.csv")
+        .defer(d3.csv, stat_path + "country_gender_balance.csv", function (d) {
+            return {
+                country: country_name_map.get(d.country) || d.country,
+                country_aff: country_name_map.get(d.country_aff) || d.country_aff,
+                Female: +d.Female,
+                Male: +d.Male,
+                NonBinary: +d["Non-Binary"]
+            }
+        })
         .await(ready);
 
     function ready(error, geojsonData, countData, genderData) {
         if (error) throw error;
 
-        console.log(geojsonData)
-        console.log(countData)
-
-        // General information
+        /* General information */
         const numCountries = countData.length;
-        const numUsers = d3.sum(countData, function (d) {
-            return d.num_users;
-        });
-
-        // infoPane.append("text").attr("id", "numCountries").text("Number of countries: " + numCountries);
-        // infoPane.append("br");
-        // infoPane.append("text").attr("id", "total").text("Number of otakus: " + formatAsThousands(numUsers));
-
-
-        // Country selector
+        const numUsers = d3.sum(countData, d => d.num_users);
+        d3.select("#map-catchphrase").text("A very diverse community: Over " + formatAsThousands(numUsers) + " otakus in " + numCountries + " countries.");
+ 
+        /* Country selector */
         createCountrySelector(countData);
 
-        // Country rankings
+        /* Country rankings */
         createCountryRankings(countData);
 
         /* Draw the map */
@@ -272,112 +296,50 @@ const map_update = (filtered) => {
             })
             .on("mouseover", function (d) {
 
-                //d3.select("#rankTable").selectAll("*").remove();
+                countryTab.show()
 
                 // Brighten the color on mouseover
                 d3.select(this).style("fill", d => d3.rgb(countToColor(color, d)).brighter(0.8));
 
                 // Get the country name and count
-                let country = d.properties.admin;
-                let count = d.properties.value;
-
-                // Diplay the country name and count
-                d3.select("#countryName").text(country);
-
-                if (count) {
-                    d3.select("#numAnimes").text(formatAsThousands(count)).append("i").text(" otakus");
-                } else {
-                    d3.select("#numAnimes").text("No otakus here :(");
-                }
-                // Display the tooltip
-                d3.select("#tooltip").classed("hidden", false);
+                let engName = d.properties.admin;
+                let numUsers = d.properties.value;
+                let japName = d.properties.name_ja
+                d3.select("#countryName").text(engName).append("span").text(" (" + japName + ")").style("font-size", "0.75em");
+                d3.select("#numUsers").text(numUsers ? formatAsThousands(numUsers) + " otakus" : "No otakus here :(");
 
 
+                createGenderPieChart(d, genderData);
             })
             .on("mouseout", function (d) {
                 d3.select(this).style("fill", d => countToColor(color, d));
-                // empty #countryName and #numAnimes if country does not exist
-                d3.select("#countryName").text("");
-                d3.select("#numAnimes").text("");
+                // empty #countryName and #numUsers if country does not exist
+                // d3.select("#countryName").text("");
+                // d3.select("#numUsers").text("");
 
-                // Delete everything under div with id genderPieChart
-                d3.select("#genderPieChart").selectAll("*").remove();
+                // // Delete everything under div with id genderPieChart
+                // d3.select("#genderPieChart").selectAll("*").remove();
+
+                d3.select("#country-gender-balance").selectAll("*").remove()
 
             })
             .on("click", function (d) {
                 // don't stop event propagation
-                d3.event.stopPropagation();
+                //d3.event.stopPropagation();
 
-                // Get the country name and count
-                let country = d.properties.admin;
-                let count = d.properties.value;
+                // focus on the country
+                let x, y, k;
+                let centroid = path.centroid(d);
+                x = centroid[0];
+                y = centroid[1];
+                k = 4;
+                map.transition()
+                    .duration(750)
+                    .attr("transform", "translate(" + map_width / 2 + "," + map_height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+                    .style("stroke-width", 1.5 / k + "px");
 
-                // Display the gender balance pie chart
-                // Get the data corresponding to the country
-                let countryData = genderData.find(d => d.country == country);
-                if (!countryData) return;
+                    
 
-                // set the dimensions and margins of the graph
-                let width = 300
-                let height = 300
-                let margin = 40
-
-                // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
-                let radius = Math.min(width, height) / 2 - margin
-
-                // Create a pie chart with countryData["Male"], countryData["Female"], countryData["Non-Binary"]
-                let svg = d3.select("#genderPieChart")
-                    .append("svg")
-                    .attr("width", width)
-                    .attr("height", height)
-                    .append("g")
-                    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-                let genderBalance = { "Male": countryData["Male"], "Female": countryData["Female"], "Non-Binary": countryData["Non-Binary"] }
-
-                // set the color scale
-                let color = d3.scaleOrdinal().domain(genderBalance).range(d3.schemeDark2);
-
-                // Compute the position of each group on the pie:
-                let pie = d3.pie()
-                    .value(function (d) { return d.value; })
-                let data_ready = pie(d3.entries(genderBalance));
-
-                // shape helper to build arcs:
-                let arcGenerator = d3.arc()
-                    .innerRadius(0)
-                    .outerRadius(radius)
-
-                // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
-                svg
-                    .selectAll('whatever')
-                    .data(data_ready)
-                    .enter()
-                    .append('path')
-                    .transition()
-                    .duration(1000)
-                    .attr('d', arcGenerator)
-                    .attr('fill', function (d) { return (color(d.data.key)) })
-                    .attr("stroke", "black")
-                    .style("stroke-width", "2px")
-                    .style("opacity", 0.7)
-
-                // Now add the annotation. Use the centroid method to get the best coordinates
-                svg
-                    .selectAll('whatever')
-                    .data(data_ready)
-                    .enter()
-                    .append('text')
-                    .text(function (d) { return d.data.key })
-                    .attr("transform", function (d) { return "translate(" + arcGenerator.centroid(d) + ")"; })
-                    .style("text-anchor", "middle")
-                    .style("font-size", 17)
-                    .append('text')
-                    .text(function (d) { return d.data.value })
-                    .attr("transform", function (d) { return "translate(" + arcGenerator.centroid(d) + ")"; })
-                    .style("text-anchor", "middle")
-                    .style("font-size", 10)
-                    .style("font-weight", "bold")
                 // If click again, prevent the same pie chart from being appended again IF NO MOUSEOVER IN BETWEEN
             });
         // createZoomButtons();
@@ -453,5 +415,92 @@ const map_update = (filtered) => {
 
     };
 }
+
+function createGenderPieChart(geojsonData, genderData) {
+    // Get the country name and count
+    let country = geojsonData.properties.admin;
+    let count = geojsonData.properties.value;
+
+    // Display the gender balance pie chart
+    // Get the data corresponding to the country
+    let countryData = genderData.find(d => d.country == country);
+    if (!countryData) return;
+
+    // set the dimensions and margins of the graph
+    let width = 300
+    let height = 300
+    let margin = 40
+
+    // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
+    let radius = Math.min(width, height) / 2 - margin
+
+    // Create a pie chart with countryData["Male"], countryData["Female"], countryData["Non-Binary"]
+    let svg = d3.select("#country-gender-balance")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+    let genderBalance = { "Male": countryData["Male"], "Female": countryData["Female"], "Non-Binary": countryData["NonBinary"] }
+
+    // set the color scale
+    let color = d3.scaleOrdinal().domain(genderBalance).range(d3.schemeDark2);
+
+    // Compute the position of each group on the pie:
+    let pie = d3.pie()
+        .value(function (d) { return d.value; })
+    let data_ready = pie(d3.entries(genderBalance)).filter(d => d.value != 0);
+
+    // shape helper to build arcs:
+    let arcGenerator = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius)
+
+    // let tooltip = d3.select("body")
+    //     .append("div")
+    //     .style("position", "absolute")
+    //     .style("z-index", "10")
+    //     .style("visibility", "hidden");
+
+    // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
+    svg
+        .selectAll('whatever')
+        .data(data_ready)
+        .enter()
+        .append('path')
+        .attr('d', arcGenerator)
+        .attr('fill', function (d) { return (color(d.data.key)) })
+        .style("opacity", 0.7)
+        // .on("mouseover", function (d) {
+        //     tooltip.style("visibility", "visible");
+        //     let percent = (d.data.value * 100);
+        //     tooltip.text(Math.round(percent * 10) / 10 + "%")
+        // })
+        // .on("mousemove", function (d) { tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
+        // .on("mouseout", function (d) { tooltip.style("visibility", "hidden"); });
+
+
+    // Now add the annotation. Use the centroid method to get the best coordinates
+    svg
+        .selectAll('whatever')
+        .data(data_ready)
+        .enter()
+        .append('text')
+        .text(function (d) { return d.data.key })
+        .attr("transform", function (d) { return "translate(" + arcGenerator.centroid(d) + ")"; })
+        .style("text-anchor", "middle")
+        .style("font-size", 17)
+        .append('text')
+        .text(function (d) { return d.data.value })
+        .attr("transform", function (d) { return "translate(" + arcGenerator.centroid(d) + ")"; })
+        .style("text-anchor", "middle")
+        .style("font-size", 10)
+        .style("font-weight", "bold")
+    // If click again, prevent the same pie chart from being appended again IF NO MOUSEOVER IN BETWEEN
+
+    return svg;
+}
+
 
 map_update(false);

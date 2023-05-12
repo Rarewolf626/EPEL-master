@@ -5,13 +5,18 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
 	<link href="style.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+		crossorigin="anonymous"></script>
 
 	<title>COM-480 Data visualization</title>
 
 	<!-- Load d3.js -->
 	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<!--<script src="https://d3js.org/d3.v7.min.js"></script>-->
 
 	<!-- Color scale -->
 	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
@@ -30,16 +35,6 @@
 		<h1>COM-480 Data visualization</h1>
 		<h2> Visualizing the worlwide influence of Animes</h2>
 	</div>
-
-	<!-- Create a NAVIGATION BAR-->
-	<!-- <div class="topnav">
-		<a href="#graph1">Graph 1</a>
-		<a href="#graph2">Graph 2</a>
-		<a href="#graph3">Graph 3</a>
-		<a href="#graph4">Graph 4</a>
-		<a href="#graph5">Graph 5</a>
-	</div> -->
-
 
 	<div id="graph1">
 		<div class="row no-gutters">
@@ -63,7 +58,7 @@
 	<div id="graph2"></div>
 
 	<div id="graph3">
-		<h3> A very diverse community... </h3>
+		<h3 id="map-catchphrase"> A very diverse community... </h3>
 		<div id="map-options">
 			<select id="countrySelector" class="form-control">
 			</select>
@@ -77,31 +72,83 @@
 					<svg id="map" class="svg-content" viewBox="100 0 870 450"></svg>
 				</div>
 			</div>
+
 			<div class="col no-gutters">
-				<div id="infoPane" class="info-pane">
-					<p>Hover over a country to see the number of animes produced there.</p>
+				<ul class="nav nav-tabs" id="myTab" role="tablist">
+					<li class="nav-item" role="presentation">
+						<button class="nav-link active" id="studio-tab" data-bs-toggle="tab" data-bs-target="#studio"
+							type="button" role="tab" aria-controls="studio" aria-selected="true">Home</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="country-tab" data-bs-toggle="tab" data-bs-target="#country"
+							type="button" role="tab" aria-controls="country" aria-selected="false">Country</button>
+					</li>
+				</ul>
+				<div class="tab-content" id="myTabContent">
+					<!-- Default Pane -->
+					<div class="tab-pane fade show active" id="studio" role="tabpanel" aria-labelledby="studio-tab">
 
-					<div id="infoPaneTitle" class="info-pane-title">
-						<h2 id="countryName"></h2>
+						<table id="rankTable">
+							<caption> The countries with largest communities </caption>
+							<thead>
+								<tr>
+									<th>Ranking</th>
+									<th>Country</th>
+									<th>Number of <i>otakus</i></th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
 					</div>
 
-					<div id="infoPaneContent" class="info-pane-content">
-						<p id="numAnimes"></p>
+					<!-- Country Pane -->
+					<div class="tab-pane fade" id="country" role="tabpanel" aria-labelledby="country-tab">
+						<p>Select or hover on a country to visualize statistics about it.</p>
+
+						<div class="container">
+							<!-- Country general information -->
+							<div class="row no-gutters" id="country-info" style="height: 100px";>
+								<!-- Name + number of users -->
+								<div class="col-9 no-gutters">
+									<div class="leftside">
+										<h2 id="countryName"></h2>
+										<h4 id="numUsers"></h4>
+									</div>
+								</div>
+								<!-- Flag -->
+								<div class="col no-gutters">
+									<svg id="country-flag"></svg>
+								</div>
+							</div>
+
+							<!-- First row of stats -->
+							<div class="row" id="country-stats-1">
+								<!-- Top 3 animes -->
+								<div class="col" id="country-top-animes">
+									1 of 2
+								</div>
+								<!-- Top 5 studios -->
+								<div class="col" id="country-top-studios">
+									2 of 2
+								</div>
+							</div>
+
+							<!-- Second row of stars -->
+							<div class="row" id="country-stats-2">
+								<!-- Gender pie chart -->
+								<div class="col" id="country-gender-balance">
+								</div>
+								<!-- Age distribution histogram -->
+								<div class="col" id="country-age-distribution">
+									2 of 3
+								</div>
+							</div>
+							<p>On average, an <it>otaku</it> has spent 50 days 22 hours 17 minutes watching animes
+								(ranked #25)</p>
+
+						</div>
+
 					</div>
-
-					<table id="rankTable">
-						<caption> The countries with largest communities </caption>
-						<thead>
-							<tr>
-								<th>Ranking</th>
-								<th>Country</th>
-								<th>Number of <i>otakus</i></th>
-							</tr>
-						</thead>
-						<tbody></tbody>
-					</table>
-
-					<div id="genderPieChart"></div>
 				</div>
 			</div>
 		</div>
