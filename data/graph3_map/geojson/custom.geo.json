@@ -72091,7 +72091,9 @@
             "properties": {
                 "sovereignt": "France",
                 "type": "Dependency",
-                "admin": "Réunion"
+                "admin": "Réunion",
+                "name_ja": "レユニオン",
+                "iso_a2_eh": "RE"
             },
             "geometry": {
                 "type": "Polygon",
@@ -72538,7 +72540,9 @@
             "properties": {
                 "sovereignt": "France",
                 "type": "Dependency",
-                "admin": "Martinique"
+                "admin": "Martinique",
+                "name_ja": "マルティニーク",
+                "iso_a2_eh": "MQ"
             },
             "geometry": {
                 "type": "Polygon",
@@ -74061,7 +74065,9 @@
             "properties": {
                 "sovereignt": "France",
                 "type": "Dependency",
-                "admin": "Guadeloupe"
+                "admin": "Guadeloupe",
+                "name_ja": "グアドループ",
+                "iso_a2_eh": "GP"
             },
             "geometry": {
                 "type": "MultiPolygon",
@@ -83678,7 +83684,9 @@
             "properties": {
                 "sovereignt": "France",
                 "type": "Dependency",
-                "admin": "Mayotte"
+                "admin": "Mayotte",
+                "name_ja": "マヨット",
+                "iso_a2_eh": "YT"
             },
             "geometry": {
                 "type": "MultiPolygon",

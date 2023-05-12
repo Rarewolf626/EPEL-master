@@ -1,17 +1,8 @@
-// var triggerTabList = [].slice.call(document.querySelectorAll('#myTab a'))
-// triggerTabList.forEach(function (triggerEl) {
-//     var tabTrigger = new bootstrap.Tab(triggerEl)
-
-//     triggerEl.addEventListener('click', function (event) {
-//         event.preventDefault()
-//         tabTrigger.show()
-//     })
-// })
-
 const data_path = "../../data/";
 const map_path = data_path + "graph3_map/";
 const geojson_path = map_path + "geojson/";
 const stat_path = map_path + "stats/";
+const flag_path = map_path + "flags/";
 
 const country_name_map = new Map([
     ["Czech Republic", "Czechia"],
@@ -27,20 +18,22 @@ const country_name_map = new Map([
     ["United States", "United States of America"]
 ]);
 
-var countryTabTriggerEl = document.querySelector('#country-tab')
-var countryTab = new bootstrap.Tab(countryTabTriggerEl)
+let countryTabTriggerEl = document.querySelector('#country-tab')
+let countryTab = new bootstrap.Tab(countryTabTriggerEl)
+
+let studioTabTriggerEl = document.querySelector('#studio-tab')
+let studioTab = new bootstrap.Tab(studioTabTriggerEl)
 
 
+// var triggerTabList = [].slice.call(document.querySelectorAll('#myTab a'))
+// triggerTabList.forEach(function (triggerEl) {
+//     var tabTrigger = new bootstrap.Tab(triggerEl)
 
-var triggerTabList = [].slice.call(document.querySelectorAll('#myTab a'))
-triggerTabList.forEach(function (triggerEl) {
-    var tabTrigger = new bootstrap.Tab(triggerEl)
-
-    triggerEl.addEventListener('click', function (event) {
-        event.preventDefault()
-        tabTrigger.show()
-    })
-})
+//     triggerEl.addEventListener('click', function (event) {
+//         event.preventDefault()
+//         tabTrigger.show()
+//     })
+// })
 
 
 /**
@@ -50,16 +43,9 @@ triggerTabList.forEach(function (triggerEl) {
  * @returns 
  */
 function countToColor(color, d) {
-    //Get data value
+    // Get data value
     let value = d.properties.value;
-
-    if (value) {
-        //If value exists…
-        return color(value);
-    } else {
-        //If value is undefined…
-        return "#ccc";
-    }
+    return value ? color(value) : "#ccc";
 }
 
 //Number formatting for population values
@@ -71,10 +57,6 @@ btn.on("click", function () {
     map_update(true);
 })
 
-// let infoPane = d3.select("#infoPane");
-
-
-// Display the total number of countries and the total number of users
 
 // Default country
 let map_selectedCountry = "Switzerland";
@@ -153,19 +135,19 @@ const map_update = (filtered) => {
         })
         .await(ready);
 
-    function ready(error, geojsonData, countData, genderData) {
+    function ready(error, geojsonData, userData, genderData) {
         if (error) throw error;
 
         /* General information */
-        const numCountries = countData.length;
-        const numUsers = d3.sum(countData, d => d.num_users);
+        const numCountries = userData.length;
+        const numUsers = d3.sum(userData, d => d.num_users);
         d3.select("#map-catchphrase").text("A very diverse community: Over " + formatAsThousands(numUsers) + " otakus in " + numCountries + " countries.");
  
         /* Country selector */
-        createCountrySelector(countData);
+        createCountrySelector(userData);
 
         /* Country rankings */
-        createCountryRankings(countData);
+        createCountryRankings(userData);
 
         /* Draw the map */
 
@@ -186,10 +168,7 @@ const map_update = (filtered) => {
 
         //Define what to do when panning or zooming
         let dragging = function (d) {
-
-            //Log out d3.event.transform, so you can see all the goodies inside
-            //console.log(d3.event.transform);
-
+            
             //Get the current (pre-dragging) translation offset
             let offset = projection.translate();
 
@@ -209,9 +188,6 @@ const map_update = (filtered) => {
         //Define what to do when panning or zooming
         let zooming = function (d) {
 
-            //Log out d3.event.transform, so you can see all the goodies inside
-            //console.log(d3.event.transform);
-
             //New offset array
             var offset = [d3.event.transform.x, d3.event.transform.y];
 
@@ -229,17 +205,12 @@ const map_update = (filtered) => {
 
         //Then define the zoom behavior
         let drag = d3.drag()
-            // .scaleExtent([0.5, 12.0])  //This limits how far you can zoom in
-            //.translateExtent([[-1000, -1000], [w + 10, h + 10]])  //This limits how far you can pan out
             .on("drag", dragging);
 
         let zoom = d3.zoom()
             .scaleExtent([0.5, 12.0])  //This limits how far you can zoom in
             .translateExtent([[-1000, -1000], [w + 10, h + 10]])  //This limits how far you can pan out
             .on("zoom", zooming);
-
-        //The center of the country, roughly
-        let center = projection([-97.0, 39.0]);
 
         //Create a container in which all zoom-able elements will live
         let map = svg.append("g")
@@ -257,15 +228,10 @@ const map_update = (filtered) => {
 
         //Merge the ag. data and GeoJSON
         //Loop through once for each ag. data value
-        for (let i = 0; i < countData.length; i++) {
-
-            //Grab state name
-            let countryCSV = countData[i].country;
-
-            //Grab data value, and convert to float
-            let numUsers = parseFloat(countData[i].num_users);
-
-            //Find the corresponding state inside the GeoJSON
+        for (let i = 0; i < userData.length; i++) {
+            let countryCSV = userData[i].country;
+            let numUsers = parseFloat(userData[i].num_users);
+            //Find the corresponding country inside the GeoJSON
             for (let j = 0; j < geojsonData.features.length; j++) {
                 let countryJSON = geojsonData.features[j].properties.admin;
                 if (countryCSV == countryJSON) {
@@ -285,29 +251,32 @@ const map_update = (filtered) => {
             .attr("d", path)
             .attr("stroke-width", "0.05px")
             .attr("stroke", "black")
-            .filter(function (d) {
-                if (filtered && d.properties.value < 1000) {
-                    d.properties.value = 0;
-                }
-                return true;
-            })
+            // .filter(function (d) {
+            //     if (filtered && d.properties.value < 1000) {
+            //         d.properties.value = 0;
+            //     }
+            //     return true;
+            // })
             .style("fill", function (d) {
                 return countToColor(color, d)
             })
             .on("mouseover", function (d) {
-
-                countryTab.show()
-
                 // Brighten the color on mouseover
                 d3.select(this).style("fill", d => d3.rgb(countToColor(color, d)).brighter(0.8));
 
-                // Get the country name and count
+                // Switch to the country tab
+                countryTab.show()
+
+                // Country General Information
                 let engName = d.properties.admin;
                 let numUsers = d.properties.value;
                 let japName = d.properties.name_ja
                 d3.select("#countryName").text(engName).append("span").text(" (" + japName + ")").style("font-size", "0.75em");
                 d3.select("#numUsers").text(numUsers ? formatAsThousands(numUsers) + " otakus" : "No otakus here :(");
 
+                console.log(d.properties.iso_a2_eh)
+                d3.select("#country-flag").attr("src", flag_path + d.properties.iso_a2_eh + ".svg");
+                d3.select("#country-flag").attr("alt", d.properties.admin);
 
                 createGenderPieChart(d, genderData);
             })
