@@ -133,16 +133,32 @@ const map_update = (filtered) => {
                 NonBinary: +d["Non-Binary"]
             }
         })
+        .defer(d3.csv, stat_path + "country_users_ages.csv", function (d) {
+            return {
+                country: country_name_map.get(d.country) || d.country,
+                country_aff: country_name_map.get(d.country_aff) || d.country_aff,
+                birth_year: +d.birth_year,
+                num_users: +d.num_users
+            }
+        })
+        .defer(d3.csv, stat_path + "country_num_days_spent_watching_mean.csv", function (d) {
+            return {
+                country: country_name_map.get(d.country) || d.country,
+                country_aff: country_name_map.get(d.country_aff) || d.country_aff,
+                num_users: +d.num_users,
+                num_days_spent_watching_mean: +d.num_days_spent_watching_mean
+            }
+        })
         .await(ready);
 
-    function ready(error, geojsonData, userData, genderData) {
+    function ready(error, geojsonData, userData, genderData, ageData, daysData) {
         if (error) throw error;
 
         /* General information */
         const numCountries = userData.length;
         const numUsers = d3.sum(userData, d => d.num_users);
         d3.select("#map-catchphrase").text("A very diverse community: Over " + formatAsThousands(numUsers) + " otakus in " + numCountries + " countries.");
- 
+
         /* Country selector */
         createCountrySelector(userData);
 
@@ -168,7 +184,7 @@ const map_update = (filtered) => {
 
         //Define what to do when panning or zooming
         let dragging = function (d) {
-            
+
             //Get the current (pre-dragging) translation offset
             let offset = projection.translate();
 
@@ -267,18 +283,41 @@ const map_update = (filtered) => {
                 // Switch to the country tab
                 countryTab.show()
 
-                // Country General Information
+                /* Country general information */
                 let engName = d.properties.admin;
                 let numUsers = d.properties.value;
                 let japName = d.properties.name_ja
+                // Country name (english and japanese)
                 d3.select("#countryName").text(engName).append("span").text(" (" + japName + ")").style("font-size", "0.75em");
+                // Country's number of users
                 d3.select("#numUsers").text(numUsers ? formatAsThousands(numUsers) + " otakus" : "No otakus here :(");
-
-                console.log(d.properties.iso_a2_eh)
+                // Country flag
                 d3.select("#country-flag").attr("src", flag_path + d.properties.iso_a2_eh + ".svg");
-                d3.select("#country-flag").attr("alt", d.properties.admin);
+                d3.select("#country-flag").attr("alt", engName);
 
+                /* Country stats */
+                // Top animes
+
+                // Top studios
+
+                // Gender balance
                 createGenderPieChart(d, genderData);
+
+                // Age distribution
+
+
+                // Mean number of days spent watching anime
+                // Find the corresponding country in the daysData
+                let countryDays = daysData.find(d => d.country == engName);
+                if (!countryDays) {
+                    d3.select("#country-num-days").text("No data available");
+                    return;
+                }
+                let numDays = countryDays.num_days_spent_watching_mean
+                console.log(numDays)
+                let numDaysFormat = formatAsDays(numDays)
+                console.log(numDaysFormat)
+                d3.select("#country-num-days").text("On average, an otaku has spent " + numDaysFormat + " watching animes (ranked #??)");
             })
             .on("mouseout", function (d) {
                 d3.select(this).style("fill", d => countToColor(color, d));
@@ -307,11 +346,20 @@ const map_update = (filtered) => {
                     .attr("transform", "translate(" + map_width / 2 + "," + map_height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
                     .style("stroke-width", 1.5 / k + "px");
 
-                    
+
 
                 // If click again, prevent the same pie chart from being appended again IF NO MOUSEOVER IN BETWEEN
             });
         // createZoomButtons();
+    }
+
+    function formatAsDays(days) {
+        const hours = days * 24;
+        const minutes = hours * 60;
+        const xDays = Math.floor(days);
+        const xHours = Math.floor(hours % 24);
+        const xMinutes = Math.floor(minutes % 60);
+        return `${xDays} days, ${xHours} hours, and ${xMinutes} minutes`;
     }
 
     //Create zoom buttons
@@ -441,13 +489,13 @@ function createGenderPieChart(geojsonData, genderData) {
         .attr('d', arcGenerator)
         .attr('fill', function (d) { return (color(d.data.key)) })
         .style("opacity", 0.7)
-        // .on("mouseover", function (d) {
-        //     tooltip.style("visibility", "visible");
-        //     let percent = (d.data.value * 100);
-        //     tooltip.text(Math.round(percent * 10) / 10 + "%")
-        // })
-        // .on("mousemove", function (d) { tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
-        // .on("mouseout", function (d) { tooltip.style("visibility", "hidden"); });
+    // .on("mouseover", function (d) {
+    //     tooltip.style("visibility", "visible");
+    //     let percent = (d.data.value * 100);
+    //     tooltip.text(Math.round(percent * 10) / 10 + "%")
+    // })
+    // .on("mousemove", function (d) { tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
+    // .on("mouseout", function (d) { tooltip.style("visibility", "hidden"); });
 
 
     // Now add the annotation. Use the centroid method to get the best coordinates
