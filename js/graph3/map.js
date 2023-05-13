@@ -35,27 +35,29 @@ let studioTab = new bootstrap.Tab(studioTabTriggerEl)
 //     })
 // })
 
+// Adds a comma for every thousands, e.g., converts 123456 to "123,456"
+let formatAsThousands = d3.format(",");
 
-/**
- * 
- * @param {*} color 
- * @param {*} d 
- * @returns 
- */
+function formatAsDays(days) {
+    const hours = days * 24;
+    const minutes = hours * 60;
+    const xDays = Math.floor(days);
+    const xHours = Math.floor(hours % 24);
+    const xMinutes = Math.floor(minutes % 60);
+    return `${xDays} days, ${xHours} hours, and ${xMinutes} minutes`;
+}
+
+
 function countToColor(color, d) {
-    // Get data value
     let value = d.properties.value;
     return value ? color(value) : "#ccc";
 }
 
-//Number formatting for population values
-let formatAsThousands = d3.format(",");  //e.g. converts 123456 to "123,456"
-
-let btn = d3.select("#map-btn");
-btn.on("click", function () {
-    console.log("yes")
-    map_update(true);
-})
+// let btn = d3.select("#map-btn");
+// btn.on("click", function () {
+//     console.log("yes")
+//     map_update(true);
+// })
 
 
 // Default country
@@ -76,7 +78,7 @@ function createCountrySelector(countData) {
         })
         .text(function (d) {
             return d["country"];
-        }) // Display the text in bold
+        })
         .exit();
     countrySelector.node().value = "Switzerland";
 }
@@ -157,7 +159,9 @@ const map_update = (filtered) => {
         /* General information */
         const numCountries = userData.length;
         const numUsers = d3.sum(userData, d => d.num_users);
-        d3.select("#map-catchphrase").text("A very diverse community: Over " + formatAsThousands(numUsers) + " otakus in " + numCountries + " countries.");
+        d3.select("#map-catchphrase")
+            .text("A very diverse community: Over " + formatAsThousands(numUsers) + " otakus in " + numCountries + " countries.");
+        // Same as above, but split the making of the text into different parts
 
         /* Country selector */
         createCountrySelector(userData);
@@ -314,22 +318,11 @@ const map_update = (filtered) => {
                     return;
                 }
                 let numDays = countryDays.num_days_spent_watching_mean
-                console.log(numDays)
                 let numDaysFormat = formatAsDays(numDays)
-                console.log(numDaysFormat)
                 d3.select("#country-num-days").text("On average, an otaku has spent " + numDaysFormat + " watching animes (ranked #??)");
             })
             .on("mouseout", function (d) {
                 d3.select(this).style("fill", d => countToColor(color, d));
-                // empty #countryName and #numUsers if country does not exist
-                // d3.select("#countryName").text("");
-                // d3.select("#numUsers").text("");
-
-                // // Delete everything under div with id genderPieChart
-                // d3.select("#genderPieChart").selectAll("*").remove();
-
-                d3.select("#country-gender-balance").selectAll("*").remove()
-
             })
             .on("click", function (d) {
                 // don't stop event propagation
@@ -353,14 +346,7 @@ const map_update = (filtered) => {
         // createZoomButtons();
     }
 
-    function formatAsDays(days) {
-        const hours = days * 24;
-        const minutes = hours * 60;
-        const xDays = Math.floor(days);
-        const xHours = Math.floor(hours % 24);
-        const xMinutes = Math.floor(minutes % 60);
-        return `${xDays} days, ${xHours} hours, and ${xMinutes} minutes`;
-    }
+
 
     //Create zoom buttons
     let createZoomButtons = function () {
@@ -434,14 +420,21 @@ const map_update = (filtered) => {
 }
 
 function createGenderPieChart(geojsonData, genderData) {
+    let svg = d3.select("#country-gender-pie-chart")
+    svg.selectAll("*").remove();
+
+    let title = d3.select("#country-gender-pie-chart-title")
+    title.selectAll("*").remove();
+
     // Get the country name and count
     let country = geojsonData.properties.admin;
     let count = geojsonData.properties.value;
 
     // Display the gender balance pie chart
-    // Get the data corresponding to the country
-    let countryData = genderData.find(d => d.country == country);
-    if (!countryData) return;
+    // Get the data corresponding to the country, and the index in the csv file
+    let countryIndex = genderData.findIndex(d => d.country == country);
+    if (countryIndex == -1) return;
+    let countryData = genderData[countryIndex]
 
     // set the dimensions and margins of the graph
     let width = 300
@@ -451,9 +444,7 @@ function createGenderPieChart(geojsonData, genderData) {
     // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
     let radius = Math.min(width, height) / 2 - margin
 
-    // Create a pie chart with countryData["Male"], countryData["Female"], countryData["Non-Binary"]
-    let svg = d3.select("#country-gender-balance")
-        .append("svg")
+    svg = svg
         .attr("width", width)
         .attr("height", height)
         .append("g")
@@ -467,9 +458,10 @@ function createGenderPieChart(geojsonData, genderData) {
     // Compute the position of each group on the pie:
     let pie = d3.pie()
         .value(function (d) { return d.value; })
+    // Don't show genders with 0 user
     let data_ready = pie(d3.entries(genderBalance)).filter(d => d.value != 0);
 
-    // shape helper to build arcs:
+    // Shape helper to build arcs
     let arcGenerator = d3.arc()
         .innerRadius(0)
         .outerRadius(radius)
@@ -515,6 +507,9 @@ function createGenderPieChart(geojsonData, genderData) {
         .style("font-size", 10)
         .style("font-weight", "bold")
     // If click again, prevent the same pie chart from being appended again IF NO MOUSEOVER IN BETWEEN
+
+
+    title.append("text").text("(ranked #" + (countryIndex + 1) + ")")
 
     return svg;
 }

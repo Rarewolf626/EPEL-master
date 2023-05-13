@@ -29,13 +29,13 @@
 </head>
 
 <body>
-
-	<!-- Create a CENTERED TITLE-->
+	<!-- Title -->
 	<div style="text-align:center">
 		<h1>COM-480 Data visualization</h1>
 		<h2> Visualizing the worlwide influence of Animes</h2>
 	</div>
 
+	<!-- Visualization1: Circle packing -->
 	<div id="graph1">
 		<div class="row no-gutters">
 			<div class="col-8 no-gutters">
@@ -55,24 +55,31 @@
 		<script src="js/graph1/circles.js"></script>
 	</div>
 
+	<!-- Visualization 2: Word cloud -->
 	<div id="graph2"></div>
 
+	<!-- Visualization 3: World map -->
 	<div id="graph3">
+		<!-- Introductory phrase -->
 		<h3 id="map-catchphrase"> A very diverse community... </h3>
+
+		<!-- Map option panel -->
 		<div id="map-options">
 			<select id="countrySelector" class="form-control">
 			</select>
-
-			<button id="map-btn" class="btn btn-default">Filter</button>
+			<!-- <button id="map-btn" class="btn btn-default">Filter</button> -->
 		</div>
 
+		<!-- Main content -->
 		<div class="row no-gutters">
+			<!-- World map -->
 			<div class="col-7 no-gutters">
 				<div class="leftside">
 					<svg id="map" class="svg-content" viewBox="100 0 870 450"></svg>
 				</div>
 			</div>
 
+			<!-- Information Pane -->
 			<div class="col no-gutters">
 				<ul class="nav nav-tabs" id="myTab" role="tablist">
 					<li class="nav-item" role="presentation">
@@ -87,7 +94,7 @@
 				<div class="tab-content" id="myTabContent">
 					<!-- Default Pane -->
 					<div class="tab-pane fade show active" id="studio" role="tabpanel" aria-labelledby="studio-tab">
-
+						<p>Select or hover on a country to visualize statistics about it.</p>
 						<table id="rankTable">
 							<caption> The countries with largest communities </caption>
 							<thead>
@@ -103,11 +110,9 @@
 
 					<!-- Country Pane -->
 					<div class="tab-pane fade" id="country" role="tabpanel" aria-labelledby="country-tab">
-						<p>Select or hover on a country to visualize statistics about it.</p>
-
 						<div class="container">
 							<!-- Country general information -->
-							<div class="row no-gutters" id="country-info" style="height: 100px" ;>
+							<div class="row no-gutters" id="country-info" style="height: 150px; margin-top: 2%;" ;>
 								<!-- Name + number of users -->
 								<div class="col-9 no-gutters">
 									<div class="leftside">
@@ -117,7 +122,8 @@
 								</div>
 								<!-- Flag -->
 								<div class="col no-gutters">
-									<img id="country-flag" style="border-width: 0.5px; border-style: solid;"></img>
+									<img id="country-flag"
+										style="margin-top: 5px; border-width: 0.5px; border-style: solid;"></img>
 								</div>
 							</div>
 
@@ -137,12 +143,15 @@
 							<div class="row" id="country-stats-2">
 								<!-- Gender pie chart -->
 								<div class="col" id="country-gender-balance">
+									<svg id="country-gender-pie-chart"></svg>
 								</div>
 								<!-- Age distribution histogram -->
 								<div class="col" id="country-age-distribution">
 									2 of 3
 								</div>
 							</div>
+							<p id="country-gender-pie-chart-title"></p>
+
 							<p id="country-num-days"></p>
 						</div>
 
@@ -151,9 +160,9 @@
 			</div>
 		</div>
 		<script src="js/graph3/map.js"></script>
-
 	</div>
 
+	<!-- Visualization 4: Genres Interactive Pie Charts -->
 	<div id="graph4">
 		<script>
 			d3.csv("data/graph4_pie_chart/data.csv", function (error1, d) {
@@ -172,6 +181,7 @@
 		</script>
 	</div>
 
+	<!-- Visualization 5 -->
 	<div id="graph5"></div>
 
 </body>
