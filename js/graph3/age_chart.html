@@ -1,0 +1,44 @@
+<!-- Code from d3-graph-gallery.com -->
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<svg id="country-age-histogram"></svg>
+
+<script src="age_chart.js"></script>
+
+<script>
+    const country_name_map = new Map([
+        ["Czech Republic", "Czechia"],
+        ["Bahamas", "The Bahamas"],
+        ["Brunei Darussalam", "Brunei"],
+        ["Congo", "Republic of the Congo"],
+        ["Congo DRC", "Democratic Republic of the Congo"],
+        ["Côte d'Ivoire", "Ivory Coast"],
+        ["Palestinian Territory", "Palestine"],
+        ["Russian Federation", "Russia"],
+        ["Serbia", "Republic of Serbia"],
+        ["Tanzania", "United Republic of Tanzania"],
+        ["United States", "United States of America"]
+    ]);
+
+    d3.queue()
+        .defer(d3.csv, "../../data/graph3_map/stats/country_users_ages.csv", function (d) {
+            return {
+                country: country_name_map.get(d.country) || d.country,
+                country_aff: country_name_map.get(d.country_aff) || d.country_aff,
+                birth_year: +d.birth_year,
+                num_users: +d.num_users
+            }
+        })
+        .await(ready)
+
+    function ready(error, ageData) {
+        if (error) throw error
+        createAgeChart(ageData, "Papua New Guinea")
+    }
+
+</script>

@@ -287,28 +287,31 @@ const map_update = (filtered) => {
                 // Switch to the country tab
                 countryTab.show()
 
-                /* Country general information */
                 let engName = d.properties.admin;
                 let numUsers = d.properties.value;
                 let japName = d.properties.name_ja
+
+                /* Country general information */
                 // Country name (english and japanese)
                 d3.select("#countryName").text(engName).append("span").text(" (" + japName + ")").style("font-size", "0.75em");
                 // Country's number of users
                 d3.select("#numUsers").text(numUsers ? formatAsThousands(numUsers) + " otakus" : "No otakus here :(");
                 // Country flag
-                d3.select("#country-flag").attr("src", flag_path + d.properties.iso_a2_eh + ".svg");
-                d3.select("#country-flag").attr("alt", engName);
+                createFlag(engName, d.properties.iso_a2_eh);
 
                 /* Country stats */
+
                 // Top animes
 
                 // Top studios
 
                 // Gender balance
-                createGenderPieChart(d, genderData);
+                createGenderChart(genderData, engName);
 
                 // Age distribution
-
+                ageChart = createAgeChart(ageData, engName);
+                // Resize the width and height of the chart
+                ageChart.attr("width","100%")
 
                 // Mean number of days spent watching anime
                 // Find the corresponding country in the daysData
@@ -419,100 +422,34 @@ const map_update = (filtered) => {
     };
 }
 
-function createGenderPieChart(geojsonData, genderData) {
-    let svg = d3.select("#country-gender-pie-chart")
-    svg.selectAll("*").remove();
+function createFlag(countryName, iso) {
+    let flag = d3.select("#country-flag")
+        .attr("src", flag_path + iso + ".svg")
+        .attr("alt", countryName)
+        .attr("title", countryName)
+        .style("display", "block")
 
-    let title = d3.select("#country-gender-pie-chart-title")
-    title.selectAll("*").remove();
+    // Define a maximum width and height for the flag
+    let flagMaxWidth = 150;
+    let flagMaxHeight = 100;
+    // Resize the flag if it is too big
+    flag.on("load", function () {
+        let width = this.width;
+        let height = this.height;
+        if (width > flagMaxWidth) {
+            console.log("width > flagMaxWidth")
+            this.width = flagMaxWidth;
+            // this.height = height * flagMaxWidth / width;
+            console.log(this.width, this.height)
+        }
+        if (height > flagMaxHeight) {
+            console.log("height > flagMaxHeight")
+            this.height = flagMaxHeight;
+            // this.width = width * flagMaxHeight / height;
+            console.log(this.width, this.height)
+        }
+    })
 
-    // Get the country name and count
-    let country = geojsonData.properties.admin;
-    let count = geojsonData.properties.value;
-
-    // Display the gender balance pie chart
-    // Get the data corresponding to the country, and the index in the csv file
-    let countryIndex = genderData.findIndex(d => d.country == country);
-    if (countryIndex == -1) return;
-    let countryData = genderData[countryIndex]
-
-    // set the dimensions and margins of the graph
-    let width = 300
-    let height = 300
-    let margin = 40
-
-    // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
-    let radius = Math.min(width, height) / 2 - margin
-
-    svg = svg
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")
-        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-    let genderBalance = { "Male": countryData["Male"], "Female": countryData["Female"], "Non-Binary": countryData["NonBinary"] }
-
-    // set the color scale
-    let color = d3.scaleOrdinal().domain(genderBalance).range(d3.schemeDark2);
-
-    // Compute the position of each group on the pie:
-    let pie = d3.pie()
-        .value(function (d) { return d.value; })
-    // Don't show genders with 0 user
-    let data_ready = pie(d3.entries(genderBalance)).filter(d => d.value != 0);
-
-    // Shape helper to build arcs
-    let arcGenerator = d3.arc()
-        .innerRadius(0)
-        .outerRadius(radius)
-
-    // let tooltip = d3.select("body")
-    //     .append("div")
-    //     .style("position", "absolute")
-    //     .style("z-index", "10")
-    //     .style("visibility", "hidden");
-
-    // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
-    svg
-        .selectAll('whatever')
-        .data(data_ready)
-        .enter()
-        .append('path')
-        .attr('d', arcGenerator)
-        .attr('fill', function (d) { return (color(d.data.key)) })
-        .style("opacity", 0.7)
-    // .on("mouseover", function (d) {
-    //     tooltip.style("visibility", "visible");
-    //     let percent = (d.data.value * 100);
-    //     tooltip.text(Math.round(percent * 10) / 10 + "%")
-    // })
-    // .on("mousemove", function (d) { tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
-    // .on("mouseout", function (d) { tooltip.style("visibility", "hidden"); });
-
-
-    // Now add the annotation. Use the centroid method to get the best coordinates
-    svg
-        .selectAll('whatever')
-        .data(data_ready)
-        .enter()
-        .append('text')
-        .text(function (d) { return d.data.key })
-        .attr("transform", function (d) { return "translate(" + arcGenerator.centroid(d) + ")"; })
-        .style("text-anchor", "middle")
-        .style("font-size", 17)
-        .append('text')
-        .text(function (d) { return d.data.value })
-        .attr("transform", function (d) { return "translate(" + arcGenerator.centroid(d) + ")"; })
-        .style("text-anchor", "middle")
-        .style("font-size", 10)
-        .style("font-weight", "bold")
-    // If click again, prevent the same pie chart from being appended again IF NO MOUSEOVER IN BETWEEN
-
-
-    title.append("text").text("(ranked #" + (countryIndex + 1) + ")")
-
-    return svg;
 }
-
 
 map_update(false);
