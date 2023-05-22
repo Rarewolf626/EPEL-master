@@ -89,7 +89,7 @@ function createAgeChart(ageData, countryName) {
     .padding(0.1)
   const xStep = 5
   let xDomain = xScale.domain()
-  if (years.length > 2 * xStep) // show every 5 years if there are more than 10 years
+  if (years[years.length - 1] - years[0] > 2 * xStep) // show every 5 years if there are more than 10 years
     xDomain = xDomain.filter(d => d % xStep == 0)
   let xAxis = d3.axisBottom(xScale)
     .tickValues(xDomain)
@@ -161,7 +161,7 @@ function createAgeChart(ageData, countryName) {
     .duration(800)
     .attr("height", function (d) { return height - yScale(d.num_users); })
     .attr("y", function (d) { return yScale(d.num_users); })
-    // .delay(function (d, i) { return 0.1 * d.num_users })
+  // .delay(function (d, i) { return 0.1 * d.num_users })
 
   return svg
 };
