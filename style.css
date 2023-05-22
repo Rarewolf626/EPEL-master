@@ -96,6 +96,34 @@ circle {
 
 
 /* ======================================== GRAPH 3 ======================================== */
+.country {
+    /* country colour */
+    stroke: black;
+    /* country border colour */
+    stroke-width: 0.05px;
+    /* country border width */
+}
+
+.country-on {
+    fill: #4B5358;
+    /* highlight colour for selected country */
+}
+
+.countryLabel {
+    display: none;
+    /* hide all country labels by default */
+}
+
+.countryName {
+    fill: #FFFAFF;
+    /* country label text colour */
+}
+
+.countryLabelBg {
+    fill: #30BCED;
+    /* country label background colour */
+}
+
 /* .infoPane {
     position: absolute;
     top: 0;
@@ -186,6 +214,10 @@ tr:nth-child(3) {
 .zoom:hover text {
     fill: blue;
 }
+
+/* svg rect {
+    fill: #2A2C39;
+} */
 
 
 /* ======================================== GRAPH 4 ======================================== */

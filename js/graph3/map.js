@@ -23,8 +23,6 @@ let countryTab = new bootstrap.Tab(countryTabTriggerEl)
 
 let studioTabTriggerEl = document.querySelector('#studio-tab')
 let studioTab = new bootstrap.Tab(studioTabTriggerEl)
-
-
 // var triggerTabList = [].slice.call(document.querySelectorAll('#myTab a'))
 // triggerTabList.forEach(function (triggerEl) {
 //     var tabTrigger = new bootstrap.Tab(triggerEl)
@@ -35,23 +33,7 @@ let studioTab = new bootstrap.Tab(studioTabTriggerEl)
 //     })
 // })
 
-// Adds a comma for every thousands, e.g., converts 123456 to "123,456"
-let formatAsThousands = d3.format(",");
 
-function formatAsDays(days) {
-    const hours = days * 24;
-    const minutes = hours * 60;
-    const xDays = Math.floor(days);
-    const xHours = Math.floor(hours % 24);
-    const xMinutes = Math.floor(minutes % 60);
-    return `${xDays} days, ${xHours} hours, and ${xMinutes} minutes`;
-}
-
-
-function countToColor(color, d) {
-    let value = d.properties.value;
-    return value ? color(value) : "#ccc";
-}
 
 // let btn = d3.select("#map-btn");
 // btn.on("click", function () {
@@ -60,396 +42,406 @@ function countToColor(color, d) {
 // })
 
 
-// Default country
-let map_selectedCountry = "Switzerland";
+// DEFINE VARIABLES
+// Define size of map group
+const w = 870;
+const h = 450;
+// variables for catching min and max zoom factors
+let minZoom;
+let maxZoom;
 
-/**
- * 
- * @param {*} countData 
- */
-function createCountrySelector(countData) {
-    let countrySelector = d3.select("#countrySelector");
-    countrySelector.selectAll("option")
-        .data(countData)
-        .enter()
-        .append("option")
-        .attr("value", function (d) {
-            return d["country"];
-        })
-        .text(function (d) {
-            return d["country"];
-        })
-        .exit();
-    countrySelector.node().value = "Switzerland";
+
+// DEFINE FUNCTIONS/OBJECTS
+// Define map projection
+let projection = d3.geoNaturalEarth1()
+// .center([0, 15]) // set centre to further North as we are cropping more off bottom of map
+// .scale([w / (2 * Math.PI)]) // scale to fit group width
+// .translate([w / 2, h / 2]) // ensure centred in group
+
+// Define map path generator
+let path = d3.geoPath()
+    .projection(projection)
+
+// Define a color scheme that is based on shades of red, to map to the country num_users
+let color = d3.scaleLinear()
+    .range(["#fee5d9", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15"])
+    .domain([0, 100]);
+
+// Define what to do when zooming
+function zoomed() {
+    // Update projection with new offset and scale
+    let newOffset = [d3.event.transform.x, d3.event.transform.y];
+    let newScale = d3.event.transform.k * 2000;
+    projection.translate(newOffset).scale(newScale);
+
+    // Update all paths and circles
+    svg.selectAll("path").attr("d", path);
 }
 
-/**
- * 
- * @param {*} countData 
- */
-function createCountryRankings(countData) {
-    let rankTableBody = d3.select("#rankTable").select("tbody");
-
-    let rankedCountries = countData.sort(function (a, b) {
-        return parseInt(b.num_users) - parseInt(a.num_users);
-    }).slice(0, 10);
-
-    for (let i = 0; i < rankedCountries.length; i++) {
-        /* Append a new element             
-            <tr>
-                <td>i+1</td>
-                <td>top10Data[i].country</td>
-                <td>top10Data[i].num_users</td>
-            </tr>
-        */
-        let tr = rankTableBody.append("tr")
-        tr.append("td").text(i + 1)
-        tr.append("td").text(rankedCountries[i].country)
-        tr.append("td").text(formatAsThousands(rankedCountries[i].num_users))
-    }
+// When zooming, update projection with new offset and new scale
+function zoomed1() {
+    let t = d3.event.transform;
+    countriesGroup.attr("transform", "translate(" + [t.x, t.y] + ")scale(" + t.k + ")");
 }
 
+// Define map zoom behavior
+let zoom = d3.zoom()
+    // .scaleExtent([0.5, 12.0])  //This limits how far you can zoom in
+    // .translateExtent([[-1000, -1000], [w + 10, h + 10]])  //This limits how far you can pan out
+    .on("zoom", zoomed1);
 
-const map_width = 870;
-const map_height = 450;
-
-const map_update = (filtered) => {
-    // Load all the json data from data/map asynchronously
-    // and call the ready function to draw the map
-
-    d3.queue()
-        .defer(d3.json, geojson_path + "custom.geo.json")
-        .defer(d3.csv, stat_path + "country_num_users.csv", function (d) {
-            return {
-                country: country_name_map.get(d.country) || d.country,
-                country_aff: country_name_map.get(d.country_aff) || d.country_aff,
-                num_users: +d.num_users
-            }
-        })
-        .defer(d3.csv, stat_path + "country_gender_balance.csv", function (d) {
-            return {
-                country: country_name_map.get(d.country) || d.country,
-                country_aff: country_name_map.get(d.country_aff) || d.country_aff,
-                Female: +d.Female,
-                Male: +d.Male,
-                NonBinary: +d["Non-Binary"]
-            }
-        })
-        .defer(d3.csv, stat_path + "country_users_ages.csv", function (d) {
-            return {
-                country: country_name_map.get(d.country) || d.country,
-                country_aff: country_name_map.get(d.country_aff) || d.country_aff,
-                birth_year: +d.birth_year,
-                num_users: +d.num_users
-            }
-        })
-        .defer(d3.csv, stat_path + "country_num_days_spent_watching_mean.csv", function (d) {
-            return {
-                country: country_name_map.get(d.country) || d.country,
-                country_aff: country_name_map.get(d.country_aff) || d.country_aff,
-                num_users: +d.num_users,
-                num_days_spent_watching_mean: +d.num_days_spent_watching_mean
-            }
-        })
-        .await(ready);
-
-    function ready(error, geojsonData, userData, genderData, ageData, daysData) {
-        if (error) throw error;
-
-        /* General information */
-        const numCountries = userData.length;
-        const numUsers = d3.sum(userData, d => d.num_users);
-        d3.select("#map-catchphrase")
-            .text("A very diverse community: Over " + formatAsThousands(numUsers) + " otakus in " + numCountries + " countries.");
-        // Same as above, but split the making of the text into different parts
-
-        /* Country selector */
-        createCountrySelector(userData);
-
-        /* Country rankings */
-        createCountryRankings(userData);
-
-        /* Draw the map */
-
-        //Define map projection
-        let projection = d3.geoNaturalEarth1()
-
-        //Define path generator
-        let path = d3.geoPath()
-            .projection(projection)
-
-        // Define a color scheme that is based on shades of red, to map to the country num_users
-        let color = d3.scaleLinear()
-            .range(["#fee5d9", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15"])
-            .domain([0, 100]);
-
-        // Create SVG element
-        let svg = d3.select("#map")
-
-        //Define what to do when panning or zooming
-        let dragging = function (d) {
-
-            //Get the current (pre-dragging) translation offset
-            let offset = projection.translate();
-
-            //Augment the offset, following the mouse movement
-            offset[0] += d3.event.dx;
-            offset[1] += d3.event.dy;
-
-            //Update projection with new offset and scale
-            projection.translate(offset)
-
-            //Update all paths
-            svg.selectAll("path")
-                .attr("d", path);
-        }
-
-
-        //Define what to do when panning or zooming
-        let zooming = function (d) {
-
-            //New offset array
-            var offset = [d3.event.transform.x, d3.event.transform.y];
-
-            //Calculate new scale
-            var newScale = d3.event.transform.k * 2000;
-
-            //Update projection with new offset and scale
-            projection.translate(offset)
-                .scale(newScale);
-
-            //Update all paths and circles
-            svg.selectAll("path")
-                .attr("d", path);
-        }
-
-        //Then define the zoom behavior
-        let drag = d3.drag()
-            .on("drag", dragging);
-
-        let zoom = d3.zoom()
-            .scaleExtent([0.5, 12.0])  //This limits how far you can zoom in
-            .translateExtent([[-1000, -1000], [w + 10, h + 10]])  //This limits how far you can pan out
-            .on("zoom", zooming);
-
-        //Create a container in which all zoom-able elements will live
-        let map = svg.append("g")
-            .attr("id", "map_group")
-            .call(drag)  //Bind the drag behavior
-        // .call(zoom)  //Bind the zoom behavior
-
-        //Create a new, invisible background rect to catch zoom events
-        map.append("rect")
-            .attr("x", 100)
-            .attr("y", 0)
-            .attr("width", "100%")
-            .attr("height", "100%")
-            .attr("opacity", 0);
-
-        //Merge the ag. data and GeoJSON
-        //Loop through once for each ag. data value
-        for (let i = 0; i < userData.length; i++) {
-            let countryCSV = userData[i].country;
-            let numUsers = parseFloat(userData[i].num_users);
-            //Find the corresponding country inside the GeoJSON
-            for (let j = 0; j < geojsonData.features.length; j++) {
-                let countryJSON = geojsonData.features[j].properties.admin;
-                if (countryCSV == countryJSON) {
-                    //Copy the data value into the JSON
-                    geojsonData.features[j].properties.value = numUsers;
-                    //Stop looking through the JSON
-                    break;
-                }
-            }
-        }
-
-        //Bind data and create one path per GeoJSON feature
-        svg.selectAll("path")
-            .data(geojsonData.features)
-            .enter()
-            .append("path")
-            .attr("d", path)
-            .attr("stroke-width", "0.05px")
-            .attr("stroke", "black")
-            // .filter(function (d) {
-            //     if (filtered && d.properties.value < 1000) {
-            //         d.properties.value = 0;
-            //     }
-            //     return true;
-            // })
-            .style("fill", function (d) {
-                return countToColor(color, d)
-            })
-            .on("mouseover", function (d) {
-                // Brighten the color on mouseover
-                d3.select(this).style("fill", d => d3.rgb(countToColor(color, d)).brighter(0.8));
-
-                // Switch to the country tab
-                countryTab.show()
-
-                let engName = d.properties.admin;
-                let numUsers = d.properties.value;
-                let japName = d.properties.name_ja
-
-                /* Country general information */
-                // Country name (english and japanese)
-                d3.select("#countryName").text(engName).append("span").text(" (" + japName + ")").style("font-size", "0.75em");
-                // Country's number of users
-                d3.select("#numUsers").text(numUsers ? formatAsThousands(numUsers) + " otakus" : "No otakus here :(");
-                // Country flag
-                createFlag(engName, d.properties.iso_a2_eh);
-
-                /* Country stats */
-
-                // Top animes
-
-                // Top studios
-
-                // Gender balance
-                createGenderChart(genderData, engName);
-
-                // Age distribution
-                ageChart = createAgeChart(ageData, engName);
-                // Resize the width and height of the chart
-                ageChart.attr("width","100%")
-
-                // Mean number of days spent watching anime
-                // Find the corresponding country in the daysData
-                let countryDays = daysData.find(d => d.country == engName);
-                if (!countryDays) {
-                    d3.select("#country-num-days").text("No data available");
-                    return;
-                }
-                let numDays = countryDays.num_days_spent_watching_mean
-                let numDaysFormat = formatAsDays(numDays)
-                d3.select("#country-num-days").text("On average, an otaku has spent " + numDaysFormat + " watching animes (ranked #??)");
-            })
-            .on("mouseout", function (d) {
-                d3.select(this).style("fill", d => countToColor(color, d));
-            })
-            .on("click", function (d) {
-                // don't stop event propagation
-                //d3.event.stopPropagation();
-
-                // focus on the country
-                let x, y, k;
-                let centroid = path.centroid(d);
-                x = centroid[0];
-                y = centroid[1];
-                k = 4;
-                map.transition()
-                    .duration(750)
-                    .attr("transform", "translate(" + map_width / 2 + "," + map_height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-                    .style("stroke-width", 1.5 / k + "px");
-
-
-
-                // If click again, prevent the same pie chart from being appended again IF NO MOUSEOVER IN BETWEEN
-            });
-        // createZoomButtons();
-    }
-
-
-
-    //Create zoom buttons
-    let createZoomButtons = function () {
-
-        //Create the clickable groups
-
-        //Zoom in button
-        let zoomIn = svg.append("g")
-            .attr("class", "map_zoom")	//All share the 'zoom' class
-            .attr("id", "in")		//The ID will tell us which direction to head
-            .attr("transform", "translate(" + (map_width - 110) + "," + (map_height - 70) + ")");
-
-        zoomIn.append("rect")
-            .attr("x", 0)
-            .attr("y", 0)
-            .attr("width", 30)
-            .attr("height", 30);
-
-        zoomIn.append("text")
-            .attr("x", 15)
-            .attr("y", 20)
-            .text("+");
-
-        //Zoom out button
-        let zoomOut = svg.append("g")
-            .attr("class", "map_zoom")
-            .attr("id", "out")
-            .attr("transform", "translate(" + (map_width - 70) + "," + (map_height - 70) + ")");
-
-        zoomOut.append("rect")
-            .attr("x", 0)
-            .attr("y", 0)
-            .attr("width", 30)
-            .attr("height", 30);
-
-        zoomOut.append("text")
-            .attr("x", 15)
-            .attr("y", 20)
-            .html("&ndash;");
-
-        //Zooming interaction
-
-        d3.selectAll(".map_zoom")
-            .on("click", function () {
-
-                //Set how much to scale on each click
-                let scaleFactor;
-
-                //Which way are we headed?
-                let direction = d3.select(this).attr("id");
-
-                //Modify the k scale value, depending on the direction
-                switch (direction) {
-                    case "in":
-                        scaleFactor = 1.5;
-                        break;
-                    case "out":
-                        scaleFactor = 0.75;
-                        break;
-                    default:
-                        break;
-                }
-
-                //This triggers a zoom event, scaling by 'scaleFactor'
-                map.transition()
-                    .call(zoom.scaleBy, scaleFactor);
-
-            });
-
-    };
+function getTextBox(selection) {
+    selection.each(function (d) {
+        d.bbox = this.getBBox();
+    });
 }
 
-function createFlag(countryName, iso) {
-    let flag = d3.select("#country-flag")
-        .attr("src", flag_path + iso + ".svg")
-        .attr("alt", countryName)
-        .attr("title", countryName)
-        .style("display", "block")
+// Function that calculates zoom/pan limits and sets zoom to default value 
+function initiateZoom() {
+    // Define a "minzoom" whereby the "Countries" is as small possible without leaving white space at top/bottom or sides
+    minZoom = Math.max(w / w, h / h);
+    // set max zoom to a suitable factor of this value
+    maxZoom = 10 * minZoom;
+    // set extent of zoom to chosen values
+    // set translate extent so that panning can't cause map to move out of viewport
+    zoom.scaleExtent([minZoom, maxZoom]).translateExtent([[0, 0], [w, h]]);
+    // define X and Y offset for centre of map to be shown in centre of holder
+    let midX = (w - minZoom * w) / 2;
+    let midY = (h - minZoom * h) / 2;
 
-    // Define a maximum width and height for the flag
-    let flagMaxWidth = 150;
-    let flagMaxHeight = 100;
-    // Resize the flag if it is too big
-    flag.on("load", function () {
-        let width = this.width;
-        let height = this.height;
-        if (width > flagMaxWidth) {
-            console.log("width > flagMaxWidth")
-            this.width = flagMaxWidth;
-            // this.height = height * flagMaxWidth / width;
-            console.log(this.width, this.height)
-        }
-        if (height > flagMaxHeight) {
-            console.log("height > flagMaxHeight")
-            this.height = flagMaxHeight;
-            // this.width = width * flagMaxHeight / height;
-            console.log(this.width, this.height)
+    // change zoom transform to min zoom and centre offsets
+    svg.call(zoom.transform, d3.zoomIdentity.translate(midX, midY).scale(minZoom));
+}
+
+// zoom to show a bounding box, with optional additional padding as percentage of box size
+function boxZoom(box, centroid, paddingPerc) {
+    let minXY = box[0];
+    let maxXY = box[1];
+    // find size of map area defined
+    let zoomWidth = Math.abs(minXY[0] - maxXY[0]);
+    let zoomHeight = Math.abs(minXY[1] - maxXY[1]);
+    // find midpoint of map area defined
+    let zoomMidX = centroid[0];
+    let zoomMidY = centroid[1];
+    // increase map area to include padding
+    zoomWidth = zoomWidth * (1 + paddingPerc / 100);
+    zoomHeight = zoomHeight * (1 + paddingPerc / 100);
+    // find scale required for area to fill svg
+    let maxXscale = w / zoomWidth;
+    let maxYscale = h / zoomHeight;
+    let zoomScale = Math.min(maxXscale, maxYscale);
+    // handle some edge cases
+    // limit to max zoom (handles tiny countries)
+    zoomScale = Math.min(zoomScale, maxZoom);
+    // limit to min zoom (handles large countries and countries that span the date line)
+    zoomScale = Math.max(zoomScale, minZoom);
+    // Find screen pixel equivalent once scaled
+    let offsetX = zoomScale * zoomMidX;
+    let offsetY = zoomScale * zoomMidY;
+    // Find offset to centre, making sure no gap at left or top of holder
+    let dleft = Math.min(0, w / 2 - offsetX);
+    let dtop = Math.min(0, h / 2 - offsetY);
+    // Make sure no gap at bottom or right of holder
+    dleft = Math.max(w - w * zoomScale, dleft);
+    dtop = Math.max(h - h * zoomScale, dtop);
+    // set zoom
+    svg.transition()
+        .duration(500)
+        .call(zoom.transform, d3.zoomIdentity.translate(dleft, dtop).scale(zoomScale));
+}
+
+const clientWidth = d3.select("#map-holder").node().clientWidth;
+const clientHeight = d3.select("#map-holder").node().clientHeight;
+
+// on window resize
+window.addEventListener("resize", function () {
+    // Resize SVG
+    svg.attr("width", clientWidth).attr("height", clientHeight);
+    initiateZoom();
+});
+
+// Create an SVG
+let svg = d3.select("#map-holder")
+    .append("svg")
+    .attr("width", clientWidth)
+    .attr("height", clientHeight)
+    // .attr("width", map_width)
+    // .attr("height", map_height)
+    .attr("viewBox", "100 0 " + w + " " + h)
+    .attr("class", "svg-content")
+// .call(zoom)
+
+
+// Create a container in which all zoom-able elements will live
+let countriesGroup = svg.append("g").attr("id", "map")
+// .call(zoom)  //Bind the zoom behavior
+
+// Load all the json data from data/map asynchronously
+// and call the ready function to draw the map
+
+d3.queue()
+    .defer(d3.json, geojson_path + "custom.geo.json")
+    .defer(d3.csv, stat_path + "country_num_users.csv", function (d) {
+        return {
+            country: country_name_map.get(d.country) || d.country,
+            country_aff: country_name_map.get(d.country_aff) || d.country_aff,
+            num_users: +d.num_users
         }
     })
+    .defer(d3.csv, stat_path + "country_gender_balance.csv", function (d) {
+        return {
+            country: country_name_map.get(d.country) || d.country,
+            country_aff: country_name_map.get(d.country_aff) || d.country_aff,
+            Female: +d.Female,
+            Male: +d.Male,
+            NonBinary: +d["Non-Binary"]
+        }
+    })
+    .defer(d3.csv, stat_path + "country_users_ages.csv", function (d) {
+        return {
+            country: country_name_map.get(d.country) || d.country,
+            country_aff: country_name_map.get(d.country_aff) || d.country_aff,
+            birth_year: +d.birth_year,
+            num_users: +d.num_users
+        }
+    })
+    .defer(d3.csv, stat_path + "country_num_days_spent_watching_mean.csv", function (d) {
+        return {
+            country: country_name_map.get(d.country) || d.country,
+            country_aff: country_name_map.get(d.country_aff) || d.country_aff,
+            num_users: +d.num_users,
+            num_days_spent_watching_mean: +d.num_days_spent_watching_mean
+        }
+    })
+    .await(ready);
+
+/**
+ * 
+ * @param {*} error 
+ * @param {*} geojsonData 
+ * @param {*} userData 
+ * @param {*} genderData 
+ * @param {*} ageData 
+ * @param {*} daysData 
+ */
+function ready(error, geojsonData, userData, genderData, ageData, daysData) {
+    if (error) throw error;
+
+    /* General information */
+    const totalCountries = userData.length;
+    const totalUsers = d3.sum(userData, d => d.num_users);
+    d3.select("#map-catchphrase")
+        .text("A very diverse community: Over " + formatAsThousands(totalUsers) + " otakus in " + totalCountries + " countries.");
+    // Same as above, but split the making of the text into different parts
+
+    /* Country selector */
+    createCountrySelector(userData);
+
+    /* Country rankings */
+    createCountryRankings(userData);
+
+    /* Draw the map */
+    // 
+    for (let i = 0; i < geojsonData.features.length; i++) {
+        let countryJSON = geojsonData.features[i].properties.admin;
+        for (let j = 0; j < userData.length; j++) {
+            let countryCSV = userData[j].country;
+            let numUsers = userData[j].num_users;
+            if (countryCSV == countryJSON) {
+                geojsonData.features[i].properties.value = numUsers;
+                geojsonData.features[i].properties.color = color(numUsers);
+                break;
+            }
+        }
+        geojsonData.features[i].properties.color = geojsonData.features[i].properties.color || "#ccc";
+        geojsonData.features[i].properties.flag_path = flag_path + geojsonData.features[i].properties.iso_a2_eh + ".svg";
+    }
+
+    // Create an invisible background rectangle to catch zoom events
+    countriesGroup.append("rect")
+        .attr("x", 100)
+        .attr("y", 0)
+        .attr("width", w) // 100%
+        .attr("height", h) // 100%
+        .attr("opacity", 0);
+
+    // Bind data and create one path per GeoJSON feature
+    let countries = countriesGroup.selectAll("path")
+        .data(geojsonData.features)
+        .enter()
+        .append("path")
+        .attr("d", path)
+        .attr("id", d => "country" + d.properties.iso_a2_eh)
+        .attr("class", "country")
+        .style("fill", d => d.properties.color)
+        .on("mouseover", function (d) {
+            // Brighten the color on mouseover
+            d3.select(this).style("fill", d => d3.rgb(d.properties.color).brighter(0.8));
+            d3.select("#countryLabel" + d.properties.iso_a2_eh).style("display", "block");
+        })
+        .on("mouseout", function (d) {
+            d3.select(this).style("fill", d => d.properties.color);
+            d3.select("#countryLabel" + d.properties.iso_a2_eh).style("display", "none");
+        })
+        .on("click", function (d) {
+            d3.selectAll(".country").classed("country-on", false);
+            d3.select(this).classed("country-on", true);
+
+            // focus on the country
+            // focusOnCountry(d);
+            boxZoom(path.bounds(d), path.centroid(d), 20);
+
+            // show info pane
+            showCountryInfo(d, genderData, ageData, daysData)
+
+        });
+
+    // Add country labels
+    // createCountryLabels(geojsonData);
+
+    // createZoomButtons();
+
 
 }
+// kick off the demo
+initiateZoom();
 
-map_update(false);
+
+
+function createCountryLabels(geojsonData) {
+    // Add a label group to each feature/country. This will contain the country name and a background rectangle
+    let countryLabels = countriesGroup.selectAll("g")
+        .data(geojsonData.features)
+        .enter()
+        .append("g")
+        .attr("class", "countryLabel")
+        .attr("id", function (d) {
+            return "countryLabel" + d.properties.iso_a2_eh;
+        })
+        .attr("transform", function (d) {
+            return "translate(" + path.centroid(d)[0] + "," + path.centroid(d)[1] + ")"
+        })
+        // add mouseover functionality to the label
+        .on("mouseover", function (d) {
+            d3.select(this).style("display", "block");
+        })
+        .on("mouseout", function (d) {
+            d3.select(this).style("display", "none");
+        })
+    // add an on click function to zoom into clicked country
+    // .on("click", function (d) {
+    //     d3.selectAll(".country").classed("country-on", false);
+    //     d3.select("#country" + d.properties.iso_a2_eh).classed("country-on", true);
+    //     boxZoom(path.bounds(d), path.centroid(d), 20);
+    // });
+
+    // add the text to the label group showing country name
+    countryLabels
+        .append("text")
+        .attr("class", "countryName")
+        .style("text-anchor", "middle")
+        .attr("dx", 0)
+        .attr("dy", 0)
+        .text(d => d.properties.name)
+        .call(getTextBox);
+
+    // add a background rectangle the same size as the text
+    countryLabels
+        .insert("rect", "text")
+        .attr("class", "countryLabelBg")
+        .attr("transform", function (d) {
+            return "translate(" + (d.bbox.x - 2) + "," + d.bbox.y + ")";
+        })
+        .attr("width", function (d) {
+            return d.bbox.width + 4;
+        })
+        .attr("height", function (d) {
+            return d.bbox.height;
+        });
+
+    return countryLabels
+}
+
+
+function focusOnCountry(d) {
+    let x, y, k;
+    let centroid = path.centroid(d);
+    x = centroid[0];
+    y = centroid[1];
+    k = 4;
+    countriesGroup.transition()
+        .duration(500)
+        .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+        .style("stroke-width", 1.5 / k + "px");
+}
+
+
+
+//Create zoom buttons
+function createZoomButtons() {
+
+    //Create the clickable groups
+
+    //Zoom in button
+    let zoomIn = svg.append("g")
+        .attr("class", "map_zoom")	//All share the 'zoom' class
+        .attr("id", "in")		//The ID will tell us which direction to head
+        .attr("transform", "translate(" + (w - 110) + "," + (h - 70) + ")");
+
+    zoomIn.append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", 30)
+        .attr("height", 30);
+
+    zoomIn.append("text")
+        .attr("x", 15)
+        .attr("y", 20)
+        .text("+");
+
+    //Zoom out button
+    let zoomOut = svg.append("g")
+        .attr("class", "map_zoom")
+        .attr("id", "out")
+        .attr("transform", "translate(" + (w - 70) + "," + (h - 70) + ")");
+
+    zoomOut.append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", 30)
+        .attr("height", 30);
+
+    zoomOut.append("text")
+        .attr("x", 15)
+        .attr("y", 20)
+        .html("&ndash;");
+
+    //Zooming interaction
+
+    d3.selectAll(".map_zoom")
+        .on("click", function () {
+
+            //Set how much to scale on each click
+            let scaleFactor;
+
+            //Which way are we headed?
+            let direction = d3.select(this).attr("id");
+
+            //Modify the k scale value, depending on the direction
+            switch (direction) {
+                case "in":
+                    scaleFactor = 1.5;
+                    break;
+                case "out":
+                    scaleFactor = 0.75;
+                    break;
+                default:
+                    break;
+            }
+
+            //This triggers a zoom event, scaling by 'scaleFactor'
+            map.transition()
+                .call(zoom.scaleBy, scaleFactor);
+
+        });
+};

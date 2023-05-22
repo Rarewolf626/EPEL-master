@@ -88,21 +88,22 @@ function boxZoom(box, centroid, paddingPerc) {
         .call(zoom.transform, d3.zoomIdentity.translate(dleft, dtop).scale(zoomScale));
 }
 
+const clientWidth = d3.select("#map-holder").node().clientWidth;
+const clientHeight = d3.select("#map-holder").node().clientHeight;
+
 // on window resize
 window.addEventListener("resize", function () {
     // Resize SVG
-    svg.attr("width", document.getElementById("map-holder").clientWidth)
-        .attr("height", document.getElementById("map-holder").clientHeight);
+    svg.attr("width", clientWidth)
+        .attr("height", clientHeight);
     initiateZoom();
 });
 
 // create an SVG
 let svg = d3.select("#map-holder")
     .append("svg")
-    // set to the same size as the "map-holder" div
-    .attr("width", document.getElementById("map-holder").clientWidth)
-    .attr("height", document.getElementById("map-holder").clientHeight)
-    // add zoom functionality
+    .attr("width", clientWidth)
+    .attr("height", clientHeight)
     .call(zoom);
 
 // Bind data and create one path per GeoJSON feature
@@ -154,9 +155,7 @@ d3.json("https://raw.githubusercontent.com/andybarefoot/andybarefoot-www/master/
             return "countryLabel" + d.properties.iso_a3;
         })
         .attr("transform", function (d) {
-            return (
-                "translate(" + path.centroid(d)[0] + "," + path.centroid(d)[1] + ")"
-            );
+            return "translate(" + path.centroid(d)[0] + "," + path.centroid(d)[1] + ")"
         })
         // add mouseover functionality to the label
         .on("mouseover", function (d) {
@@ -179,9 +178,7 @@ d3.json("https://raw.githubusercontent.com/andybarefoot/andybarefoot-www/master/
         .style("text-anchor", "middle")
         .attr("dx", 0)
         .attr("dy", 0)
-        .text(function (d) {
-            return d.properties.name;
-        })
+        .text(d => d.properties.name)
         .call(getTextBox);
 
     // add a background rectangle the same size as the text
