@@ -5,17 +5,23 @@ const stat_path = map_path + "stats/";
 const flag_path = map_path + "flags/";
 
 const country_name_map = new Map([
-    ["Czech Republic", "Czechia"],
     ["Bahamas", "The Bahamas"],
     ["Brunei Darussalam", "Brunei"],
-    ["Congo", "Republic of the Congo"],
+    ["Cabo Verde", "Cape Verde"],
+    ["Congo", "Republic of Congo"],
     ["Congo DRC", "Democratic Republic of the Congo"],
+    ["Curacao", "Curaçao"],
     ["Côte d'Ivoire", "Ivory Coast"],
+    ["Eswatini", "Swaziland"],
+    ["North Macedonia", "Macedonia"],
     ["Palestinian Territory", "Palestine"],
+    ["Pitcairn", "Pitcairn Islands"],
     ["Russian Federation", "Russia"],
     ["Serbia", "Republic of Serbia"],
     ["Tanzania", "United Republic of Tanzania"],
-    ["United States", "United States of America"]
+    ["US Virgin Islands", "United States Virgin Islands"],
+    ["United States", "United States of America"],
+    ["Vatican City", "Vatican"],
 ]);
 
 let countryTabTriggerEl = document.querySelector('#country-tab')
@@ -34,22 +40,16 @@ let studioTab = new bootstrap.Tab(studioTabTriggerEl)
 // })
 
 
-
-// let btn = d3.select("#map-btn");
-// btn.on("click", function () {
-//     console.log("yes")
-//     map_update(true);
-// })
-
-
 // DEFINE VARIABLES
 // Define size of map group
 const w = 870;
 const h = 450;
 // variables for catching min and max zoom factors
-let minZoom;
-let maxZoom;
-
+const minZoom = 1
+const maxZoom = 10 * minZoom
+// define X and Y offset for centre of map to be shown in centre of holder
+const midX = (w - minZoom * w) / 2;
+const midY = (h - minZoom * h) / 2;
 
 // DEFINE FUNCTIONS/OBJECTS
 // Define map projection
@@ -64,31 +64,19 @@ let path = d3.geoPath()
 
 // Define a color scheme that is based on shades of red, to map to the country num_users
 let color = d3.scaleLinear()
-    .range(["#fee5d9", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15"])
+    .range(["#fee5d9", "#fdd0a2", "#fdae6b", "#fd8d3c", "#f16913", "#d94801", "#a63603", "#7f2704", "#7f2704"])
+    // .range(["#fee5d9", "#fdd0a2", "#fdae6b", "#fd8d3c", "#f16913", "#d94801", "#8c2d04"])
     .domain([0, 100]);
 
-// Define what to do when zooming
-function zoomed() {
-    // Update projection with new offset and scale
-    let newOffset = [d3.event.transform.x, d3.event.transform.y];
-    let newScale = d3.event.transform.k * 2000;
-    projection.translate(newOffset).scale(newScale);
-
-    // Update all paths and circles
-    svg.selectAll("path").attr("d", path);
-}
-
 // When zooming, update projection with new offset and new scale
-function zoomed1() {
+function zoomed() {
     let t = d3.event.transform;
     countriesGroup.attr("transform", "translate(" + [t.x, t.y] + ")scale(" + t.k + ")");
 }
 
 // Define map zoom behavior
 let zoom = d3.zoom()
-    // .scaleExtent([0.5, 12.0])  //This limits how far you can zoom in
-    // .translateExtent([[-1000, -1000], [w + 10, h + 10]])  //This limits how far you can pan out
-    .on("zoom", zoomed1);
+    .on("zoom", zoomed);
 
 function getTextBox(selection) {
     selection.each(function (d) {
@@ -98,17 +86,9 @@ function getTextBox(selection) {
 
 // Function that calculates zoom/pan limits and sets zoom to default value 
 function initiateZoom() {
-    // Define a "minzoom" whereby the "Countries" is as small possible without leaving white space at top/bottom or sides
-    minZoom = Math.max(w / w, h / h);
-    // set max zoom to a suitable factor of this value
-    maxZoom = 10 * minZoom;
     // set extent of zoom to chosen values
     // set translate extent so that panning can't cause map to move out of viewport
     zoom.scaleExtent([minZoom, maxZoom]).translateExtent([[0, 0], [w, h]]);
-    // define X and Y offset for centre of map to be shown in centre of holder
-    let midX = (w - minZoom * w) / 2;
-    let midY = (h - minZoom * h) / 2;
-
     // change zoom transform to min zoom and centre offsets
     svg.call(zoom.transform, d3.zoomIdentity.translate(midX, midY).scale(minZoom));
 }
@@ -180,7 +160,7 @@ let countriesGroup = svg.append("g").attr("id", "map")
 // and call the ready function to draw the map
 
 d3.queue()
-    .defer(d3.json, geojson_path + "custom.geo.json")
+    .defer(d3.json, geojson_path + "custom50_processed.json")
     .defer(d3.csv, stat_path + "country_num_users.csv", function (d) {
         return {
             country: country_name_map.get(d.country) || d.country,
@@ -234,12 +214,6 @@ function ready(error, geojsonData, userData, genderData, ageData, daysData) {
         .text("A very diverse community: Over " + formatAsThousands(totalUsers) + " otakus in " + totalCountries + " countries.");
     // Same as above, but split the making of the text into different parts
 
-    /* Country selector */
-    createCountrySelector(userData);
-
-    /* Country rankings */
-    createCountryRankings(userData);
-
     /* Draw the map */
     // 
     for (let i = 0; i < geojsonData.features.length; i++) {
@@ -254,7 +228,7 @@ function ready(error, geojsonData, userData, genderData, ageData, daysData) {
             }
         }
         geojsonData.features[i].properties.color = geojsonData.features[i].properties.color || "#ccc";
-        geojsonData.features[i].properties.flag_path = flag_path + geojsonData.features[i].properties.iso_a2_eh + ".svg";
+        geojsonData.features[i].properties.flag_path = flag_path + geojsonData.features[i].properties.iso_a2 + ".svg";
     }
 
     // Create an invisible background rectangle to catch zoom events
@@ -284,9 +258,12 @@ function ready(error, geojsonData, userData, genderData, ageData, daysData) {
             d3.select("#countryLabel" + d.properties.iso_a2_eh).style("display", "none");
         })
         .on("click", function (d) {
+            // Make the click event "overrdie" the mouseover event
+
+
             d3.selectAll(".country").classed("country-on", false);
             d3.select(this).classed("country-on", true);
-
+            console.log(d)
             // focus on the country
             // focusOnCountry(d);
             boxZoom(path.bounds(d), path.centroid(d), 20);
@@ -302,10 +279,21 @@ function ready(error, geojsonData, userData, genderData, ageData, daysData) {
     // createZoomButtons();
 
 
+    /* Country selector */
+    createCountrySelector(userData, geojsonData, genderData, ageData, daysData);
+
+    /* Country rankings */
+    createCountryRankings(userData);
+
+
 }
 // kick off the demo
 initiateZoom();
 
+let btn = d3.select("#graph3").append("button").text("Reset")
+btn.on("click", function () {
+    svg.call(zoom.transform, d3.zoomIdentity.translate(midX, midY).scale(minZoom));
+})
 
 
 function createCountryLabels(geojsonData) {

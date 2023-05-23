@@ -96,6 +96,10 @@ circle {
 
 
 /* ======================================== GRAPH 3 ======================================== */
+.country-selector {
+    width: 20vh;
+}
+
 .country {
     /* country colour */
     stroke: black;

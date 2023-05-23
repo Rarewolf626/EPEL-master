@@ -9,3 +9,18 @@ function formatAsDays(days) {
     const xMinutes = Math.floor(minutes % 60);
     return `${xDays} days, ${xHours} hours, and ${xMinutes} minutes`;
 }
+
+
+/**
+ * https://dev.to/jorik/country-code-to-flag-emoji-a21
+ * 
+ * @param {*} countryCode 
+ * @returns 
+ */
+function getFlagEmoji(countryCode) {
+    const codePoints = countryCode
+        .toUpperCase()
+        .split('')
+        .map(char => 127397 + char.charCodeAt());
+    return String.fromCodePoint(...codePoints);
+}
