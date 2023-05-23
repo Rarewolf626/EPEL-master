@@ -31,19 +31,32 @@
 		<h3 id="map-catchphrase"> A very diverse community... </h3>
 
 		<!-- Map option panel -->
-		<div id="map-options">
-			<select id="country-selector" class="form-select form-select-lg mb-3" aria-label=".form-select-lg country">
-			</select>
-			<!-- <button id="map-btn" class="btn btn-default">Filter</button> -->
+		<div class="row no-gutters" id="map-options">
+			<!-- Country selector -->
+			<div class="col-3 no-gutters">
+				<select id="country-selector" class="form-select form-select-lg mb-3"
+					aria-label=".form-select-lg country">
+					<option selected>Select a country...</option>
+				</select>
+			</div>
+			<!-- Reset button -->
+			<div class="col-1 no-gutters">
+				<button id="map-reset-btn" class="btn btn-primary">Reset</button>
+			</div>
+			<!-- Studio selector -->
+			<div class="col-3 no-gutters" id="studio-selector">
+				<select id="studio-selector" class="form-select form-select-lg mb-3"
+					aria-label=".form-select-lg studio">
+					<option selected>Select a studio...</option>
+				</select>
+			</div>
 		</div>
 
 		<!-- Main content -->
 		<div class="row no-gutters">
 			<!-- World map -->
 			<div class="col-7 no-gutters">
-				<div id="map-holder" class="leftside">
-					<!--<svg id="map" class="svg-content" viewBox="100 0 870 450"></svg>-->
-				</div>
+				<div id="map-holder" class="leftside"></div>
 			</div>
 
 			<!-- Information Pane -->
@@ -107,13 +120,13 @@
 							</div>
 
 							<!-- Second row of stars -->
-							<div class="row" id="country-stats-2">
+							<div class="row no-gutters" id="country-stats-2">
 								<!-- Gender pie chart -->
-								<div class="col-5" id="country-gender-balance">
+								<div class="col-5 no-gutters" id="country-gender-balance">
 									<svg id="country-gender-pie-chart"></svg>
 								</div>
 								<!-- Age distribution histogram -->
-								<div class="col-5" id="country-age-distribution">
+								<div class="col-5 no-gutters" id="country-age-distribution">
 									<svg id="country-age-histogram"></svg>
 								</div>
 							</div>

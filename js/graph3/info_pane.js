@@ -102,16 +102,16 @@ function createFlag(d) {
         let width = this.width;
         let height = this.height;
         if (width > flagMaxWidth) {
-            console.log("width > flagMaxWidth")
+            // console.log("width > flagMaxWidth")
             this.width = flagMaxWidth;
             // this.height = height * flagMaxWidth / width;
-            console.log(this.width, this.height)
+            // console.log(this.width, this.height)
         }
         if (height > flagMaxHeight) {
-            console.log("height > flagMaxHeight")
+            // console.log("height > flagMaxHeight")
             this.height = flagMaxHeight;
             // this.width = width * flagMaxHeight / height;
-            console.log(this.width, this.height)
+            // console.log(this.width, this.height)
         }
     })
 }

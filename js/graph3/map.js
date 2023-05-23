@@ -147,7 +147,7 @@ let svg = d3.select("#map-holder")
     .attr("height", clientHeight)
     // .attr("width", map_width)
     // .attr("height", map_height)
-    .attr("viewBox", "100 0 " + w + " " + h)
+    .attr("viewBox", "100 100 " + w + " " + h)
     .attr("class", "svg-content")
 // .call(zoom)
 
@@ -158,7 +158,6 @@ let countriesGroup = svg.append("g").attr("id", "map")
 
 // Load all the json data from data/map asynchronously
 // and call the ready function to draw the map
-
 d3.queue()
     .defer(d3.json, geojson_path + "custom50_processed.json")
     .defer(d3.csv, stat_path + "country_num_users.csv", function (d) {
@@ -214,8 +213,7 @@ function ready(error, geojsonData, userData, genderData, ageData, daysData) {
         .text("A very diverse community: Over " + formatAsThousands(totalUsers) + " otakus in " + totalCountries + " countries.");
     // Same as above, but split the making of the text into different parts
 
-    /* Draw the map */
-    // 
+    // Prepare the data for the choropleth map
     for (let i = 0; i < geojsonData.features.length; i++) {
         let countryJSON = geojsonData.features[i].properties.admin;
         for (let j = 0; j < userData.length; j++) {
@@ -231,10 +229,24 @@ function ready(error, geojsonData, userData, genderData, ageData, daysData) {
         geojsonData.features[i].properties.flag_path = flag_path + geojsonData.features[i].properties.iso_a2 + ".svg";
     }
 
+    /* Country selector */
+    let countrySelector = createCountrySelector(geojsonData);
+    countrySelector.on("change", function () {
+        let countryFeature = geojsonData.features.find(d => d.properties.admin == this.value);
+        if (!countryFeature) { // e.g. "Select a country..." is selected
+            initiateZoom();
+            return;
+        }
+        onCountryFocus(countryFeature, genderData, ageData, daysData);
+    })
+
+    let studioSelector = createStudioSelector();
+
+    /* Draw the map */
     // Create an invisible background rectangle to catch zoom events
     countriesGroup.append("rect")
         .attr("x", 100)
-        .attr("y", 0)
+        .attr("y", 100)
         .attr("width", w) // 100%
         .attr("height", h) // 100%
         .attr("opacity", 0);
@@ -245,191 +257,47 @@ function ready(error, geojsonData, userData, genderData, ageData, daysData) {
         .enter()
         .append("path")
         .attr("d", path)
-        .attr("id", d => "country" + d.properties.iso_a2_eh)
+        .attr("id", function (d) {
+            return "country" + d.properties.iso_a2
+        })
         .attr("class", "country")
         .style("fill", d => d.properties.color)
         .on("mouseover", function (d) {
-            // Brighten the color on mouseover
-            d3.select(this).style("fill", d => d3.rgb(d.properties.color).brighter(0.8));
-            d3.select("#countryLabel" + d.properties.iso_a2_eh).style("display", "block");
+            // Color in blue on mouseover
+            d3.select(this).style("fill", "#2c7bb6");
+
+            // Set the value of the country selector to be the country name
+            countrySelector.property("value", d.properties.admin);
         })
         .on("mouseout", function (d) {
             d3.select(this).style("fill", d => d.properties.color);
-            d3.select("#countryLabel" + d.properties.iso_a2_eh).style("display", "none");
         })
         .on("click", function (d) {
-            // Make the click event "overrdie" the mouseover event
-
-
-            d3.selectAll(".country").classed("country-on", false);
-            d3.select(this).classed("country-on", true);
-            console.log(d)
-            // focus on the country
-            // focusOnCountry(d);
-            boxZoom(path.bounds(d), path.centroid(d), 20);
-
-            // show info pane
-            showCountryInfo(d, genderData, ageData, daysData)
-
+            onCountryFocus(d, genderData, ageData, daysData)
         });
-
-    // Add country labels
-    // createCountryLabels(geojsonData);
 
     // createZoomButtons();
 
 
-    /* Country selector */
-    createCountrySelector(userData, geojsonData, genderData, ageData, daysData);
-
     /* Country rankings */
     createCountryRankings(userData);
-
-
 }
-// kick off the demo
+
+
+function onCountryFocus(countryFeature, genderData, ageData, daysData) {
+    let countryPath = d3.select("#" + "country" + countryFeature.properties.iso_a2);
+    // d3.select(countryPath).style("fill", "orange");
+
+    // Zoom on the country
+    boxZoom(path.bounds(countryFeature), path.centroid(countryFeature), 20);
+
+    // Show info pane
+    showCountryInfo(countryFeature, genderData, ageData, daysData)
+}
+
 initiateZoom();
 
-let btn = d3.select("#graph3").append("button").text("Reset")
+let btn = d3.select("#map-reset-btn")
 btn.on("click", function () {
-    svg.call(zoom.transform, d3.zoomIdentity.translate(midX, midY).scale(minZoom));
+    initiateZoom();
 })
-
-
-function createCountryLabels(geojsonData) {
-    // Add a label group to each feature/country. This will contain the country name and a background rectangle
-    let countryLabels = countriesGroup.selectAll("g")
-        .data(geojsonData.features)
-        .enter()
-        .append("g")
-        .attr("class", "countryLabel")
-        .attr("id", function (d) {
-            return "countryLabel" + d.properties.iso_a2_eh;
-        })
-        .attr("transform", function (d) {
-            return "translate(" + path.centroid(d)[0] + "," + path.centroid(d)[1] + ")"
-        })
-        // add mouseover functionality to the label
-        .on("mouseover", function (d) {
-            d3.select(this).style("display", "block");
-        })
-        .on("mouseout", function (d) {
-            d3.select(this).style("display", "none");
-        })
-    // add an on click function to zoom into clicked country
-    // .on("click", function (d) {
-    //     d3.selectAll(".country").classed("country-on", false);
-    //     d3.select("#country" + d.properties.iso_a2_eh).classed("country-on", true);
-    //     boxZoom(path.bounds(d), path.centroid(d), 20);
-    // });
-
-    // add the text to the label group showing country name
-    countryLabels
-        .append("text")
-        .attr("class", "countryName")
-        .style("text-anchor", "middle")
-        .attr("dx", 0)
-        .attr("dy", 0)
-        .text(d => d.properties.name)
-        .call(getTextBox);
-
-    // add a background rectangle the same size as the text
-    countryLabels
-        .insert("rect", "text")
-        .attr("class", "countryLabelBg")
-        .attr("transform", function (d) {
-            return "translate(" + (d.bbox.x - 2) + "," + d.bbox.y + ")";
-        })
-        .attr("width", function (d) {
-            return d.bbox.width + 4;
-        })
-        .attr("height", function (d) {
-            return d.bbox.height;
-        });
-
-    return countryLabels
-}
-
-
-function focusOnCountry(d) {
-    let x, y, k;
-    let centroid = path.centroid(d);
-    x = centroid[0];
-    y = centroid[1];
-    k = 4;
-    countriesGroup.transition()
-        .duration(500)
-        .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-        .style("stroke-width", 1.5 / k + "px");
-}
-
-
-
-//Create zoom buttons
-function createZoomButtons() {
-
-    //Create the clickable groups
-
-    //Zoom in button
-    let zoomIn = svg.append("g")
-        .attr("class", "map_zoom")	//All share the 'zoom' class
-        .attr("id", "in")		//The ID will tell us which direction to head
-        .attr("transform", "translate(" + (w - 110) + "," + (h - 70) + ")");
-
-    zoomIn.append("rect")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("width", 30)
-        .attr("height", 30);
-
-    zoomIn.append("text")
-        .attr("x", 15)
-        .attr("y", 20)
-        .text("+");
-
-    //Zoom out button
-    let zoomOut = svg.append("g")
-        .attr("class", "map_zoom")
-        .attr("id", "out")
-        .attr("transform", "translate(" + (w - 70) + "," + (h - 70) + ")");
-
-    zoomOut.append("rect")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("width", 30)
-        .attr("height", 30);
-
-    zoomOut.append("text")
-        .attr("x", 15)
-        .attr("y", 20)
-        .html("&ndash;");
-
-    //Zooming interaction
-
-    d3.selectAll(".map_zoom")
-        .on("click", function () {
-
-            //Set how much to scale on each click
-            let scaleFactor;
-
-            //Which way are we headed?
-            let direction = d3.select(this).attr("id");
-
-            //Modify the k scale value, depending on the direction
-            switch (direction) {
-                case "in":
-                    scaleFactor = 1.5;
-                    break;
-                case "out":
-                    scaleFactor = 0.75;
-                    break;
-                default:
-                    break;
-            }
-
-            //This triggers a zoom event, scaling by 'scaleFactor'
-            map.transition()
-                .call(zoom.scaleBy, scaleFactor);
-
-        });
-};

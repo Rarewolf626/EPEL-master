@@ -1,4 +1,9 @@
-function createCountrySelector(userData, geojsonData, genderData, ageData, daysData) {
+/**
+ * 
+ * @param {*} geojsonData 
+ * @returns 
+ */
+function createCountrySelector(geojsonData) {
     let countrySelector = d3.select("#country-selector");
 
     // Keep only the admin, sovereignt, iso_a2 properties
@@ -9,16 +14,10 @@ function createCountrySelector(userData, geojsonData, genderData, ageData, daysD
                 sovereignt: d.properties.sovereignt,
                 iso_a2: d.properties.iso_a2
             }
-
-        }).sort(function (a, b) {
-            if (a.sovereignt < b.sovereignt) {
-                return -1;
-            }
-            if (a.sovereignt > b.sovereignt) {
-                return 1;
-            }
-            return 0;
-        });
+        })
+        .sort((a, b) => a.sovereignt.localeCompare(b.sovereignt));
+    
+    console.log(data)
 
     // For each sovereignt, put the entry whose admin==sovereignt first
     let sovereignt = "";
@@ -44,8 +43,8 @@ function createCountrySelector(userData, geojsonData, genderData, ageData, daysD
         .enter()
         .append("option")
         .attr("value", d => d.admin)
-        // .attr("label", d => d.admin)
-        .text(d => getFlagEmoji(d.iso_a2) + " " + d.admin);
+        .text(d => getFlagEmoji(d.iso_a2) + " " + d.admin)
+        .attr("label", d => getFlagEmoji(d.iso_a2) + " " + d.admin)
 
     let optgroups = countrySelector.selectAll("optgroup")
         .data(data.filter(d => sovereigntSet.has(d.admin)))
@@ -69,18 +68,10 @@ function createCountrySelector(userData, geojsonData, genderData, ageData, daysD
             .text(d => "• " + d.admin);
     });
 
+    return countrySelector;
+}
 
-    countrySelector.node().value = "Switzerland";
 
-    countrySelector.on("change", function () {
-        let engName = this.value;
-        console.log(engName)
-        let country = geojsonData.features.find(d => d.properties.admin == engName);
-        if (!country) {
-            console.log("Country not found");
-            return;
-        }
-        boxZoom(path.bounds(country), path.centroid(country), 20);
-        showCountryInfo(country, genderData, ageData, daysData)
-    })
+function createStudioSelector() {
+
 }

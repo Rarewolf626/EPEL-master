@@ -10,6 +10,7 @@ body {
     font-family: sans-serif;
     font-size: 100%;
     color: #333;
+    padding-left: 25px;
 }
 
 /*.float-container {
@@ -96,12 +97,7 @@ circle {
 
 
 /* ======================================== GRAPH 3 ======================================== */
-.country-selector {
-    width: 20vh;
-}
-
 .country {
-    /* country colour */
     stroke: black;
     /* country border colour */
     stroke-width: 0.05px;
@@ -109,23 +105,8 @@ circle {
 }
 
 .country-on {
-    fill: #4B5358;
+    fill: #2c7bb6;
     /* highlight colour for selected country */
-}
-
-.countryLabel {
-    display: none;
-    /* hide all country labels by default */
-}
-
-.countryName {
-    fill: #FFFAFF;
-    /* country label text colour */
-}
-
-.countryLabelBg {
-    fill: #30BCED;
-    /* country label background colour */
 }
 
 /* .infoPane {
