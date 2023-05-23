@@ -46,7 +46,7 @@ const w = 870;
 const h = 450;
 // variables for catching min and max zoom factors
 const minZoom = 1
-const maxZoom = 10 * minZoom
+const maxZoom = 20 * minZoom
 // define X and Y offset for centre of map to be shown in centre of holder
 const midX = (w - minZoom * w) / 2;
 const midY = (h - minZoom * h) / 2;
