@@ -1,607 +1,607 @@
-country,country_aff,anime_id,num_users
-Afghanistan,Afghanistan,269,1
-Afghanistan,Afghanistan,9041,1
-Afghanistan,Afghanistan,19815,1
-Albania,Albania,16498,24
-Albania,Albania,1535,23
-Albania,Albania,10620,22
-Algeria,Algeria,1535,86
-Algeria,Algeria,16498,84
-Algeria,Algeria,1735,77
-Andorra,Andorra,21,5
-Andorra,Andorra,1535,5
-Andorra,Andorra,21881,4
-Angola,Angola,20,7
-Angola,Angola,1535,7
-Angola,Angola,16498,7
-Anguilla,United Kingdom,66,1
-Anguilla,United Kingdom,269,1
-Anguilla,United Kingdom,1698,1
-Antarctica,Antarctica,1535,48
-Antarctica,Antarctica,2167,47
-Antarctica,Antarctica,199,45
-Antigua and Barbuda,Antigua and Barbuda,20,5
-Antigua and Barbuda,Antigua and Barbuda,249,5
-Antigua and Barbuda,Antigua and Barbuda,21,4
-Argentina,Argentina,1535,767
-Argentina,Argentina,226,636
-Argentina,Argentina,30,632
-Armenia,Armenia,1735,5
-Armenia,Armenia,1575,5
-Armenia,Armenia,205,5
-Aruba,Aruba,1735,8
-Aruba,Aruba,4224,8
-Aruba,Aruba,1195,8
-Australia,Australia,1535,2839
-Australia,Australia,1575,2495
-Australia,Australia,6547,2456
-Austria,Austria,1535,419
-Austria,Austria,226,381
-Austria,Austria,1575,350
-Azerbaijan,Azerbaijan,1535,44
-Azerbaijan,Azerbaijan,199,39
-Azerbaijan,Azerbaijan,431,37
-Bahamas,Bahamas,4224,11
-Bahamas,Bahamas,20,10
-Bahamas,Bahamas,918,9
-Bahrain,Bahrain,1535,78
-Bahrain,Bahrain,20,69
-Bahrain,Bahrain,269,67
-Bangladesh,Bangladesh,1535,299
-Bangladesh,Bangladesh,5114,286
-Bangladesh,Bangladesh,1575,269
-Barbados,Barbados,3457,8
-Barbados,Barbados,1535,8
-Barbados,Barbados,269,7
-Belarus,Belarus,1535,153
-Belarus,Belarus,226,140
-Belarus,Belarus,849,138
-Belgium,Belgium,1535,769
-Belgium,Belgium,226,649
-Belgium,Belgium,1575,647
-Belize,Belize,16498,7
-Belize,Belize,269,7
-Belize,Belize,1535,6
-Benin,Benin,20,1
-Benin,Benin,5114,1
-Benin,Benin,2404,1
-Bermuda,United Kingdom,1,3
-Bermuda,United Kingdom,269,3
-Bermuda,United Kingdom,6573,3
-Bhutan,Bhutan,20,5
-Bhutan,Bhutan,21,5
-Bhutan,Bhutan,9513,5
-Bolivia,Bolivia,16498,11
-Bolivia,Bolivia,30,11
-Bolivia,Bolivia,5081,11
-Bosnia and Herzegovina,Bosnia and Herzegovina,1535,101
-Bosnia and Herzegovina,Bosnia and Herzegovina,226,88
-Bosnia and Herzegovina,Bosnia and Herzegovina,20,83
-Botswana,Botswana,813,2
-Botswana,Botswana,20,2
-Botswana,Botswana,68,1
-Bouvet Island,Norway,6,1
-Bouvet Island,Norway,1445,1
-Bouvet Island,Norway,2210,1
-Brazil,Brazil,1535,6627
-Brazil,Brazil,5114,5506
-Brazil,Brazil,20,5355
-British Virgin Islands,United Kingdom,101,1
-British Virgin Islands,United Kingdom,10683,1
-British Virgin Islands,United Kingdom,10906,1
-Brunei Darussalam,Brunei Darussalam,11757,28
-Brunei Darussalam,Brunei Darussalam,4224,27
-Brunei Darussalam,Brunei Darussalam,16498,24
-Bulgaria,Bulgaria,1535,813
-Bulgaria,Bulgaria,20,713
-Bulgaria,Bulgaria,269,694
-Burkina Faso,Burkina Faso,1,4
-Burkina Faso,Burkina Faso,853,4
-Burkina Faso,Burkina Faso,7311,4
-Cabo Verde,Cabo Verde,1,2
-Cabo Verde,Cabo Verde,1575,2
-Cabo Verde,Cabo Verde,34599,2
-Cambodia,Cambodia,11757,9
-Cambodia,Cambodia,16498,9
-Cambodia,Cambodia,4224,9
-Cameroon,Cameroon,20583,2
-Cameroon,Cameroon,27991,2
-Cameroon,Cameroon,457,2
-Canada,Canada,1535,5110
-Canada,Canada,1575,4469
-Canada,Canada,4224,4305
-Canarias,Spain,1535,34
-Canarias,Spain,4224,34
-Canarias,Spain,10620,33
-Cayman Islands,United Kingdom,1,4
-Cayman Islands,United Kingdom,918,4
-Cayman Islands,United Kingdom,4898,4
-Chad,Chad,1,2
-Chad,Chad,1604,2
-Chad,Chad,226,2
-Chile,Chile,1535,492
-Chile,Chile,4224,428
-Chile,Chile,226,424
-China,China,1535,194
-China,China,1575,194
-China,China,6547,190
-Christmas Island,Australia,1,1
-Christmas Island,Australia,19111,1
-Christmas Island,Australia,32189,1
-Colombia,Colombia,1535,287
-Colombia,Colombia,226,251
-Colombia,Colombia,5114,245
-Comoros,Comoros,1,1
-Comoros,Comoros,10721,1
-Comoros,Comoros,11319,1
-Congo,Congo,1,1
-Congo,Congo,530,1
-Congo,Congo,762,1
-Congo DRC,Congo DRC,121,4
-Congo DRC,Congo DRC,6,3
-Congo DRC,Congo DRC,21881,3
-Costa Rica,Costa Rica,1535,119
-Costa Rica,Costa Rica,226,105
-Costa Rica,Costa Rica,30,103
-Croatia,Croatia,1535,511
-Croatia,Croatia,16498,399
-Croatia,Croatia,226,392
-Cuba,Cuba,2904,5
-Cuba,Cuba,1575,5
-Cuba,Cuba,1535,5
-Curacao,Netherlands,20,2
-Curacao,Netherlands,1482,2
-Curacao,Netherlands,10161,2
-Cyprus,Cyprus,1535,31
-Cyprus,Cyprus,1575,29
-Cyprus,Cyprus,11757,28
-Czech Republic,Czech Republic,1535,465
-Czech Republic,Czech Republic,20,396
-Czech Republic,Czech Republic,226,387
-Côte d'Ivoire,Côte d'Ivoire,30,1
-Côte d'Ivoire,Côte d'Ivoire,21327,1
-Côte d'Ivoire,Côte d'Ivoire,21843,1
-Denmark,Denmark,1535,594
-Denmark,Denmark,226,518
-Denmark,Denmark,20,513
-Djibouti,Djibouti,2476,3
-Djibouti,Djibouti,1,2
-Djibouti,Djibouti,14345,2
-Dominica,Dominica,18897,4
-Dominica,Dominica,18153,4
-Dominica,Dominica,7054,4
-Dominican Republic,Dominican Republic,1535,60
-Dominican Republic,Dominican Republic,121,56
-Dominican Republic,Dominican Republic,5114,53
-Ecuador,Ecuador,1535,53
-Ecuador,Ecuador,16498,44
-Ecuador,Ecuador,10620,44
-Egypt,Egypt,1535,254
-Egypt,Egypt,16498,226
-Egypt,Egypt,1575,218
-El Salvador,El Salvador,1535,28
-El Salvador,El Salvador,5081,25
-El Salvador,El Salvador,3588,24
-Equatorial Guinea,Equatorial Guinea,1,1
-Equatorial Guinea,Equatorial Guinea,8888,1
-Equatorial Guinea,Equatorial Guinea,9479,1
-Estonia,Estonia,1535,335
-Estonia,Estonia,226,288
-Estonia,Estonia,1575,278
-Eswatini,Eswatini,1,2
-Eswatini,Eswatini,16498,2
-Eswatini,Eswatini,18507,2
-Faroe Islands,Denmark,4224,9
-Faroe Islands,Denmark,16498,9
-Faroe Islands,Denmark,2167,8
-Fiji,Fiji,22319,5
-Fiji,Fiji,22199,5
-Fiji,Fiji,1575,5
-Finland,Finland,1535,1265
-Finland,Finland,226,1073
-Finland,Finland,199,1065
-France,France,1535,2224
-France,France,1575,2160
-France,France,16498,1981
-French Guiana,France,121,1
-French Guiana,France,9330,1
-French Guiana,France,10793,1
-French Polynesia,France,3588,4
-French Polynesia,France,28171,4
-French Polynesia,France,31636,4
-Gabon,Gabon,21,1
-Gabon,Gabon,12467,1
-Gabon,Gabon,12403,1
-Georgia,Georgia,1535,111
-Georgia,Georgia,1575,103
-Georgia,Georgia,199,102
-Germany,Germany,1535,3228
-Germany,Germany,226,2981
-Germany,Germany,1575,2737
-Ghana,Ghana,617,3
-Ghana,Ghana,20,3
-Ghana,Ghana,5114,3
-Greece,Greece,1535,834
-Greece,Greece,16498,709
-Greece,Greece,5114,688
-Greenland,Denmark,1535,7
-Greenland,Denmark,269,6
-Greenland,Denmark,16498,5
-Grenada,Grenada,2167,3
-Grenada,Grenada,1535,3
-Grenada,Grenada,877,3
-Guam,United States,4224,14
-Guam,United States,8074,14
-Guam,United States,9989,13
-Guatemala,Guatemala,1535,47
-Guatemala,Guatemala,226,42
-Guatemala,Guatemala,16498,40
-Guernsey,United Kingdom,1535,26
-Guernsey,United Kingdom,6746,23
-Guernsey,United Kingdom,11757,23
-Guinea,Guinea,5114,2
-Guinea,Guinea,1535,2
-Guinea,Guinea,11757,2
-Guyana,Guyana,4224,6
-Guyana,Guyana,6547,6
-Guyana,Guyana,8424,5
-Haiti,Haiti,20,3
-Haiti,Haiti,1,2
-Haiti,Haiti,2001,2
-Honduras,Honduras,1535,19
-Honduras,Honduras,4224,18
-Honduras,Honduras,6746,16
-Hungary,Hungary,1535,909
-Hungary,Hungary,226,796
-Hungary,Hungary,269,721
-Iceland,Iceland,1535,58
-Iceland,Iceland,1575,53
-Iceland,Iceland,5114,53
-India,India,1535,916
-India,India,5114,805
-India,India,16498,796
-Indonesia,Indonesia,6547,1919
-Indonesia,Indonesia,11757,1917
-Indonesia,Indonesia,16498,1739
-Iran,Iran,1535,103
-Iran,Iran,20,79
-Iran,Iran,5114,79
-Iraq,Iraq,1535,73
-Iraq,Iraq,16498,62
-Iraq,Iraq,20,61
-Ireland,Ireland,1535,354
-Ireland,Ireland,226,272
-Ireland,Ireland,16498,271
-Isle of Man,United Kingdom,269,4
-Isle of Man,United Kingdom,6746,3
-Isle of Man,United Kingdom,5114,3
-Israel,Israel,1535,497
-Israel,Israel,269,419
-Israel,Israel,20,402
-Italy,Italy,1535,1454
-Italy,Italy,4224,1244
-Italy,Italy,1575,1193
-Jamaica,Jamaica,1735,36
-Jamaica,Jamaica,269,35
-Jamaica,Jamaica,1575,34
-Jersey,United Kingdom,2167,11
-Jersey,United Kingdom,1535,10
-Jersey,United Kingdom,849,10
-Jordan,Jordan,1535,69
-Jordan,Jordan,16498,57
-Jordan,Jordan,9253,52
-Kazakhstan,Kazakhstan,1535,59
-Kazakhstan,Kazakhstan,1575,59
-Kazakhstan,Kazakhstan,226,58
-Kenya,Kenya,269,19
-Kenya,Kenya,1575,17
-Kenya,Kenya,1535,17
-Kiribati,Kiribati,1,1
-Kiribati,Kiribati,25731,1
-Kiribati,Kiribati,25157,1
-Kosovo,Kosovo,4654,8
-Kosovo,Kosovo,11111,8
-Kosovo,Kosovo,2025,8
-Kuwait,Kuwait,1535,122
-Kuwait,Kuwait,20,105
-Kuwait,Kuwait,1575,102
-Kyrgyzstan,Kyrgyzstan,14829,2
-Kyrgyzstan,Kyrgyzstan,9989,2
-Kyrgyzstan,Kyrgyzstan,14813,2
-Laos,Laos,1,2
-Laos,Laos,5205,2
-Laos,Laos,9969,2
-Latvia,Latvia,1535,360
-Latvia,Latvia,226,333
-Latvia,Latvia,1575,309
-Lebanon,Lebanon,1535,39
-Lebanon,Lebanon,1575,33
-Lebanon,Lebanon,5114,32
-Liberia,Liberia,20,2
-Liberia,Liberia,849,2
-Liberia,Liberia,2167,2
-Libya,Libya,1535,31
-Libya,Libya,1735,26
-Libya,Libya,20,25
-Liechtenstein,Liechtenstein,5081,5
-Liechtenstein,Liechtenstein,6547,5
-Liechtenstein,Liechtenstein,30276,5
-Lithuania,Lithuania,1535,698
-Lithuania,Lithuania,226,606
-Lithuania,Lithuania,20,545
-Luxembourg,Luxembourg,1535,31
-Luxembourg,Luxembourg,226,28
-Luxembourg,Luxembourg,4224,26
-Madagascar,Madagascar,1535,7
-Madagascar,Madagascar,226,7
-Madagascar,Madagascar,4224,7
-Malaysia,Malaysia,4224,628
-Malaysia,Malaysia,6547,603
-Malaysia,Malaysia,11757,583
-Maldives,Maldives,1535,17
-Maldives,Maldives,20,16
-Maldives,Maldives,21,16
-Mali,Mali,1535,2
-Mali,Mali,877,2
-Mali,Mali,120,2
-Malta,Malta,1535,60
-Malta,Malta,16498,46
-Malta,Malta,226,45
-Marshall Islands,Marshall Islands,2001,1
-Marshall Islands,Marshall Islands,4224,1
-Marshall Islands,Marshall Islands,5680,1
-Mauritania,Mauritania,1,1
-Mauritania,Mauritania,572,1
-Mauritania,Mauritania,579,1
-Mauritius,Mauritius,1535,32
-Mauritius,Mauritius,269,28
-Mauritius,Mauritius,20,27
-Mexico,Mexico,1535,830
-Mexico,Mexico,226,719
-Mexico,Mexico,30,711
-Moldova,Moldova,1535,47
-Moldova,Moldova,1575,42
-Moldova,Moldova,269,41
-Monaco,Monaco,1,5
-Monaco,Monaco,4224,5
-Monaco,Monaco,918,5
-Mongolia,Mongolia,5114,59
-Mongolia,Mongolia,1535,57
-Mongolia,Mongolia,6547,55
-Montenegro,Montenegro,1535,21
-Montenegro,Montenegro,121,17
-Montenegro,Montenegro,1575,17
-Morocco,Morocco,1535,146
-Morocco,Morocco,16498,133
-Morocco,Morocco,1575,130
-Mozambique,Mozambique,1,2
-Mozambique,Mozambique,11761,2
-Mozambique,Mozambique,12431,2
-Myanmar,Myanmar,11757,17
-Myanmar,Myanmar,20,16
-Myanmar,Myanmar,6702,16
-Namibia,Namibia,1,2
-Namibia,Namibia,7817,2
-Namibia,Namibia,4106,2
-Nepal,Nepal,11757,40
-Nepal,Nepal,1535,39
-Nepal,Nepal,20,38
-Netherlands,Netherlands,1535,2552
-Netherlands,Netherlands,226,2094
-Netherlands,Netherlands,11757,2086
-New Caledonia,France,7647,2
-New Caledonia,France,6347,2
-New Caledonia,France,5081,2
-New Zealand,New Zealand,1535,570
-New Zealand,New Zealand,6547,487
-New Zealand,New Zealand,11757,482
-Nicaragua,Nicaragua,226,9
-Nicaragua,Nicaragua,1535,9
-Nicaragua,Nicaragua,269,8
-Nigeria,Nigeria,20,22
-Nigeria,Nigeria,1535,22
-Nigeria,Nigeria,1575,21
-North Korea,North Korea,226,13
-North Korea,North Korea,849,12
-North Korea,North Korea,7311,12
-North Macedonia,North Macedonia,1535,41
-North Macedonia,North Macedonia,269,34
-North Macedonia,North Macedonia,2904,33
-Northern Mariana Islands,United States,8425,2
-Northern Mariana Islands,United States,5081,2
-Northern Mariana Islands,United States,13759,2
-Norway,Norway,1535,1186
-Norway,Norway,226,998
-Norway,Norway,20,989
-Null Island,Null Island,19,1
-Null Island,Null Island,30363,1
-Null Island,Null Island,28851,1
-Oman,Oman,1535,24
-Oman,Oman,269,21
-Oman,Oman,1735,20
-Pakistan,Pakistan,1535,167
-Pakistan,Pakistan,20,149
-Pakistan,Pakistan,16498,147
-Palestinian Territory,Palestinian Territory,16498,18
-Palestinian Territory,Palestinian Territory,1535,17
-Palestinian Territory,Palestinian Territory,269,16
-Panama,Panama,1535,43
-Panama,Panama,226,36
-Panama,Panama,16498,31
-Papua New Guinea,Papua New Guinea,199,5
-Papua New Guinea,Papua New Guinea,4382,3
-Papua New Guinea,Papua New Guinea,1535,3
-Paraguay,Paraguay,226,19
-Paraguay,Paraguay,1535,19
-Paraguay,Paraguay,2001,19
-Peru,Peru,1535,186
-Peru,Peru,4224,156
-Peru,Peru,30,155
-Philippines,Philippines,4224,2203
-Philippines,Philippines,1535,2156
-Philippines,Philippines,1575,2013
-Pitcairn,United Kingdom,1689,2
-Pitcairn,United Kingdom,11319,1
-Pitcairn,United Kingdom,11021,1
-Poland,Poland,1535,7043
-Poland,Poland,1575,5838
-Poland,Poland,226,5746
-Portugal,Portugal,1535,2107
-Portugal,Portugal,20,1781
-Portugal,Portugal,16498,1729
-Puerto Rico,United States,1535,143
-Puerto Rico,United States,16498,131
-Puerto Rico,United States,4224,123
-Qatar,Qatar,1535,58
-Qatar,Qatar,6746,47
-Qatar,Qatar,1575,47
-Romania,Romania,1535,1259
-Romania,Romania,20,1063
-Romania,Romania,269,1006
-Russian Federation,Russian Federation,1535,3832
-Russian Federation,Russian Federation,849,3348
-Russian Federation,Russian Federation,1575,3326
-Réunion,France,1535,6
-Réunion,France,9253,5
-Réunion,France,6547,5
-Saint Kitts and Nevis,Saint Kitts and Nevis,20,4
-Saint Kitts and Nevis,Saint Kitts and Nevis,3588,4
-Saint Kitts and Nevis,Saint Kitts and Nevis,2167,4
-Saint Lucia,Saint Lucia,10793,5
-Saint Lucia,Saint Lucia,226,5
-Saint Lucia,Saint Lucia,8074,4
-Saint Pierre and Miquelon,France,1535,2
-Saint Pierre and Miquelon,France,7054,2
-Saint Pierre and Miquelon,France,164,2
-Saint Vincent and the Grenadines,Saint Vincent and the Grenadines,30015,3
-Saint Vincent and the Grenadines,Saint Vincent and the Grenadines,934,3
-Saint Vincent and the Grenadines,Saint Vincent and the Grenadines,15809,3
-Samoa,Samoa,1,1
-Samoa,Samoa,7674,1
-Samoa,Samoa,7148,1
-San Marino,San Marino,19,2
-San Marino,San Marino,14467,2
-San Marino,San Marino,19815,2
-Saudi Arabia,Saudi Arabia,1535,675
-Saudi Arabia,Saudi Arabia,16498,575
-Saudi Arabia,Saudi Arabia,5114,569
-Serbia,Serbia,1535,425
-Serbia,Serbia,20,353
-Serbia,Serbia,269,334
-Seychelles,Seychelles,20,2
-Seychelles,Seychelles,1313,2
-Seychelles,Seychelles,356,2
-Sierra Leone,Sierra Leone,199,2
-Sierra Leone,Sierra Leone,43,2
-Sierra Leone,Sierra Leone,47,2
-Singapore,Singapore,4224,705
-Singapore,Singapore,1575,637
-Singapore,Singapore,2167,632
-Slovakia,Slovakia,1535,327
-Slovakia,Slovakia,226,305
-Slovakia,Slovakia,20,272
-Slovenia,Slovenia,1535,139
-Slovenia,Slovenia,16498,118
-Slovenia,Slovenia,11757,114
-Solomon Islands,Solomon Islands,1,1
-Solomon Islands,Solomon Islands,11771,1
-Solomon Islands,Solomon Islands,10800,1
-Somalia,Somalia,1575,2
-Somalia,Somalia,30484,1
-Somalia,Somalia,33352,1
-South Africa,South Africa,1535,280
-South Africa,South Africa,1575,242
-South Africa,South Africa,269,239
-South Georgia and South Sandwich Islands,United Kingdom,1,1
-South Georgia and South Sandwich Islands,United Kingdom,17827,1
-South Georgia and South Sandwich Islands,United Kingdom,16706,1
-South Korea,South Korea,1535,144
-South Korea,South Korea,1575,126
-South Korea,South Korea,4224,124
-Spain,Spain,1535,1734
-Spain,Spain,16498,1548
-Spain,Spain,11757,1529
-Sri Lanka,Sri Lanka,1535,42
-Sri Lanka,Sri Lanka,16498,39
-Sri Lanka,Sri Lanka,11757,38
-Sudan,Sudan,1575,21
-Sudan,Sudan,16498,20
-Sudan,Sudan,5114,19
-Suriname,Suriname,20,8
-Suriname,Suriname,1735,7
-Suriname,Suriname,269,7
-Svalbard,Norway,1575,3
-Svalbard,Norway,10793,3
-Svalbard,Norway,5680,3
-Sweden,Sweden,1535,1880
-Sweden,Sweden,226,1652
-Sweden,Sweden,20,1627
-Switzerland,Switzerland,1535,237
-Switzerland,Switzerland,1575,207
-Switzerland,Switzerland,11757,205
-Syria,Syria,1535,47
-Syria,Syria,1575,47
-Syria,Syria,9253,43
-Taiwan,Taiwan,199,33
-Taiwan,Taiwan,16498,33
-Taiwan,Taiwan,6547,32
-Tanzania,Tanzania,1887,3
-Tanzania,Tanzania,8676,3
-Tanzania,Tanzania,4654,3
-Thailand,Thailand,4224,186
-Thailand,Thailand,6547,165
-Thailand,Thailand,1575,161
-Togo,Togo,1,1
-Togo,Togo,2246,1
-Togo,Togo,3701,1
-Trinidad and Tobago,Trinidad and Tobago,1535,48
-Trinidad and Tobago,Trinidad and Tobago,269,46
-Trinidad and Tobago,Trinidad and Tobago,20,45
-Tunisia,Tunisia,1535,102
-Tunisia,Tunisia,16498,89
-Tunisia,Tunisia,1575,86
-Turkey,Turkey,1535,1188
-Turkey,Turkey,226,975
-Turkey,Turkey,269,973
-US Virgin Islands,United States,853,3
-US Virgin Islands,United States,17265,3
-US Virgin Islands,United States,150,3
-Uganda,Uganda,9253,7
-Uganda,Uganda,226,7
-Uganda,Uganda,1535,7
-Ukraine,Ukraine,1535,664
-Ukraine,Ukraine,226,603
-Ukraine,Ukraine,1575,571
-United Arab Emirates,United Arab Emirates,1535,366
-United Arab Emirates,United Arab Emirates,16498,318
-United Arab Emirates,United Arab Emirates,1575,311
-United Kingdom,United Kingdom,1535,5572
-United Kingdom,United Kingdom,226,4334
-United Kingdom,United Kingdom,1575,4299
-United States,United States,1535,21996
-United States,United States,1575,18678
-United States,United States,121,17780
-Uruguay,Uruguay,1535,76
-Uruguay,Uruguay,226,67
-Uruguay,Uruguay,4224,64
-Uzbekistan,Uzbekistan,1535,9
-Uzbekistan,Uzbekistan,6746,8
-Uzbekistan,Uzbekistan,1689,8
-Vatican City,Vatican City,31043,3
-Vatican City,Vatican City,31964,3
-Vatican City,Vatican City,13759,3
-Venezuela,Venezuela,1535,255
-Venezuela,Venezuela,226,225
-Venezuela,Venezuela,30,210
-Vietnam,Vietnam,6547,184
-Vietnam,Vietnam,4224,174
-Vietnam,Vietnam,11757,165
-Yemen,Yemen,4224,7
-Yemen,Yemen,1535,7
-Yemen,Yemen,5680,7
-Zambia,Zambia,1,2
-Zambia,Zambia,1827,2
-Zambia,Zambia,1943,2
-Zimbabwe,Zimbabwe,11757,7
-Zimbabwe,Zimbabwe,10620,6
-Zimbabwe,Zimbabwe,9253,6
+,country,anime_id,num_ratings
+0,Afghanistan,269,1
+1,Afghanistan,481,1
+2,Afghanistan,482,1
+31,Albania,16498,24
+32,Albania,1535,23
+33,Albania,10620,22
+2895,Algeria,1535,86
+2896,Algeria,16498,84
+2897,Algeria,1735,77
+7667,Andorra,21,5
+7668,Andorra,1535,5
+7669,Andorra,849,4
+8417,Angola,20,7
+8418,Angola,1535,7
+8419,Angola,16498,7
+9880,Anguilla,66,1
+9881,Anguilla,269,1
+9882,Anguilla,1698,1
+9889,Antarctica,1535,48
+9890,Antarctica,2167,47
+9891,Antarctica,199,45
+14806,Antigua and Barbuda,20,5
+14807,Antigua and Barbuda,249,5
+14808,Antigua and Barbuda,21,4
+15722,Argentina,1535,767
+15723,Argentina,226,636
+15724,Argentina,30,632
+25633,Armenia,199,5
+25634,Armenia,205,5
+25635,Armenia,226,5
+26456,Aruba,1735,8
+26457,Aruba,4224,8
+26458,Aruba,1195,8
+27814,Australia,1535,2839
+27815,Australia,1575,2495
+27816,Australia,6547,2456
+40814,Austria,1535,419
+40815,Austria,226,381
+40816,Austria,1575,350
+49117,Azerbaijan,1535,44
+49118,Azerbaijan,199,39
+49119,Azerbaijan,431,37
+53151,Bahamas,4224,11
+53152,Bahamas,20,10
+53153,Bahamas,269,9
+55165,Bahrain,1535,78
+55166,Bahrain,20,69
+55167,Bahrain,21,67
+59577,Bangladesh,1535,299
+59578,Bangladesh,5114,286
+59579,Bangladesh,1575,269
+66405,Barbados,1535,8
+66406,Barbados,3457,8
+66407,Barbados,269,7
+68189,Belarus,1535,153
+68190,Belarus,226,140
+68191,Belarus,849,138
+74682,Belgium,1535,769
+74683,Belgium,226,649
+74684,Belgium,1575,647
+85637,Belize,269,7
+85638,Belize,16498,7
+85639,Belize,22319,6
+86846,Benin,20,1
+86847,Benin,45,1
+86848,Benin,68,1
+86908,Bermuda,1,3
+86909,Bermuda,20,3
+86910,Bermuda,30,3
+88004,Bhutan,20,5
+88005,Bhutan,21,5
+88006,Bhutan,199,5
+89364,Bolivia,30,11
+89365,Bolivia,5081,11
+89366,Bolivia,16498,11
+91637,Bosnia and Herzegovina,1535,101
+91638,Bosnia and Herzegovina,226,88
+91639,Bosnia and Herzegovina,20,83
+98672,Botswana,20,2
+98673,Botswana,813,2
+98674,Botswana,68,1
+98778,Bouvet Island,6,1
+98779,Bouvet Island,26,1
+98780,Bouvet Island,30,1
+98870,Brazil,1535,6627
+98871,Brazil,5114,5506
+98872,Brazil,20,5355
+112625,British Virgin Islands,101,1
+112626,British Virgin Islands,119,1
+112627,British Virgin Islands,121,1
+112935,Brunei Darussalam,11757,28
+112936,Brunei Darussalam,4224,27
+112937,Brunei Darussalam,2167,24
+117078,Bulgaria,1535,813
+117079,Bulgaria,20,713
+117080,Bulgaria,269,694
+127185,Burkina Faso,1,4
+127186,Burkina Faso,19,4
+127187,Burkina Faso,20,4
+129562,Cabo Verde,1,2
+129563,Cabo Verde,43,2
+129564,Cabo Verde,226,2
+129975,Cambodia,4224,9
+129976,Cambodia,11757,9
+129977,Cambodia,16498,9
+132258,Cameroon,20,2
+132259,Cameroon,43,2
+132260,Cameroon,121,2
+133779,Canada,1535,5110
+133780,Canada,1575,4469
+133781,Canada,4224,4305
+146010,Canarias,1535,34
+146011,Canarias,4224,34
+146012,Canarias,10620,33
+150185,Cayman Islands,1,4
+150186,Cayman Islands,20,4
+150187,Cayman Islands,21,4
+151354,Chad,1,2
+151355,Chad,6,2
+151356,Chad,20,2
+152007,Chile,1535,492
+152008,Chile,4224,428
+152009,Chile,226,424
+161484,China,1535,194
+161485,China,1575,194
+161486,China,6547,190
+169476,Christmas Island,1,1
+169477,Christmas Island,30,1
+169478,Christmas Island,31,1
+169557,Colombia,1535,287
+169558,Colombia,226,251
+169559,Colombia,5114,245
+177360,Comoros,1,1
+177361,Comoros,6,1
+177362,Comoros,15,1
+177773,Congo,1,1
+177774,Congo,20,1
+177775,Congo,21,1
+177814,Congo DRC,121,4
+177815,Congo DRC,6,3
+177816,Congo DRC,249,3
+178851,Costa Rica,1535,119
+178852,Costa Rica,226,105
+178853,Costa Rica,30,103
+186251,Croatia,1535,511
+186252,Croatia,16498,399
+186253,Croatia,226,392
+194716,Cuba,1535,5
+194717,Cuba,1575,5
+194718,Cuba,2904,5
+195870,Curacao,20,2
+195871,Curacao,61,2
+195872,Curacao,269,2
+196104,Cyprus,1535,31
+196105,Cyprus,1575,29
+196106,Cyprus,5114,28
+199664,Czech Republic,1535,465
+199665,Czech Republic,20,396
+199666,Czech Republic,226,387
+210682,Côte d'Ivoire,30,1
+210683,Côte d'Ivoire,32,1
+210684,Côte d'Ivoire,97,1
+211088,Denmark,1535,594
+211089,Denmark,226,518
+211090,Denmark,20,513
+219866,Djibouti,2476,3
+219867,Djibouti,1,2
+219868,Djibouti,205,2
+220108,Dominica,853,4
+220109,Dominica,6547,4
+220110,Dominica,7054,4
+221045,Dominican Republic,1535,60
+221046,Dominican Republic,121,56
+221047,Dominican Republic,5114,53
+225985,Ecuador,1535,53
+225986,Ecuador,10620,44
+225987,Ecuador,16498,44
+231373,Egypt,1535,254
+231374,Egypt,16498,226
+231375,Egypt,1575,218
+238629,El Salvador,1535,28
+238630,El Salvador,5081,25
+238631,El Salvador,2001,24
+242618,Equatorial Guinea,1,1
+242619,Equatorial Guinea,6,1
+242620,Equatorial Guinea,15,1
+242934,Estonia,1535,335
+242935,Estonia,226,288
+242936,Estonia,1575,278
+251773,Eswatini,1,2
+251774,Eswatini,4898,2
+251775,Eswatini,16498,2
+251874,Faroe Islands,16498,9
+251875,Faroe Islands,4224,9
+251876,Faroe Islands,20,8
+255349,Fiji,1575,5
+255350,Fiji,22199,5
+255351,Fiji,22319,5
+256500,Finland,1535,1265
+256501,Finland,226,1073
+256502,Finland,199,1065
+268479,France,1535,2224
+268480,France,1575,2160
+268481,France,16498,1981
+282910,French Guiana,121,1
+282911,French Guiana,164,1
+282912,French Guiana,199,1
+282967,French Polynesia,199,4
+282968,French Polynesia,226,4
+282969,French Polynesia,1575,4
+285042,Gabon,21,1
+285043,Gabon,33,1
+285044,Gabon,44,1
+285437,Georgia,1535,111
+285438,Georgia,1575,103
+285439,Georgia,199,102
+291630,Germany,1535,3228
+291631,Germany,226,2981
+291632,Germany,1575,2737
+305282,Ghana,617,3
+305283,Ghana,1535,3
+305284,Ghana,2952,3
+305887,Greece,1535,834
+305888,Greece,16498,709
+305889,Greece,5114,688
+315910,Greenland,1535,7
+315911,Greenland,269,6
+315912,Greenland,226,5
+317798,Grenada,20,3
+317799,Grenada,101,3
+317800,Grenada,121,3
+318626,Guam,4224,14
+318627,Guam,8074,14
+318628,Guam,9989,13
+320405,Guatemala,1535,47
+320406,Guatemala,226,42
+320407,Guatemala,16498,40
+326111,Guernsey,1535,26
+326112,Guernsey,199,23
+326113,Guernsey,6746,23
+329721,Guinea,1535,2
+329722,Guinea,5114,2
+329723,Guinea,11757,2
+330006,Guyana,4224,6
+330007,Guyana,6547,6
+330008,Guyana,1575,5
+331920,Haiti,20,3
+331921,Haiti,1,2
+331922,Haiti,6,2
+332575,Honduras,1535,19
+332576,Honduras,4224,18
+332577,Honduras,226,16
+334940,Hungary,1535,909
+334941,Hungary,226,796
+334942,Hungary,269,721
+346071,Iceland,1535,58
+346072,Iceland,1575,53
+346073,Iceland,5114,53
+350515,India,1535,916
+350516,India,5114,805
+350517,India,16498,796
+364909,Indonesia,6547,1919
+364910,Indonesia,11757,1917
+364911,Indonesia,16498,1739
+375577,Iran,1535,103
+375578,Iran,20,79
+375579,Iran,5114,79
+381080,Iraq,1535,73
+381081,Iraq,16498,62
+381082,Iraq,20,61
+386345,Ireland,1535,354
+386346,Ireland,226,272
+386347,Ireland,16498,271
+393074,Isle of Man,269,4
+393075,Isle of Man,47,3
+393076,Isle of Man,121,3
+393547,Israel,1535,497
+393548,Israel,269,419
+393549,Israel,20,402
+401964,Italy,1535,1454
+401965,Italy,4224,1244
+401966,Italy,1575,1193
+413739,Jamaica,1735,36
+413740,Jamaica,269,35
+413741,Jamaica,1575,34
+418824,Jersey,2167,11
+418825,Jersey,849,10
+418826,Jersey,1535,10
+420656,Jordan,1535,69
+420657,Jordan,16498,57
+420658,Jordan,5114,52
+424904,Kazakhstan,1535,59
+424905,Kazakhstan,1575,59
+424906,Kazakhstan,226,58
+429963,Kenya,269,19
+429964,Kenya,1535,17
+429965,Kenya,1575,17
+433383,Kiribati,1,1
+433384,Kiribati,5,1
+433385,Kiribati,6,1
+433996,Kosovo,918,8
+433997,Kosovo,2025,8
+433998,Kosovo,4654,8
+435654,Kuwait,1535,122
+435655,Kuwait,20,105
+435656,Kuwait,1575,102
+441440,Kyrgyzstan,486,2
+441441,Kyrgyzstan,516,2
+441442,Kyrgyzstan,934,2
+442166,Laos,1,2
+442167,Laos,20,2
+442168,Laos,21,2
+442701,Latvia,1535,360
+442702,Latvia,226,333
+442703,Latvia,1575,309
+451191,Lebanon,1535,39
+451192,Lebanon,1575,33
+451193,Lebanon,5114,32
+457498,Liberia,20,2
+457499,Liberia,121,2
+457500,Liberia,205,2
+457799,Libya,1535,31
+457800,Libya,1735,26
+457801,Libya,20,25
+460590,Liechtenstein,5081,5
+460591,Liechtenstein,6547,5
+460592,Liechtenstein,10087,5
+461469,Lithuania,1535,698
+461470,Lithuania,226,606
+461471,Lithuania,20,545
+470067,Luxembourg,1535,31
+470068,Luxembourg,226,28
+470069,Luxembourg,1575,26
+474213,Madagascar,226,7
+474214,Madagascar,1535,7
+474215,Madagascar,4224,7
+475803,Malaysia,4224,628
+475804,Malaysia,6547,603
+475805,Malaysia,11757,583
+484871,Maldives,1535,17
+484872,Maldives,20,16
+484873,Maldives,21,16
+487595,Mali,120,2
+487596,Mali,877,2
+487597,Mali,1535,2
+487798,Malta,1535,60
+487799,Malta,16498,46
+487800,Malta,226,45
+492322,Marshall Islands,2001,1
+492323,Marshall Islands,4224,1
+492324,Marshall Islands,5680,1
+492336,Mauritania,1,1
+492337,Mauritania,21,1
+492338,Mauritania,24,1
+492397,Mauritius,1535,32
+492398,Mauritius,269,28
+492399,Mauritius,20,27
+496230,Mexico,1535,830
+496231,Mexico,226,719
+496232,Mexico,30,711
+506941,Moldova,1535,47
+506942,Moldova,1575,42
+506943,Moldova,269,41
+511119,Monaco,1,5
+511120,Monaco,918,5
+511121,Monaco,1195,5
+512658,Mongolia,5114,59
+512659,Mongolia,1535,57
+512660,Mongolia,6547,55
+517143,Montenegro,1535,21
+517144,Montenegro,20,17
+517145,Montenegro,121,17
+519570,Morocco,1535,146
+519571,Morocco,16498,133
+519572,Morocco,1575,130
+525338,Mozambique,1,2
+525339,Mozambique,6,2
+525340,Mozambique,19,2
+526723,Myanmar,11757,17
+526724,Myanmar,20,16
+526725,Myanmar,6702,16
+529078,Namibia,1,2
+529079,Namibia,6,2
+529080,Namibia,227,2
+529291,Nepal,11757,40
+529292,Nepal,1535,39
+529293,Nepal,20,38
+532392,Netherlands,1535,2552
+532393,Netherlands,226,2094
+532394,Netherlands,11757,2086
+543543,New Caledonia,20,2
+543544,New Caledonia,71,2
+543545,New Caledonia,72,2
+544377,New Zealand,1535,570
+544378,New Zealand,6547,487
+544379,New Zealand,1575,482
+552929,Nicaragua,1535,9
+552930,Nicaragua,226,9
+552931,Nicaragua,5081,8
+554299,Nigeria,20,22
+554300,Nigeria,1535,22
+554301,Nigeria,1575,21
+558709,North Korea,226,13
+558710,North Korea,849,12
+558711,North Korea,5081,12
+561923,North Macedonia,1535,41
+561924,North Macedonia,269,34
+561925,North Macedonia,205,33
+567135,Northern Mariana Islands,2034,2
+567136,Northern Mariana Islands,2104,2
+567137,Northern Mariana Islands,5081,2
+567474,Norway,1535,1186
+567475,Norway,226,998
+567476,Norway,20,989
+577153,Null Island,19,1
+577154,Null Island,30,1
+577155,Null Island,48,1
+577354,Oman,1535,24
+577355,Oman,269,21
+577356,Oman,21,20
+579671,Pakistan,1535,167
+579672,Pakistan,20,149
+579673,Pakistan,16498,147
+585342,Palestinian Territory,16498,18
+585343,Palestinian Territory,1535,17
+585344,Palestinian Territory,269,16
+588671,Panama,1535,43
+588672,Panama,226,36
+588673,Panama,16498,31
+592104,Papua New Guinea,199,5
+592105,Papua New Guinea,4382,3
+592106,Papua New Guinea,8425,3
+592687,Paraguay,226,19
+592688,Paraguay,1535,19
+592689,Paraguay,5081,19
+596224,Peru,1535,186
+596225,Peru,4224,156
+596226,Peru,30,155
+604263,Philippines,4224,2203
+604264,Philippines,1535,2156
+604265,Philippines,1575,2013
+618346,Pitcairn,1689,2
+618347,Pitcairn,1,1
+618348,Pitcairn,6,1
+619024,Poland,1535,7043
+619025,Poland,1575,5838
+619026,Poland,226,5746
+632059,Portugal,1535,2107
+632060,Portugal,20,1781
+632061,Portugal,16498,1729
+643273,Puerto Rico,1535,143
+643274,Puerto Rico,16498,131
+643275,Puerto Rico,4224,123
+649838,Qatar,1535,58
+649839,Qatar,1575,47
+649840,Qatar,6746,47
+656398,Romania,1535,1259
+656399,Romania,20,1063
+656400,Romania,269,1006
+667597,Russian Federation,1535,3832
+667598,Russian Federation,849,3348
+667599,Russian Federation,1575,3326
+681428,Réunion,1535,6
+681429,Réunion,71,5
+681430,Réunion,73,5
+684392,Saint Kitts and Nevis,20,4
+684393,Saint Kitts and Nevis,849,4
+684394,Saint Kitts and Nevis,1482,4
+685603,Saint Lucia,226,5
+685604,Saint Lucia,10793,5
+685605,Saint Lucia,1535,4
+686958,Saint Pierre and Miquelon,47,2
+686959,Saint Pierre and Miquelon,48,2
+686960,Saint Pierre and Miquelon,137,2
+687444,Saint Vincent and the Grenadines,934,3
+687445,Saint Vincent and the Grenadines,9253,3
+687446,Saint Vincent and the Grenadines,15809,3
+688028,Samoa,1,1
+688029,Samoa,6,1
+688030,Samoa,7,1
+688707,San Marino,19,2
+688708,San Marino,59,2
+688709,San Marino,189,2
+689532,Saudi Arabia,1535,675
+689533,Saudi Arabia,16498,575
+689534,Saudi Arabia,5114,569
+699082,Serbia,1535,425
+699083,Serbia,20,353
+699084,Serbia,269,334
+706849,Seychelles,20,2
+706850,Seychelles,59,2
+706851,Seychelles,67,2
+707186,Sierra Leone,43,2
+707187,Sierra Leone,47,2
+707188,Sierra Leone,164,2
+707672,Singapore,4224,705
+707673,Singapore,1575,637
+707674,Singapore,2167,632
+716234,Slovakia,1535,327
+716235,Slovakia,226,305
+716236,Slovakia,20,272
+725880,Slovenia,1535,139
+725881,Slovenia,16498,118
+725882,Slovenia,11757,114
+732971,Solomon Islands,1,1
+732972,Solomon Islands,16,1
+732973,Solomon Islands,19,1
+733944,Somalia,1575,2
+733945,Somalia,1,1
+733946,Somalia,30,1
+734065,South Africa,1535,280
+734066,South Africa,1575,242
+734067,South Africa,269,239
+743302,South Georgia and South Sandwich Islands,1,1
+743303,South Georgia and South Sandwich Islands,5,1
+743304,South Georgia and South Sandwich Islands,30,1
+743440,South Korea,1535,144
+743441,South Korea,1575,126
+743442,South Korea,4224,124
+751829,Spain,1535,1734
+751830,Spain,16498,1548
+751831,Spain,11757,1529
+763110,Sri Lanka,1535,42
+763111,Sri Lanka,16498,39
+763112,Sri Lanka,11757,38
+767001,Sudan,1575,21
+767002,Sudan,16498,20
+767003,Sudan,5114,19
+769323,Suriname,20,8
+769324,Suriname,269,7
+769325,Suriname,1735,7
+774140,Svalbard,30,3
+774141,Svalbard,226,3
+774142,Svalbard,227,3
+775109,Sweden,1535,1880
+775110,Sweden,226,1652
+775111,Sweden,20,1627
+786072,Switzerland,1535,237
+786073,Switzerland,1575,207
+786074,Switzerland,11757,205
+793255,Syria,1535,47
+793256,Syria,1575,47
+793257,Syria,2904,43
+796832,Taiwan,199,33
+796833,Taiwan,16498,33
+796834,Taiwan,6547,32
+800860,Tanzania,1887,3
+800861,Tanzania,3588,3
+800862,Tanzania,4382,3
+802158,Thailand,4224,186
+802159,Thailand,6547,165
+802160,Thailand,1575,161
+808536,Togo,1,1
+808537,Togo,19,1
+808538,Togo,30,1
+808601,Trinidad and Tobago,1535,48
+808602,Trinidad and Tobago,269,46
+808603,Trinidad and Tobago,20,45
+813258,Tunisia,1535,102
+813259,Tunisia,16498,89
+813260,Tunisia,1575,86
+820239,Turkey,1535,1188
+820240,Turkey,226,975
+820241,Turkey,269,973
+829529,US Virgin Islands,19,3
+829530,US Virgin Islands,30,3
+829531,US Virgin Islands,45,3
+830748,Uganda,226,7
+830749,Uganda,1535,7
+830750,Uganda,5081,7
+832460,Ukraine,1535,664
+832461,Ukraine,226,603
+832462,Ukraine,1575,571
+843035,United Arab Emirates,1535,366
+843036,United Arab Emirates,16498,318
+843037,United Arab Emirates,1575,311
+852015,United Kingdom,1535,5572
+852016,United Kingdom,226,4334
+852017,United Kingdom,1575,4299
+864410,United States,1535,21996
+864411,United States,1575,18678
+864412,United States,121,17780
+878874,Uruguay,1535,76
+878875,Uruguay,226,67
+878876,Uruguay,4224,64
+886674,Uzbekistan,1535,9
+886675,Uzbekistan,1689,8
+886676,Uzbekistan,2167,8
+889376,Vatican City,1535,3
+889377,Vatican City,1689,3
+889378,Vatican City,4224,3
+890049,Venezuela,1535,255
+890050,Venezuela,226,225
+890051,Venezuela,30,210
+897865,Vietnam,6547,184
+897866,Vietnam,4224,174
+897867,Vietnam,11757,165
+904098,Yemen,199,7
+904099,Yemen,1535,7
+904100,Yemen,4224,7
+906317,Zambia,1,2
+906318,Zambia,5,2
+906319,Zambia,19,2
+907085,Zimbabwe,11757,7
+907086,Zimbabwe,1,6
+907087,Zimbabwe,9253,6
