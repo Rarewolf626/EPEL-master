@@ -45,7 +45,7 @@ Aubec
 Automatic Flowers Studio
 AXsiZ
 Azeta Pictures
-B&amp;T
+B&T
 Bandai Namco Pictures
 Bandai Visual
 Barnum Studio
@@ -62,7 +62,7 @@ Bones
 BOOTLEG
 Bouncy
 Boyan Pictures
-Brain&#039;s Base
+Brain's Base
 BreakBottle
 Bridge
 Buemon
@@ -90,7 +90,7 @@ CUCURI
 CyberConnect2
 Cyclone Graphics inc
 Cygames
-D &amp; D Pictures
+D & D Pictures
 D.A.S.T.
 Daewon Media
 Dai Nippon Printing
@@ -108,14 +108,14 @@ DLE
 DMM.futureworks
 Doga Kobo
 domerica
-Dongwoo A&amp;E
+Dongwoo A&E
 Dongyang Animation
 DR Movie
 drop
 Dwango
 dwarf
 Dynamo Pictures
-E&amp;G Films
+E&G Films
 Echo
 Echoes
 EDGE
@@ -138,10 +138,10 @@ Front Line
 Fuji TV
 Fukushima Gainax
 Future Planet
-G&amp;G Entertainment
+G&G Entertainment
 G-angle
 G-Lam
-G.CMay Animation &amp; Film
+G.CMay Animation & Film
 Gainax
 Gakken Eigakyoku
 GANSIS
@@ -317,7 +317,7 @@ Production I.G
 Production IMS
 Production Reed
 Project No.9
-Public &amp; Basic
+Public & Basic
 Purple Cow Studio Japan
 Puzzle Animation Studio Limited
 Qualia Animation
@@ -355,7 +355,7 @@ Shin-Ei Animation
 Shinkuukan
 Shirogumi
 Shochiku Animation Institute
-Shogakukan Music &amp; Digital Entertainment
+Shogakukan Music & Digital Entertainment
 Shueisha
 Shuka
 Signal. MD
@@ -366,7 +366,7 @@ Sparkly Key Animation Studio
 Sparky Animation
 Sprite Animation Studios
 Square Enix
-Steve N&#039; Steven
+Steve N' Steven
 Sting Ray
 Strawberry Meets Pictures
 Studio 1st
