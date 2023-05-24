@@ -1,5 +1,5 @@
 10Gauge
-2:10 Animation
+2:10 AM Animation
 33 Collective
 3xCube
 81 Produce
@@ -12,19 +12,20 @@ ACC Production
 Actas
 Agent 21
 AIC
-AIC A.S.T.A.
+AIC ASTA
 AIC Build
 AIC Classic
 AIC Frontier
-AIC Plus+
+AIC PLUS+
 AIC Spirits
 AIC Takarazuka
-Ajia-Do
+Ajia-do
 Amber Film Works
 Amuse
 An DerCen
+Anima
 Animaruya
-Animate Film
+animate Film
 Animation Do
 Anime Antenna Iinkai
 Anime R
@@ -37,8 +38,8 @@ Artland
 Artmic
 Asahi Production
 Ascension
-Ashi Production
-Asread
+Ashi Productions
+asread.
 Asura Film
 AT-2
 Aubec
@@ -77,25 +78,26 @@ Chiptune
 ChuChu
 Circle Tribute
 CloverWorks
+CMAY Animation
 Coastline Animation Studio
 Code
 Collaboration Works
 CoMix Wave Films
 Connect
 Cookie Jar Entertainment
-Craftar
+Craftar Studios
 Creators Dot Com
 Creators in Pack
 CUCURI
 CyberConnect2
-Cyclone Graphics inc
+Cyclone Graphics
 Cygames
 D & D Pictures
 D.A.S.T.
 Daewon Media
 Dai Nippon Printing
-Daichi Doga
-DandeLion Animation Studio LLC
+Dai-Ichi Douga
+DandeLion Animation Studio
 Darts
 Daume
 David Production
@@ -103,7 +105,7 @@ DAX Production
 Digital Frontier
 Digital Media Lab
 Digital Network Animation
-Diomedea
+Diomedéa
 DLE
 DMM.futureworks
 Doga Kobo
@@ -125,7 +127,7 @@ Eiken
 EKACHI EPILKA
 Ekura Animal
 Emon
-EMT²
+EMT Squared
 Encourage Films
 Enoki Films
 Fanworks
@@ -133,17 +135,18 @@ feel.
 Felix Film
 Fifth Avenue
 Flavors Soft
+Foch Films
 FOREST Hunting One
 Front Line
 Fuji TV
-Fukushima Gainax
+Fukushima Gaina
 Future Planet
 G&G Entertainment
 G-angle
 G-Lam
-G.CMay Animation & Film
 Gainax
 Gakken Eigakyoku
+Gallop
 GANSIS
 GARDEN LODGE
 Gathering
@@ -174,10 +177,9 @@ Idea Factory
 iDRAGONS Creative Studio
 ILCA
 Image House
-Imagica Image Works
+Imagica Imageworks
 Imagin
 Imagineer
-Inc.
 Indeprox
 Ishikawa Pro
 Ishimori Entertainment
@@ -213,6 +215,7 @@ Kokusai Eigasha
 KOO-KI
 Kyoto Animation
 Kyotoma
+LAN Studio
 LandQ studios
 Lapin Track
 Larx Entertainment
@@ -226,7 +229,6 @@ Lilix
 LMD
 L²Studio
 M.S.C
-M2
 Madhouse
 Magic Bus
 Majin
@@ -236,7 +238,7 @@ Marine Entertainment
 Marvy Jack
 Mary Jane
 Marza Animation Planet
-Media Bank
+Mediabank
 Meruhensha
 Mili Pictures
 Milky Animation Label
@@ -264,7 +266,7 @@ Nice Boat Animation
 Nippon Animation
 Nishiki Studio
 Nomad
-NUT
+Nut
 October Media
 Oddjob
 Odolttogi
@@ -281,7 +283,7 @@ Opera House
 Orange
 Ordet
 Oxybot
-Oz
+Oz Inc.
 P.A. Works
 Palm Studio
 Panda Factory
@@ -294,10 +296,11 @@ Phoenix Entertainment
 Picograph
 Picona
 Picture Magic
-Pie in The Sky
+Pie in the sky
+Pierrot
 Pierrot Plus
 Piko Studio
-Pine Jam
+PINE JAM
 Pink Pineapple
 Piso Studio
 Planet
@@ -327,7 +330,7 @@ Rabbit Machine
 Radix
 REALTHING
 Remic
-REVOROOT
+Revoroot
 RG Animation Studios
 Rikuentai
 Ripple Film
@@ -349,7 +352,6 @@ Seven Arcs
 Seven Arcs Pictures
 Shaft
 Shanghai Animation Film Studio
-Shanghai Foch Film Culture Investment
 Shimogumi
 Shin-Ei Animation
 Shinkuukan
@@ -358,26 +360,25 @@ Shochiku Animation Institute
 Shogakukan Music & Digital Entertainment
 Shueisha
 Shuka
-Signal. MD
-Silver Link.
-SOEISHINSHA
+Signal.MD
+Silver
+Soeishinsha
 Sotsu
 Sparkly Key Animation Studio
 Sparky Animation
 Sprite Animation Studios
 Square Enix
 Steve N' Steven
-Sting Ray
+Stingray
 Strawberry Meets Pictures
 Studio 1st
 Studio 3Hz
 Studio 4°C
-Studio 9 MAiami
+Studio 9 Maiami
 Studio A-CAT
-Studio Anima
 Studio Animal
 Studio Binzo
-Studio Blanc
+Studio Blanc.
 Studio Bogey
 Studio CA
 Studio Chizu
@@ -392,7 +393,6 @@ Studio Fantasia
 Studio Flad
 Studio Flag
 Studio G-1Neo
-Studio Gallop
 Studio Ghibli
 Studio Gokumi
 Studio Hakk
@@ -403,9 +403,9 @@ Studio Khronos
 Studio Kikan
 Studio Korumi
 Studio Kyuuma
-Studio LAN
 Studio Lings
 Studio Live
+Studio M2
 Studio March
 Studio Matrix
 Studio Meditation With a Pencil
@@ -413,7 +413,6 @@ Studio Moriken
 Studio Nanahoshi
 Studio Nue
 Studio OX
-Studio Pierrot
 Studio Ponoc
 Studio Ppuri
 Studio PuYUKAI
@@ -430,7 +429,7 @@ Studio Z5
 Studio Zealot
 Studio Zero
 Studio! Cucuri
-Success Co.
+Success Corp.
 Sugar Boy
 Sunrise
 Sunwoo Entertainment
@@ -447,7 +446,7 @@ Team YokkyuFuman
 teamKG
 Tele-Cartoon Japan
 Telecom Animation Film
-Telescreen BV
+Telescreen
 Tengu Kobo
 Tezuka Productions
 The Answer Studio
@@ -482,7 +481,7 @@ Tsukimidou
 TUBA
 Twilight Studio
 TYO Animations
-TYPHOON GRAPHICS
+Typhoon Graphics
 ufotable
 Usagi Ou
 Vasoon Animation
@@ -497,9 +496,8 @@ White Fox
 Will Palette
 Wit Studio
 Xebec
-Xebec Zwei
 Y.O.U.C
-Yamamura Animation
+Yamamura Animation, Inc.
 Yamato Works
 Yaoyorozu
 Yokohama Animation Lab
