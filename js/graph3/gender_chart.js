@@ -23,7 +23,7 @@ function createGenderChart(genderData, countryName) {
         .append("g")
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-    let genderBalance = { "Male": countryData["Male"], "Female": countryData["Female"], "Non-Binary": countryData["NonBinary"] }
+    let genderBalance = { "Male": countryData["Male"], "Female": countryData["Female"], "Non-Binary": countryData["Non-Binary"] }
 
     // set the color scale
     let color = d3.scaleOrdinal().domain(genderBalance).range(d3.schemeDark2);

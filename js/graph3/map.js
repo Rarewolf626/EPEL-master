@@ -1,44 +1,18 @@
 const data_path = "../../data/";
+const studio_path = data_path + "studios/";
+
 const map_path = data_path + "graph3_map/";
 const geojson_path = map_path + "geojson/";
-const stat_path = map_path + "stats/";
 const flag_path = map_path + "flags/";
-
-const country_name_map = new Map([
-    ["Bahamas", "The Bahamas"],
-    ["Brunei Darussalam", "Brunei"],
-    ["Cabo Verde", "Cape Verde"],
-    ["Congo", "Republic of Congo"],
-    ["Congo DRC", "Democratic Republic of the Congo"],
-    ["Curacao", "Curaçao"],
-    ["Côte d'Ivoire", "Ivory Coast"],
-    ["Eswatini", "Swaziland"],
-    ["North Macedonia", "Macedonia"],
-    ["Palestinian Territory", "Palestine"],
-    ["Pitcairn", "Pitcairn Islands"],
-    ["Russian Federation", "Russia"],
-    ["Serbia", "Republic of Serbia"],
-    ["Tanzania", "United Republic of Tanzania"],
-    ["US Virgin Islands", "United States Virgin Islands"],
-    ["United States", "United States of America"],
-    ["Vatican City", "Vatican"],
-]);
+const stat_path = map_path + "stats/";
+const studio_stat_path = stat_path + "studios/";
+const country_stat_path = stat_path + "countries/";
 
 let countryTabTriggerEl = document.querySelector('#country-tab')
 let countryTab = new bootstrap.Tab(countryTabTriggerEl)
 
 let studioTabTriggerEl = document.querySelector('#studio-tab')
 let studioTab = new bootstrap.Tab(studioTabTriggerEl)
-// var triggerTabList = [].slice.call(document.querySelectorAll('#myTab a'))
-// triggerTabList.forEach(function (triggerEl) {
-//     var tabTrigger = new bootstrap.Tab(triggerEl)
-
-//     triggerEl.addEventListener('click', function (event) {
-//         event.preventDefault()
-//         tabTrigger.show()
-//     })
-// })
-
 
 // DEFINE VARIABLES
 // Define size of map group
@@ -54,9 +28,6 @@ const midY = (h - minZoom * h) / 2;
 // DEFINE FUNCTIONS/OBJECTS
 // Define map projection
 let projection = d3.geoNaturalEarth1()
-// .center([0, 15]) // set centre to further North as we are cropping more off bottom of map
-// .scale([w / (2 * Math.PI)]) // scale to fit group width
-// .translate([w / 2, h / 2]) // ensure centred in group
 
 // Define map path generator
 let path = d3.geoPath()
@@ -78,11 +49,6 @@ function zoomed() {
 let zoom = d3.zoom()
     .on("zoom", zoomed);
 
-function getTextBox(selection) {
-    selection.each(function (d) {
-        d.bbox = this.getBBox();
-    });
-}
 
 // Function that calculates zoom/pan limits and sets zoom to default value 
 function initiateZoom() {
@@ -90,7 +56,10 @@ function initiateZoom() {
     // set translate extent so that panning can't cause map to move out of viewport
     zoom.scaleExtent([minZoom, maxZoom]).translateExtent([[0, 0], [w, h]]);
     // change zoom transform to min zoom and centre offsets
-    svg.call(zoom.transform, d3.zoomIdentity.translate(midX, midY).scale(minZoom));
+    svg
+        .transition()
+        .duration(1000)
+        .call(zoom.transform, d3.zoomIdentity.translate(midX, midY).scale(minZoom));
 }
 
 // zoom to show a bounding box, with optional additional padding as percentage of box size
@@ -134,76 +103,81 @@ const clientWidth = d3.select("#map-holder").node().clientWidth;
 const clientHeight = d3.select("#map-holder").node().clientHeight;
 
 // on window resize
-window.addEventListener("resize", function () {
-    // Resize SVG
-    svg.attr("width", clientWidth).attr("height", clientHeight);
-    initiateZoom();
-});
+// window.addEventListener("resize", function () {
+//     // Resize SVG
+//     svg.attr("width", clientWidth).attr("height", clientHeight);
+//     initiateZoom();
+// });
 
 // Create an SVG
 let svg = d3.select("#map-holder")
     .append("svg")
-    .attr("width", clientWidth)
-    .attr("height", clientHeight)
+    .attr("width", "100%")
+    .attr("height", "100%")
     // .attr("width", map_width)
     // .attr("height", map_height)
-    .attr("viewBox", "100 100 " + w + " " + h)
+    // .attr("viewBox", "100 100 " + w + " " + h)
     .attr("class", "svg-content")
 // .call(zoom)
 
+// d3.select("#info-pane-map")
+// .attr("width", w)
+// .attr("height", h)
 
 // Create a container in which all zoom-able elements will live
 let countriesGroup = svg.append("g").attr("id", "map")
+
 // .call(zoom)  //Bind the zoom behavior
 
 // Load all the json data from data/map asynchronously
 // and call the ready function to draw the map
 d3.queue()
     .defer(d3.json, geojson_path + "custom50_processed.json")
-    .defer(d3.csv, stat_path + "country_num_users.csv", function (d) {
+    // Country stats
+    .defer(d3.csv, country_stat_path + "country_num_users.csv")
+    .defer(d3.csv, country_stat_path + "country_gender_balance.csv")
+    .defer(d3.csv, country_stat_path + "country_users_ages.csv", function (d) {
         return {
-            country: country_name_map.get(d.country) || d.country,
-            country_aff: country_name_map.get(d.country_aff) || d.country_aff,
-            num_users: +d.num_users
-        }
-    })
-    .defer(d3.csv, stat_path + "country_gender_balance.csv", function (d) {
-        return {
-            country: country_name_map.get(d.country) || d.country,
-            country_aff: country_name_map.get(d.country_aff) || d.country_aff,
-            Female: +d.Female,
-            Male: +d.Male,
-            NonBinary: +d["Non-Binary"]
-        }
-    })
-    .defer(d3.csv, stat_path + "country_users_ages.csv", function (d) {
-        return {
-            country: country_name_map.get(d.country) || d.country,
-            country_aff: country_name_map.get(d.country_aff) || d.country_aff,
+            country: d.country,
             birth_year: +d.birth_year,
-            num_users: +d.num_users
-        }
-    })
-    .defer(d3.csv, stat_path + "country_num_days_spent_watching_mean.csv", function (d) {
-        return {
-            country: country_name_map.get(d.country) || d.country,
-            country_aff: country_name_map.get(d.country_aff) || d.country_aff,
             num_users: +d.num_users,
-            num_days_spent_watching_mean: +d.num_days_spent_watching_mean
         }
     })
+    .defer(d3.csv, country_stat_path + "country_num_days_spent_watching_mean.csv")
+    .defer(d3.csv, country_stat_path + "country_top_animes_3.csv/0.part")
+    .defer(d3.csv, country_stat_path + "country_top_studios.csv/0.part")
+    // Animes
+    .defer(d3.csv, data_path + "anime_cleaned.csv")
+    // Studios
+    .defer(d3.csv, studio_path + "studios_mal_clean.csv", function (d) {
+        return {
+            id: d.id,
+            name_en: d.studio_en,
+            name_ja: d.studio_ja,
+            logo_url: d.logo_url,
+        }
+    })
+    // Studio stats
+    .defer(d3.csv, studio_stat_path + "studio_country_num_ratings.csv/0.part")
+    .defer(d3.csv, studio_stat_path + "studio_num_animes.csv")
+    // Studio-country stats
+    .defer(d3.csv, studio_stat_path + "studio_country_top_animes_3.csv/0.part")
     .await(ready);
 
-/**
- * 
- * @param {*} error 
- * @param {*} geojsonData 
- * @param {*} userData 
- * @param {*} genderData 
- * @param {*} ageData 
- * @param {*} daysData 
- */
-function ready(error, geojsonData, userData, genderData, ageData, daysData) {
+let country_focus = false
+let studio_focus = false
+let countries;
+let studio_country_names = [];
+let countrySelector;
+let studioSelector
+
+function ready(error,
+    geojsonData, userData, genderData, ageData, daysData, topAnimesData, topStudioData,
+    animeData,
+    studioData,
+    studioCountriesData, studioNumAnimesData,
+    studioCountryTopAnimeData,
+) {
     if (error) throw error;
 
     /* General information */
@@ -219,9 +193,11 @@ function ready(error, geojsonData, userData, genderData, ageData, daysData) {
         for (let j = 0; j < userData.length; j++) {
             let countryCSV = userData[j].country;
             let numUsers = userData[j].num_users;
+            let rank = userData[j].rank;
             if (countryCSV == countryJSON) {
                 geojsonData.features[i].properties.value = numUsers;
                 geojsonData.features[i].properties.color = color(numUsers);
+                geojsonData.features[i].properties.countRank = rank;
                 break;
             }
         }
@@ -230,29 +206,41 @@ function ready(error, geojsonData, userData, genderData, ageData, daysData) {
     }
 
     /* Country selector */
-    let countrySelector = createCountrySelector(geojsonData);
+    countrySelector = createCountrySelector(geojsonData);
     countrySelector.on("change", function () {
         let countryFeature = geojsonData.features.find(d => d.properties.admin == this.value);
         if (!countryFeature) { // e.g. "Select a country..." is selected
-            initiateZoom();
+            resetMap();
             return;
         }
-        onCountryFocus(countryFeature, genderData, ageData, daysData);
+        onCountryFocus(countryFeature, topAnimesData, animeData, genderData, ageData, daysData);
     })
 
-    let studioSelector = createStudioSelector();
+    studioSelector = createStudioSelector(studioNumAnimesData);
+    studioSelector.on("change", function () {
+        let studio = this.value;
+        studio_country_names = studioCountriesData.filter(d => d.studio == studio).map(d => d.country);
+        if (studio_country_names.length == 0) { // e.g. "Select a studio..." is selected
+            resetMap();
+            return;
+        }
+        // Color all countries who have at least one anime from the selected studio in blue, the rest in gray
+        countries.style("fill", d => studio_country_names.includes(d.properties.admin) ? "#0000ff" : "#ccc")
+
+        onStudioFocus(studio, studioData, studioNumAnimesData, animeData, studioCountryTopAnimeData, studioCountriesData)
+    })
 
     /* Draw the map */
     // Create an invisible background rectangle to catch zoom events
     countriesGroup.append("rect")
-        .attr("x", 100)
-        .attr("y", 100)
+        // .attr("x", 100)
+        // .attr("y", 100)
         .attr("width", w) // 100%
         .attr("height", h) // 100%
         .attr("opacity", 0);
 
     // Bind data and create one path per GeoJSON feature
-    let countries = countriesGroup.selectAll("path")
+    countries = countriesGroup.selectAll("path")
         .data(geojsonData.features)
         .enter()
         .append("path")
@@ -263,17 +251,31 @@ function ready(error, geojsonData, userData, genderData, ageData, daysData) {
         .attr("class", "country")
         .style("fill", d => d.properties.color)
         .on("mouseover", function (d) {
-            // Color in blue on mouseover
-            d3.select(this).style("fill", "#2c7bb6");
+            if (studio_focus == false) {
+                // Color in blue on mouseover
+                d3.select(this).style("fill", "#2c7bb6");
+            } else {
+                // Color in light blue on mouseover
+                d3.select(this).style("fill", "#a6cee3");
+            }
 
             // Set the value of the country selector to be the country name
             countrySelector.property("value", d.properties.admin);
         })
         .on("mouseout", function (d) {
-            d3.select(this).style("fill", d => d.properties.color);
+            if (studio_focus == false) {
+                d3.select(this).style("fill", d => d.properties.color);
+            } else {
+                d3.select(this).style("fill", d => studio_country_names.includes(d.properties.admin) ? "#0000ff" : "#ccc")
+            }
         })
         .on("click", function (d) {
-            onCountryFocus(d, genderData, ageData, daysData)
+            if (studio_focus == false) {
+                onCountryFocus(d, topAnimesData, animeData, genderData, ageData, daysData)
+            } else {
+                // I selected a country while in studio focus mode
+                onStudioCountryFocus()
+            }
         });
 
     // createZoomButtons();
@@ -283,8 +285,14 @@ function ready(error, geojsonData, userData, genderData, ageData, daysData) {
     createCountryRankings(userData);
 }
 
+initiateZoom();
 
-function onCountryFocus(countryFeature, genderData, ageData, daysData) {
+function onCountryFocus(countryFeature, topAnimesData, animeData, genderData, ageData, daysData) {
+    country_focus = true
+    studio_focus = false
+    studio_country_names = []
+    studioSelector.property("value", "Select a studio...");
+
     let countryPath = d3.select("#" + "country" + countryFeature.properties.iso_a2);
     // d3.select(countryPath).style("fill", "orange");
 
@@ -292,12 +300,38 @@ function onCountryFocus(countryFeature, genderData, ageData, daysData) {
     boxZoom(path.bounds(countryFeature), path.centroid(countryFeature), 20);
 
     // Show info pane
-    showCountryInfo(countryFeature, genderData, ageData, daysData)
+    showCountryInfo(countryFeature, topAnimesData, animeData, genderData, ageData, daysData)
 }
 
-initiateZoom();
+
+function onStudioFocus(studio, studioData, studioNumAnimesData, animeData, studioTopAnimeData, studioCountriesData) {
+    country_focus = false
+    studio_focus = true
+    countrySelector.property("value", "Select a country...");
+
+    initiateZoom();
+
+    // Show info pane
+    showStudioInfo(studio, studioData, studioNumAnimesData, animeData, studioTopAnimeData, studioCountriesData)
+}
+
+function onStudioCountryFocus() {
+}
+
+function resetMap() {
+    country_focus = false
+    studio_focus = false
+
+    initiateZoom();
+
+    // color the countries according to the number of users
+    countries.style("fill", d => d.properties.color)
+
+    countrySelector.property("value", "Select a country...");
+    studioSelector.property("value", "Select a studio...");
+}
 
 let btn = d3.select("#map-reset-btn")
 btn.on("click", function () {
-    initiateZoom();
+    resetMap();
 })

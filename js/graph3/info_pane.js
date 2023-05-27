@@ -1,4 +1,4 @@
-// ============================================= Home =============================================
+// ============================================= Studio =============================================
 
 /**
  * 
@@ -26,6 +26,58 @@ function createCountryRankings(countData) {
     }
 }
 
+
+function showStudioInfo(studio, studioData, studioNumAnimesData, animeData, studioTopAnimeData, studioCountriesData) {
+    // Switch to the studio tab
+    studioTab.show()
+
+    country_names = studioCountriesData.filter(d => d.studio == studio).map(d => d.country)
+    let num_countries = country_names.length
+
+    studioData = studioData.find(d => d.name_en == studio)
+    console.log(studioData)
+
+    // Studio name (english and japanese)
+    let name = d3.select("#studio-name")
+    name.selectAll("*").remove();
+    name = name.append("h2")
+    name.append("a")
+        .attr("href", "https://myanimelist.net/anime/producer/" + studioData.id)
+        .text(studioData.name_en)
+        .attr("style", "color: black; text-decoration: none;")
+        .attr("onmouseover", "this.style.color='orange'")
+        .attr("onmouseout", "this.style.color='black'")
+    if (studioData.name_ja != "") {
+        name.append("span")
+            .text(" (" + studioData.name_ja + ")")
+            .style("font-size", "0.75em");
+    }
+
+    // Studio logo
+    let logo = d3.select("#studio-logo")
+    logo.selectAll("*").remove();
+    logo.append("img")
+        .attr("src", studioData.logo_url)
+        .attr("class", "rounded mx-auto d-block")
+        .attr("style", "max-height: 200px; width:auto")
+        .attr("alt", studioData.name_en)
+        .attr("title", studioData.name_en)
+        // If no picture, display the default picture of MAL instead (e.g., https://myanimelist.net/anime/producer/253)
+        .attr("onerror", "this.onerror=null;this.src='../../data/studios/no_picture_mal.png';")
+
+    let num_animes = studioNumAnimesData.find(d => d.studio == studio).num_animes
+
+    let num_info = d3.select("#studio-num-animes-num-countries")
+    num_info.selectAll("*").remove();
+    num_info.append("h5")
+        .text(num_animes + " anime" + (num_animes > 1 ? "s" : "") + ", watched in " + num_countries + " countries")
+        .attr("class", "d-block text-center")
+
+
+    // Disable the color fill during mouseover
+    // studioMap.selectAll("path").style("fill", null)
+}
+
 // ============================================= Country =============================================
 
 /**
@@ -36,7 +88,7 @@ function createCountryRankings(countData) {
  * @param {*} daysData 
  * @returns 
  */
-function showCountryInfo(d, genderData, ageData, daysData) {
+function showCountryInfo(d, topAnimesData, animeData, genderData, ageData, daysData) {
     // Switch to the country tab
     countryTab.show()
 
@@ -53,13 +105,14 @@ function showCountryInfo(d, genderData, ageData, daysData) {
 
     // Country's number of users
     let numUsers = d.properties.value;
-    d3.select("#numUsers").text(numUsers ? formatAsThousands(numUsers) + " otakus" : "No otakus here :(");
+    d3.select("#numUsers").text(numUsers ? formatAsThousands(numUsers) + " otakus (ranked #" + d.properties.countRank + ")" : "No otakus here :(");
 
     // Country flag
     createFlag(d);
 
     /* Country stats */
     // Top animes
+    updatePodium(engName, topAnimesData, animeData, "country-top-animes")
 
     // Top studios
 
@@ -80,7 +133,8 @@ function showCountryInfo(d, genderData, ageData, daysData) {
     }
     let numDays = countryDays.num_days_spent_watching_mean
     let numDaysFormat = formatAsDays(numDays)
-    d3.select("#country-num-days").text("On average, an otaku has spent " + numDaysFormat + " watching animes (ranked #??)");
+    let numDaysRank = countryDays.rank
+    d3.select("#country-num-days").text("On average, an otaku has spent " + numDaysFormat + " watching animes (ranked #" + numDaysRank + ")");
 }
 
 /**
@@ -89,29 +143,13 @@ function showCountryInfo(d, genderData, ageData, daysData) {
  */
 function createFlag(d) {
     let flag = d3.select("#country-flag")
+    flag.selectAll("*").remove();
+    flag = flag.append("img")
         .attr("src", d.properties.flag_path)
+        .attr("class", "rounded mx-auto d-block")
+        .attr("style", "max-height: 100px; width:auto; margin-top: 5px; box-shadow: 0px 4px 8px rgba(38, 38, 38, 0.2);")
         .attr("alt", d.properties.admin)
         .attr("title", d.properties.admin)
-        .style("display", "block")
-
-    // Define a maximum width and height for the flag
-    let flagMaxWidth = 150;
-    let flagMaxHeight = 100;
-    // Resize the flag if it is too big
-    flag.on("load", function () {
-        let width = this.width;
-        let height = this.height;
-        if (width > flagMaxWidth) {
-            // console.log("width > flagMaxWidth")
-            this.width = flagMaxWidth;
-            // this.height = height * flagMaxWidth / width;
-            // console.log(this.width, this.height)
-        }
-        if (height > flagMaxHeight) {
-            // console.log("height > flagMaxHeight")
-            this.height = flagMaxHeight;
-            // this.width = width * flagMaxHeight / height;
-            // console.log(this.width, this.height)
-        }
-    })
+        // If no picture, display the default picture of MAL instead (e.g., https://myanimelist.net/anime/producer/253)
+        .attr("onerror", "this.onerror=null;this.src='../../data/studios/no_picture_mal.png';")
 }

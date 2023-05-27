@@ -4,7 +4,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
+
 	<link href="../../style.css" rel="stylesheet" type="text/css">
+	<link href="podium.css" rel="stylesheet" type="text/css">
 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -28,7 +30,11 @@
 	<!-- Visualization 3: World map -->
 	<div id="graph3">
 		<!-- Introductory phrase -->
-		<h3 id="map-catchphrase"> A very diverse community... </h3>
+		<!-- <div class="row" id="map-intro">
+			<div class="col-12">
+				<h3 id="map-catchphrase"> A very diverse community... </h3>
+			</div>
+		</div> -->
 
 		<!-- Map option panel -->
 		<div class="row no-gutters" id="map-options">
@@ -44,7 +50,7 @@
 				<button id="map-reset-btn" class="btn btn-primary">Reset</button>
 			</div>
 			<!-- Studio selector -->
-			<div class="col-3 no-gutters" id="studio-selector">
+			<div class="col-3 no-gutters">
 				<select id="studio-selector" class="form-select form-select-lg mb-3"
 					aria-label=".form-select-lg studio">
 					<option selected>Select a studio...</option>
@@ -55,12 +61,11 @@
 		<!-- Main content -->
 		<div class="row no-gutters">
 			<!-- World map -->
-			<div class="col-7 no-gutters">
-				<div id="map-holder" class="leftside"></div>
+			<div class="col-7 rounded" id="map-holder">
+				<!-- <div id="map-holder"></div> -->
 			</div>
-
 			<!-- Information Pane -->
-			<div class="col no-gutters">
+			<div class="col-sm rounded info-pane" id="info-pane-map">
 				<ul class="nav nav-tabs" id="myTab" role="tablist">
 					<li class="nav-item" role="presentation">
 						<button class="nav-link active" id="studio-tab" data-bs-toggle="tab" data-bs-target="#studio"
@@ -74,76 +79,88 @@
 				<div class="tab-content" id="myTabContent">
 					<!-- Default Pane -->
 					<div class="tab-pane fade show active" id="studio" role="tabpanel" aria-labelledby="studio-tab">
-						<p>Select or click on a country to visualize statistics about it.</p>
-						<table id="rankTable">
-							<caption> The countries with largest communities </caption>
-							<thead>
-								<tr>
-									<th>Ranking</th>
-									<th>Country</th>
-									<th>Number of <i>otakus</i></th>
-								</tr>
-							</thead>
-							<tbody></tbody>
-						</table>
+						<div class="container">
+							<p>Select/click on a country or studio to visualize statistics about it.</p>
+
+							<!-- Default -->
+							<!-- <div class="row-4 no-gutters">
+								<table id="rankTable">
+									<caption> The countries with largest communities </caption>
+									<thead>
+										<tr>
+											<th>Ranking</th>
+											<th>Country</th>
+											<th>Number of <i>otakus</i></th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div> -->
+
+							<!-- Studio general information -->
+							<div class="row" id="studio-name"></div>
+
+							<div class="row" id="studio-logo"></div>
+
+							<div class="row" id="studio-num-animes-num-countries"></div>
+
+							<div class="row" id="studio-country-stats"></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Country Pane -->
+				<div class="tab-pane fade" id="country" role="tabpanel" aria-labelledby="country-tab">
+					<!-- Country general information -->
+					<div class="row" id="country-info" style="height: 115px; margin-top: 2%; " ;>
+						<!-- add a box shadow on bottom line of row border-->
+
+						<!-- Name + number of users -->
+						<div class="col-9 no-gutters">
+							<!-- <div class="leftside"> -->
+							<h2 id="countryName"></h2>
+							<h4 id="numUsers"></h4>
+							<!-- </div> -->
+						</div>
+						<!-- Flag -->
+						<div class="col no-gutters" id="country-flag"></div>
+						<span class="border-bottom"></span>
 					</div>
 
-					<!-- Country Pane -->
-					<div class="tab-pane fade" id="country" role="tabpanel" aria-labelledby="country-tab">
-						<div class="container">
-							<!-- Country general information -->
-							<div class="row no-gutters" id="country-info" style="height: 150px; margin-top: 2%;" ;>
-								<!-- Name + number of users -->
-								<div class="col-9 no-gutters">
-									<div class="leftside">
-										<h2 id="countryName"></h2>
-										<h4 id="numUsers"></h4>
-									</div>
-								</div>
-								<!-- Flag -->
-								<div class="col no-gutters">
-									<img id="country-flag"
-										style="margin-top: 5px; border-width: 0.5px; border-style: solid;"></img>
-								</div>
-							</div>
+					<!-- First row of stats -->
+					<div class="row" id="country-stats-1">
+						<!-- Top 3 animes -->
+						<div class="col-7 podium" id="country-top-animes"></div>
+						<!-- Top 5 studios -->
+						<div class="col-5" id="country-top-studios"></div>
 
-							<!-- First row of stats -->
-							<div class="row" id="country-stats-1">
-								<!-- Top 3 animes -->
-								<div class="col-5" id="country-top-animes">
-									1 of 2
-								</div>
-								<!-- Top 5 studios -->
-								<div class="col-5" id="country-top-studios">
-									2 of 2
-								</div>
-							</div>
+					</div>
 
-							<!-- Second row of stars -->
-							<div class="row no-gutters" id="country-stats-2">
-								<!-- Gender pie chart -->
-								<div class="col-5 no-gutters" id="country-gender-balance">
-									<svg id="country-gender-pie-chart"></svg>
-								</div>
-								<!-- Age distribution histogram -->
-								<div class="col-5 no-gutters" id="country-age-distribution">
-									<svg id="country-age-histogram"></svg>
-								</div>
-							</div>
-							<p id="country-gender-pie-chart-title"></p>
-
-							<p id="country-num-days"></p>
+					<!-- Second row of stars -->
+					<div class="row" id="country-stats-2">
+						<!-- Gender pie chart -->
+						<div class="col-5 no-gutters" id="country-gender-balance">
+							<svg id="country-gender-pie-chart"></svg>
 						</div>
 
+						<!-- Age distribution histogram -->
+						<div class="col-5 no-gutters" id="country-age-distribution">
+							<svg id="country-age-histogram"></svg>
+						</div>
 					</div>
+					<p id="country-gender-pie-chart-title"></p>
+
+					<p id="country-num-days"></p>
 				</div>
 			</div>
 		</div>
-		<script src="map.js"></script>
-		<script src="option_pane.js"></script>
-		<script src="info_pane.js"></script>
-		<script src="gender_chart.js"></script>
-		<script src="age_chart.js"></script>
+	</div>
+	<script src="map.js"></script>
+	<script src="option_pane.js"></script>
+	<script src="info_pane.js"></script>
+	<script src="podium.js"></script>
+	<script src="gender_chart.js"></script>
+	<script src="age_chart.js"></script>
 	</div>
 
 </body>
