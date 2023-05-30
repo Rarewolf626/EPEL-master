@@ -77,7 +77,7 @@ function showCountryInfo(d, topAnimesData, animeData, topStudios, genderData, ag
     d3.select("#numUsers").text(numUsers ? formatAsThousands(numUsers) + " otakus (ranked #" + d.properties.countRank + ")" : "No otakus here :(");
 
     // Country flag
-    createFlag(d);
+    updateFlag(d);
 
     /* Country stats */
     // Top 3 animes
@@ -113,7 +113,7 @@ function showCountryInfo(d, topAnimesData, animeData, topStudios, genderData, ag
  * 
  * @param {*} d 
  */
-function createFlag(d) {
+function updateFlag(d) {
     let flag = d3.select("#country-flag")
     flag.selectAll("*").remove();
     flag = flag.append("img")

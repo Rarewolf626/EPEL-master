@@ -59,7 +59,7 @@ function fillMissingYears(years) {
  * @param {*} countryName 
  * @returns 
  */
-function createAgeChart(ageData, countryName) {
+function updateAgeChart(ageData, countryName) {
   let svg = d3.select("#country-age-histogram")
   svg.selectAll("*").remove();
 
