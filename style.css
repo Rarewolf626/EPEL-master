@@ -120,46 +120,6 @@ circle {
     width: auto
 }
 
-table {
-    border-collapse: collapse;
-    border: 2px solid rgb(200, 200, 200);
-    letter-spacing: 1px;
-    font-size: 0.8rem;
-}
-
-td,
-th {
-    border: 1px solid rgb(190, 190, 190);
-    padding: 10px 20px;
-}
-
-th {
-    background-color: rgb(235, 235, 235);
-}
-
-td {
-    text-align: center;
-}
-
-tr:nth-child(odd) {
-    background-color: #f1f1f1;
-}
-
-tr:nth-child(even) {
-    background-color: #ffffff;
-}
-
-tr:first-child {
-    background-color: gold;
-}
-
-tr:nth-child(2) {
-    background-color: silver;
-}
-
-tr:nth-child(3) {
-    background-color: #cd7f32;
-}
 
 #nb_ratings {
     text-align: center;
@@ -169,33 +129,6 @@ tr:nth-child(3) {
     font-family: "Roboto";
     margin-top: 50px;
 }
-
-.pan rect,
-.zoom rect {
-    fill: black;
-    opacity: 0.2;
-}
-
-/*.zoom rect {
-    rx: 5;
-    ry: 5;
-}*/
-
-.pan text,
-.zoom text {
-    fill: black;
-    font-size: 18px;
-    text-anchor: middle;
-}
-
-.pan:hover rect,
-.pan:hover text,
-.zoom:hover rect,
-.zoom:hover text {
-    fill: blue;
-}
-
-
 
 /* ======================================== GRAPH 4 ======================================== */
 
