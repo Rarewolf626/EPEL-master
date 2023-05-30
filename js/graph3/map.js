@@ -34,7 +34,7 @@ let path = d3.geoPath()
     .projection(projection)
 
 // Define a color scheme that is based on shades of red, to map to the country num_users
-let color = d3.scaleLinear()
+let colorCountries = d3.scaleLinear()
     .range(["#fee5d9", "#fdd0a2", "#fdae6b", "#fd8d3c", "#f16913", "#d94801", "#a63603", "#7f2704", "#7f2704"])
     // .range(["#fee5d9", "#fdd0a2", "#fdae6b", "#fd8d3c", "#f16913", "#d94801", "#8c2d04"])
     .domain([0, 100]);
@@ -196,7 +196,7 @@ function ready(error,
             let rank = userData[j].rank;
             if (countryCSV == countryJSON) {
                 geojsonData.features[i].properties.value = numUsers;
-                geojsonData.features[i].properties.color = color(numUsers);
+                geojsonData.features[i].properties.color = colorCountries(numUsers);
                 geojsonData.features[i].properties.countRank = rank;
                 break;
             }
@@ -282,7 +282,6 @@ function ready(error,
     // createZoomButtons();
 }
 
-initiateZoom();
 
 function onCountryFocus(countryFeature, topAnimesData, animeData, genderData, ageData, daysData) {
     country_focus = true
@@ -326,9 +325,17 @@ function resetMap() {
 
     countrySelector.property("value", "Select a country...");
     studioSelector.property("value", "Select a studio...");
+
+    initializeGenderChart()
 }
 
 let btn = d3.select("#map-reset-btn")
 btn.on("click", function () {
     resetMap();
 })
+
+function initMap() {
+    initiateZoom()
+    initializeGenderChart()
+}
+initMap();

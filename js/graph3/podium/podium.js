@@ -1,9 +1,6 @@
 
 const default_img_url = "../../data/graph3_map/no_picture_mal.png";
 
-
-
-
 function updatePodium(topAnimesData, animeData, podiumId) {
     let podium = d3.select("#" + podiumId);
     podium.selectAll("*").remove();

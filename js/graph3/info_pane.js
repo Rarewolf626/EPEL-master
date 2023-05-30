@@ -133,7 +133,7 @@ function showCountryInfo(d, topAnimesData, animeData, genderData, ageData, daysD
     // Top studios
 
     // Gender balance
-    genderBalance = createGenderChart(genderData, engName);
+    genderBalance = updateGenderChart(genderData, engName);
 
     // Age distribution
     ageDistrib = createAgeChart(ageData, engName);
