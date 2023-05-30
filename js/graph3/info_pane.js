@@ -1,17 +1,38 @@
 // ============================================= Studio =============================================
 
-/**
- * 
- * @param {*} countData 
- */
-function createCountryRankings(countData) {
-    let rankTableBody = d3.select("#rankTable").select("tbody");
+function createRankings(rankingData, rankingId, colA, colB) {
 
-    let rankedCountries = countData.sort(function (a, b) {
-        return parseInt(b.num_users) - parseInt(a.num_users);
-    }).slice(0, 10);
+    // <div class="row-4 no-gutters">
+    //     <table id="rankTable">
+    //         <caption> The countries with largest communities </caption>
+    //         <thead>
+    //             <tr>
+    //                 <th>Ranking</th>
+    //                 <th>Country</th>
+    //                 <th>Number of <i>otakus</i></th>
+    //             </tr>
+    //         </thead>
+    //         <tbody></tbody>
+    //     </table>
+    // </div>
 
-    for (let i = 0; i < rankedCountries.length; i++) {
+    let rankings = d3.select("#" + rankingId);
+    rankings.selectAll("*").remove();
+
+    let table = rankings
+        .append("table")
+        .attr("caption", "The countries with largest communities")
+
+    let thead_tr = table
+        .append("thead")
+        .append("tr")
+    thead_tr.append("th").text("Ranking")
+    thead_tr.append("th").text("Country")
+    thead_tr.append("th").text("Number of ").append("i").text("otakus")
+
+    let tbody = rankings.append("tbody");
+
+    for (let i = 0; i < 10; i++) {
         /* Append a new element             
             <tr>
                 <td>i+1</td>
@@ -19,10 +40,10 @@ function createCountryRankings(countData) {
                 <td>top10Data[i].num_users</td>
             </tr>
         */
-        let tr = rankTableBody.append("tr")
+        let tr = tbody.append("tr")
         tr.append("td").text(i + 1)
-        tr.append("td").text(rankedCountries[i].country)
-        tr.append("td").text(formatAsThousands(rankedCountries[i].num_users))
+        tr.append("td").text(rankingData[i].country)
+        tr.append("td").text(formatAsThousands(rankingData[i].num_users))
     }
 }
 
@@ -82,14 +103,6 @@ function showStudioInfo(studio, studioData, studioNumAnimesData, animeData, stud
 
 // ============================================= Country =============================================
 
-/**
- * 
- * @param {*} d 
- * @param {*} genderData 
- * @param {*} ageData 
- * @param {*} daysData 
- * @returns 
- */
 function showCountryInfo(d, topAnimesData, animeData, genderData, ageData, daysData) {
     // Switch to the country tab
     countryTab.show()
@@ -120,12 +133,12 @@ function showCountryInfo(d, topAnimesData, animeData, genderData, ageData, daysD
     // Top studios
 
     // Gender balance
-    createGenderChart(genderData, engName);
+    genderBalance = createGenderChart(genderData, engName);
 
     // Age distribution
-    ageChart = createAgeChart(ageData, engName);
+    ageDistrib = createAgeChart(ageData, engName);
     // Resize the width and height of the chart
-    // ageChart.attr("width", "100%")
+    // ageDistrib.attr("width", "100%")
 
     // Mean number of days spent watching anime
     // Find the corresponding country in the daysData
@@ -153,5 +166,5 @@ function createFlag(d) {
         .attr("alt", d.properties.admin)
         .attr("title", d.properties.admin)
         // If no picture, display the default picture of MAL instead (e.g., https://myanimelist.net/anime/producer/253)
-        .attr("onerror", "this.onerror=null;this.src='../../data/studios/no_picture_mal.png';")
+        .attr("onerror", "this.onerror=null;this.src='../../data/graph3_map/no_picture_mal.png';")
 }

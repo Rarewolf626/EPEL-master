@@ -60,8 +60,9 @@ function updatePodium(topAnimesData, animeData, podiumId) {
             poster
                 .append("img")
                 .attr("class", "rounded mx-auto d-block")
-                .attr("src", d.image_url ? d.image_url : default_img_url)
                 .attr("alt", d.title + " Poster")
+                .attr("src", d.image_url)
+                .attr("onerror", "this.onerror=null;this.src='../../data/graph3_map/no_picture_mal.png';")
             poster.append("div")
                 .attr("class", "go-corner")
                 .attr("href", mal_link)

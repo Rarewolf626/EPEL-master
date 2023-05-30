@@ -280,10 +280,6 @@ function ready(error,
         });
 
     // createZoomButtons();
-
-
-    /* Country rankings */
-    createCountryRankings(userData);
 }
 
 initiateZoom();
