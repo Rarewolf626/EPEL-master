@@ -216,6 +216,7 @@ function ready(error,
         onCountryFocus(countryFeature, topAnimesData, animeData, genderData, ageData, daysData);
     })
 
+    /* Studio selector */
     studioSelector = createStudioSelector(studioNumAnimesData);
     studioSelector.on("change", function () {
         let studio = this.value;

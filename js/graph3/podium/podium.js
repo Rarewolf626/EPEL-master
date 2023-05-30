@@ -4,6 +4,7 @@
 function updatePodium(country, topAnimesData, animeData, podiumId) {
     let podium = d3.select("#" + podiumId);
     podium.selectAll("*").remove();
+    podium.text("")
 
     // Keep at most 3 animes
     topAnimesData = topAnimesData.filter(d => d.country === country).slice(0, 3);
@@ -52,6 +53,7 @@ function updatePodium(country, topAnimesData, animeData, podiumId) {
                 .append("a")
                 .attr("class", "poster")
                 .attr("href", mal_link)
+                .attr("target", "_blank")
                 .append("img")
                 .attr("class", "rounded mx-auto d-block")
                 .attr("src", d.image_url)
@@ -59,6 +61,7 @@ function updatePodium(country, topAnimesData, animeData, podiumId) {
                 .append("div")
                 .attr("class", "go-corner")
                 .attr("href", mal_link)
+                .attr("target", "_blank")
                 .append("div")
                 .attr("class", "go-arrow")
                 .text("→");

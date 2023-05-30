@@ -1,3 +1,8 @@
+/**
+ * 
+ * @param {*} studioData 
+ * @returns 
+ */
 function createStudioSelector(studioData) {
     let studioSelector = d3.select("#studio-selector");
 
@@ -30,8 +35,6 @@ function createCountrySelector(geojsonData) {
             }
         })
         .sort((a, b) => a.sovereignt.localeCompare(b.sovereignt));
-    console.log(data)
-
 
     // For each sovereignt, put the entry whose admin==sovereignt first
     let sovereignt = "";

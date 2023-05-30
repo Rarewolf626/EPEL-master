@@ -109,6 +109,17 @@ circle {
     /* highlight colour for selected country */
 }
 
+#country-flag img {
+    max-height: 100px;
+    width: auto;
+    box-shadow: 0px 4px 8px rgba(38, 38, 38, 0.2);
+}
+
+#studio-logo img {
+    max-height: 200px;
+    width: auto
+}
+
 table {
     border-collapse: collapse;
     border: 2px solid rgb(200, 200, 200);
@@ -184,9 +195,7 @@ tr:nth-child(3) {
     fill: blue;
 }
 
-#country-stats-1 col {
-    width: 50%;
-}
+
 
 /* ======================================== GRAPH 4 ======================================== */
 
