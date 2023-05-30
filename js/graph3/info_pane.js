@@ -63,7 +63,7 @@ function showStudioInfo(studio, studioData, studioNumAnimesData, animeData, stud
         .attr("alt", studioData.name_en)
         .attr("title", studioData.name_en)
         // If no picture, display the default picture of MAL instead (e.g., https://myanimelist.net/anime/producer/253)
-        .attr("onerror", "this.onerror=null;this.src='../../data/studios/no_picture_mal.png';")
+        .attr("onerror", "this.onerror=null;this.src='../../data/graph3_map/no_picture_mal.png';")
 
     let num_animes = studioNumAnimesData.find(d => d.studio == studio).num_animes
 
@@ -76,6 +76,8 @@ function showStudioInfo(studio, studioData, studioNumAnimesData, animeData, stud
 
     // Disable the color fill during mouseover
     // studioMap.selectAll("path").style("fill", null)
+
+    
 }
 
 // ============================================= Country =============================================
@@ -111,8 +113,9 @@ function showCountryInfo(d, topAnimesData, animeData, genderData, ageData, daysD
     createFlag(d);
 
     /* Country stats */
-    // Top animes
-    updatePodium(engName, topAnimesData, animeData, "country-top-animes")
+    // Top 3 animes
+    countryTopAnimes = topAnimesData.filter(d => d.country === engName).slice(0, 3);
+    updatePodium(countryTopAnimes, animeData, "country-top-animes")
 
     // Top studios
 

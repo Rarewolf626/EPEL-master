@@ -131,17 +131,14 @@
 
 .podium-step.gold {
     background-color: #FFCE44;
-    height: 100px;
 }
 
 .podium-step.silver {
     background-color: #D8DBDE;
-    height: 75px;
 }
 
 .podium-step.bronze {
     background-color: #CD7F32;
-    height: 50px;
 }
 
 .podium-step .ranking {

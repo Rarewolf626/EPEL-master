@@ -1,25 +1,27 @@
 
+const default_img_url = "../../data/graph3_map/no_picture_mal.png";
 
 
-function updatePodium(country, topAnimesData, animeData, podiumId) {
+
+
+function updatePodium(topAnimesData, animeData, podiumId) {
     let podium = d3.select("#" + podiumId);
     podium.selectAll("*").remove();
     podium.text("")
 
-    // Keep at most 3 animes
-    topAnimesData = topAnimesData.filter(d => d.country === country).slice(0, 3);
     if (topAnimesData.length === 0) {
         podium.text("No data available");
         return;
     }
 
-    // Reorder topAnimesData to have the elements in the podium order, from left to right
+    // Reorder topAnimesData in the podium order, from left to right
     topAnimesData = [
         topAnimesData[1],
         topAnimesData[0],
         topAnimesData[2]
     ];
 
+    // Merge animeData and topAnimesData
     let data = [];
     topAnimesData.forEach(function (d) {
         let anime_id = d.anime_id;
@@ -33,7 +35,8 @@ function updatePodium(country, topAnimesData, animeData, podiumId) {
         });
     });
 
-    let podium_elements = podium.selectAll(".podium-element")
+    // Create the podium
+    podium.selectAll(".podium-element")
         .data(data)
         .enter()
         .append("div")
@@ -49,16 +52,17 @@ function updatePodium(country, topAnimesData, animeData, podiumId) {
                 .text(d.title);
 
             // Anime poster
-            d3.select(this)
+            let poster = d3.select(this)
                 .append("a")
                 .attr("class", "poster")
                 .attr("href", mal_link)
                 .attr("target", "_blank")
+            poster
                 .append("img")
                 .attr("class", "rounded mx-auto d-block")
-                .attr("src", d.image_url)
+                .attr("src", d.image_url ? d.image_url : default_img_url)
                 .attr("alt", d.title + " Poster")
-                .append("div")
+            poster.append("div")
                 .attr("class", "go-corner")
                 .attr("href", mal_link)
                 .attr("target", "_blank")
@@ -67,15 +71,17 @@ function updatePodium(country, topAnimesData, animeData, podiumId) {
                 .text("→");
 
             // Podium step
-            d3.select(this)
+            let podium_step = d3.select(this)
                 .append("div")
                 .attr("class", "podium-step")
+                .style("height", "0px")
                 .classed("silver", i === 0)
                 .classed("gold", i === 1)
                 .classed("bronze", i === 2)
-                .append("div")
-                .attr("class", "ranking");
+
             // Anime ranking
+            podium_step.append("div")
+                .attr("class", "ranking");
             d3.selectAll(".ranking")
                 .data([2, 1, 3])
                 .text(d => d);
@@ -87,4 +93,18 @@ function updatePodium(country, topAnimesData, animeData, podiumId) {
                 .text(formatAsThousands(d.num_ratings) + " ratings");
         });
 
+    // Animate the podium: appear from bottom to top
+    d3.selectAll(".podium-step")
+        .transition()
+        .duration(200)
+        .style("height", function (d) {
+            switch (d3.select(this).attr("class")) {
+                case "podium-step gold":
+                    return "100px";
+                case "podium-step silver":
+                    return "75px";
+                case "podium-step bronze":
+                    return "50px";
+            }
+        });
 }
