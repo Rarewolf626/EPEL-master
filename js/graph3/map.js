@@ -213,7 +213,7 @@ function ready(error,
             resetMap();
             return;
         }
-        onCountryFocus(countryFeature, topAnimesData, animeData, genderData, ageData, daysData);
+        onCountryFocus(countryFeature, topAnimesData, animeData, topStudioData, genderData, ageData, daysData);
     })
 
     /* Studio selector */
@@ -272,7 +272,7 @@ function ready(error,
         })
         .on("click", function (d) {
             if (studio_focus == false) {
-                onCountryFocus(d, topAnimesData, animeData, genderData, ageData, daysData)
+                onCountryFocus(d, topAnimesData, animeData, topStudioData, genderData, ageData, daysData)
             } else {
                 // I selected a country while in studio focus mode
                 onStudioCountryFocus()
@@ -283,7 +283,7 @@ function ready(error,
 }
 
 
-function onCountryFocus(countryFeature, topAnimesData, animeData, genderData, ageData, daysData) {
+function onCountryFocus(countryFeature, topAnimesData, animeData, topStudios, genderData, ageData, daysData) {
     country_focus = true
     studio_focus = false
     studio_country_names = []
@@ -296,7 +296,7 @@ function onCountryFocus(countryFeature, topAnimesData, animeData, genderData, ag
     boxZoom(path.bounds(countryFeature), path.centroid(countryFeature), 20);
 
     // Show info pane
-    showCountryInfo(countryFeature, topAnimesData, animeData, genderData, ageData, daysData)
+    showCountryInfo(countryFeature, topAnimesData, animeData, topStudios, genderData, ageData, daysData)
 }
 
 
@@ -326,7 +326,6 @@ function resetMap() {
     countrySelector.property("value", "Select a country...");
     studioSelector.property("value", "Select a studio...");
 
-    initializeGenderChart()
 }
 
 let btn = d3.select("#map-reset-btn")

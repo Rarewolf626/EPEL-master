@@ -55,8 +55,8 @@ function updateGenderChart(genderData, country) {
 
     // Compute the position of each group on the pie:
     let pie = d3.pie()
-        .value(function (d) { return d.value; })
-        .sort(function (a, b) { return d3.ascending(a.key, b.key); }) // group order remains the same in the pie chart
+        .value(d => d.value)
+        .sort((a, b) => d3.ascending(a.key, b.key)) // group order remains the same in the pie chart
     let data_ready = pie(d3.entries(genderBalance))
         .filter(d => d.value != 0); // Don't show genders with 0 user
 
@@ -71,22 +71,25 @@ function updateGenderChart(genderData, country) {
         .append('path')
         .on("mouseover", function (d) {
             tooltipGender.style("visibility", "visible");
-            let percent = (d.data.value * 100);
-            tooltipGender.text(Math.round(percent * 10) / 10 + "%")
+            tooltipGender.text((d.data.value * 100).toFixed(2) + "%")
         })
-        .on("mousemove", function (d) { tooltipGender.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
-        .on("mouseout", function (d) { tooltipGender.style("visibility", "hidden"); })
+        .on("mousemove", function (d) {
+            tooltipGender
+                .style("top", (d3.event.pageY - 10) + "px")
+                .style("left", (d3.event.pageX + 10) + "px");
+        })
+        .on("mouseout", function (d) {
+            tooltipGender.style("visibility", "hidden");
+        })
         .merge(u)
         .transition()
         .duration(500)
         .attr('d', arcGenerator)
-        .attr('fill', function (d) { return (colorGenders(d.data.key)) })
+        .attr('fill', d => colorGenders(d.data.key))
         .style("opacity", 0.7)
 
     // Remove the group that is not present anymore
-    u
-        .exit()
-        .remove()
+    u.exit().remove()
 
 
     // Update the annotation
@@ -98,7 +101,7 @@ function updateGenderChart(genderData, country) {
         .merge(t)
         .transition()
         .duration(500)
-        .attr("transform", function (d) { return "translate(" + arcGenerator.centroid(d) + ")"; })
+        .attr("transform", d => "translate(" + arcGenerator.centroid(d) + ")")
         .style("text-anchor", "middle")
         .style("font-size", 69)
         .text(function (d) {
@@ -108,8 +111,7 @@ function updateGenderChart(genderData, country) {
             }
         })
 
-    t.exit()
-        .remove()
+    t.exit().remove()
 
     return svgGender;
 }

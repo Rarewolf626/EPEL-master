@@ -109,8 +109,17 @@ circle {
     /* highlight colour for selected country */
 }
 
+#country-info {
+    height: 125px;
+    margin-top: 2%;
+}
+
+#country-flag {
+    align-self: center;
+}
+
 #country-flag img {
-    max-height: 100px;
+    height: 100px;
     width: auto;
     box-shadow: 0px 4px 8px rgba(38, 38, 38, 0.2);
 }

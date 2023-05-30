@@ -1,51 +1,5 @@
 // ============================================= Studio =============================================
 
-function createRankings(rankingData, rankingId, colA, colB) {
-
-    // <div class="row-4 no-gutters">
-    //     <table id="rankTable">
-    //         <caption> The countries with largest communities </caption>
-    //         <thead>
-    //             <tr>
-    //                 <th>Ranking</th>
-    //                 <th>Country</th>
-    //                 <th>Number of <i>otakus</i></th>
-    //             </tr>
-    //         </thead>
-    //         <tbody></tbody>
-    //     </table>
-    // </div>
-
-    let rankings = d3.select("#" + rankingId);
-    rankings.selectAll("*").remove();
-
-    let table = rankings
-        .append("table")
-        .attr("caption", "The countries with largest communities")
-
-    let thead_tr = table
-        .append("thead")
-        .append("tr")
-    thead_tr.append("th").text("Ranking")
-    thead_tr.append("th").text("Country")
-    thead_tr.append("th").text("Number of ").append("i").text("otakus")
-
-    let tbody = rankings.append("tbody");
-
-    for (let i = 0; i < 10; i++) {
-        /* Append a new element             
-            <tr>
-                <td>i+1</td>
-                <td>top10Data[i].country</td>
-                <td>top10Data[i].num_users</td>
-            </tr>
-        */
-        let tr = tbody.append("tr")
-        tr.append("td").text(i + 1)
-        tr.append("td").text(rankingData[i].country)
-        tr.append("td").text(formatAsThousands(rankingData[i].num_users))
-    }
-}
 
 
 function showStudioInfo(studio, studioData, studioNumAnimesData, animeData, studioTopAnimeData, studioCountriesData) {
@@ -103,7 +57,7 @@ function showStudioInfo(studio, studioData, studioNumAnimesData, animeData, stud
 
 // ============================================= Country =============================================
 
-function showCountryInfo(d, topAnimesData, animeData, genderData, ageData, daysData) {
+function showCountryInfo(d, topAnimesData, animeData, topStudios, genderData, ageData, daysData) {
     // Switch to the country tab
     countryTab.show()
 
@@ -131,6 +85,8 @@ function showCountryInfo(d, topAnimesData, animeData, genderData, ageData, daysD
     updatePodium(countryTopAnimes, animeData, "country-top-animes")
 
     // Top studios
+    topStudios = topStudios.filter(d => d.country === engName)
+    updateRankings(topStudios, "country-top-studios", "Studio", "Number of ratings", "studio", "num_ratings")
 
     // Gender balance
     genderBalance = updateGenderChart(genderData, engName);
