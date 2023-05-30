@@ -19,6 +19,7 @@
 	<!-- Load JS code -->
 	<script src="js/graph4/pieChart.js"></script>
 	<script src="js/graph4/pieLegend.js"></script>
+	<script src="js/graph4/topAnime.js"></script>
 	<script src="js/graph4/pieCompose.js" defer></script>
 
 </head>
@@ -119,7 +120,13 @@
 				//draw chart
 				d3.csv("data/graph4_pie_chart/dataColors.csv", function (error2, c) {
 					if (error2) throw error2;
-					const ratio = window.innerHeight/12
+					d3.csv("data/graph4_pie_chart/dataAnime.csv", function(error3, a){
+						if (error3) throw error3;
+						const ratio = window.innerHeight/12
+					    const width = parseInt(window.innerWidth/ratio, 10)
+					    const compose = new ComposePieChart(d, c[0], a, /*0, 0, width, 12,*/ '100%', '100%')
+					    compose.connectedCallback()
+					/*const ratio = window.innerHeight/12
 					const width = parseInt(window.innerWidth/ratio, 10)
 					const compose = new ComposePieChart(d, c[0], 0, 0, width, 12, '100%', '100%')
 					compose.connectedCallback()
@@ -133,7 +140,8 @@
 						const compose = new ComposePieChart(d, c[0], 0, 0, width, 12, '100%', '100%')
 						compose.connectedCallback()
 					});
-					//const compose = new Legend(c[0], 0, 0, '100%', '100%')
+					//const compose = new Legend(c[0], 0, 0, '100%', '100%')*/
+					});
 				});
 			});            
 		</script>
