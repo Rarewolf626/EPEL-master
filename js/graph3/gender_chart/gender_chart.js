@@ -1,25 +1,23 @@
-let chartGender = d3.select("#country-gender-balance")
+let genderChart = d3.select("#country-gender-balance")
 // chart.selectAll("*").remove();
 
 // set the dimensions and margins of the graph
-const widthGender = 300
-const heightGender = 300
-const marginGender = 40
+const GENDER_WIDTH = 300,
+    GENDER_HEIGHT = 300,
+    GENDER_MARGIN = 40,
+    GENDER_RADIUS = Math.min(GENDER_WIDTH, GENDER_HEIGHT) / 2 - GENDER_MARGIN
 
-// The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
-const radius = Math.min(widthGender, heightGender) / 2 - marginGender
-
-const labelsGender = ["Female", "Male", "Non-Binary"]
+const GENDER_LABELS = ["Female", "Male", "Non-Binary"]
 
 // set the color scale
-const colorGenders = d3.scaleOrdinal()
-    .domain(labelsGender)
+const GENDER_COLORS = d3.scaleOrdinal()
+    .domain(GENDER_LABELS)
     .range(d3.schemeSet1);
 
 // Shape helper to build arcs
-const arcGenerator = d3.arc()
+const ARC_GENERATOR = d3.arc()
     .innerRadius(0)
-    .outerRadius(radius)
+    .outerRadius(GENDER_RADIUS)
 
 let svgGender;
 
@@ -30,10 +28,10 @@ function initGenderChart() {
     d3.select("#country-gender-balance").selectAll("*").remove();
     svgGender = d3.select("#country-gender-balance")
         .append("svg")
-        .attr("width", widthGender)
-        .attr("height", heightGender)
+        .attr("width", GENDER_WIDTH)
+        .attr("height", GENDER_HEIGHT)
         .append("g")
-        .attr("transform", "translate(" + widthGender / 2 + "," + heightGender / 2 + ")");
+        .attr("transform", "translate(" + GENDER_WIDTH / 2 + "," + GENDER_HEIGHT / 2 + ")");
 }
 
 let tooltipGender = d3.select("body")
@@ -89,8 +87,8 @@ function updateGenderChart(genderData, country) {
         .merge(u)
         .transition()
         .duration(500)
-        .attr('d', arcGenerator)
-        .attr('fill', d => colorGenders(d.data.key))
+        .attr('d', ARC_GENERATOR)
+        .attr('fill', d => GENDER_COLORS(d.data.key))
         .style("opacity", 0.7)
 
     // Remove the group that is not present anymore
@@ -106,7 +104,7 @@ function updateGenderChart(genderData, country) {
         .merge(t)
         .transition()
         .duration(500)
-        .attr("transform", d => "translate(" + arcGenerator.centroid(d) + ")")
+        .attr("transform", d => "translate(" + ARC_GENERATOR.centroid(d) + ")")
         .style("text-anchor", "middle")
         .style("font-size", 69)
         .text(function (d) {

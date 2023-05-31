@@ -31,7 +31,6 @@ let path = d3.geoPath()
 // Color scheme for countries, based on the number of users
 let colorCountries = d3.scaleLinear()
     .range(["#fee5d9", "#fdd0a2", "#fdae6b", "#fd8d3c", "#f16913", "#d94801", "#a63603", "#7f2704", "#7f2704"])
-    // .range(["#fee5d9", "#fdd0a2", "#fdae6b", "#fd8d3c", "#f16913", "#d94801", "#8c2d04"])
     .domain([0, 100]);
 
 // Map zoom behavior
@@ -58,6 +57,8 @@ let countriesGroup = mapSvg.append("g")
 // All paths
 let countries;
 
+const CLIENT_WIDTH = d3.select("#map-holder").node().clientWidth,
+    CLIENT_HEIGHT = d3.select("#map-holder").node().clientHeight;
 
 /**
  * Initiate the zoom: calculate zoom/pan limits and set zoom to default value
@@ -72,6 +73,8 @@ function initZoom() {
         .duration(1000)
         .call(zoom.transform, d3.zoomIdentity.translate(MID_X, MID_Y).scale(MIN_ZOOM));
 }
+
+
 
 /**
  * Zoom to show a bounding box, with optional additional padding as percentage of box size
@@ -115,8 +118,7 @@ function boxZoom(box, centroid, paddingPerc) {
         .call(zoom.transform, d3.zoomIdentity.translate(dleft, dtop).scale(zoomScale));
 }
 
-const CLIENT_WIDTH = d3.select("#map-holder").node().clientWidth;
-const CLIENT_HEIGHT = d3.select("#map-holder").node().clientHeight;
+
 
 // Load all the json data from data/map asynchronously and call the ready function to draw the map
 d3.queue()
@@ -285,8 +287,9 @@ function ready(error,
 function onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData) {
     countryFocus = true
     studioFocus = false
-    studioCountryNames = []
     studioSelector.property("value", "Select a studio...");
+
+    studioCountryNames = []
 
     // Color the countries according to the number of users
     countries.style("fill", d => d.properties.color)
@@ -316,8 +319,10 @@ function onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopS
 function onStudioFocus(studio, studioData, studioNumAnimes, animeData, studioTopAnimes, studioCountries) {
     countryFocus = false
     studioFocus = true
-
     countrySelector.property("value", COUNTRY_SELECTOR_DEFAULT_OPTION);
+
+    // Dezoom
+    initZoom();
 
     studioCountryNames = studioCountries.filter(d => d.studio == studio).map(d => d.country);
     if (studioCountryNames.length == 0) {
@@ -326,8 +331,6 @@ function onStudioFocus(studio, studioData, studioNumAnimes, animeData, studioTop
     }
     // Color all countries who have at least one anime from the selected studio in blue, the rest in gray
     countries.style("fill", d => studioCountryNames.includes(d.properties.admin) ? "#0000ff" : "#ccc")
-
-    initZoom();
 
     // Show info pane
     showStudioInfo(studio, studioData, studioNumAnimes, animeData, studioTopAnimes, studioCountries)
@@ -352,20 +355,19 @@ function initMap() {
  * Reset the map to its initial state
  */
 function resetMap() {
-    initZoom();
-
     countryFocus = false
     studioFocus = false
-
-    // Color the countries according to the number of users
-    countries.style("fill", d => d.properties.color)
-
-    // Reset the selectors
     countrySelector.property("value", COUNTRY_SELECTOR_DEFAULT_OPTION);
     studioSelector.property("value", STUDIO_SELECTOR_DEFAULT_OPTION);
 
+    // Dezoom
+    initZoom();
+
+    // Color the countries according to the number of users
+    countries.style("fill", d => d.properties.color)
 }
 
+// Reset button
 let resetBtn = d3.select("#map-reset-btn")
     .on("click", resetMap)
 

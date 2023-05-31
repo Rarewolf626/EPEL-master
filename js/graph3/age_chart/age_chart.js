@@ -41,9 +41,9 @@ let hideTooltip = function (d) {
  * @returns 
  */
 function fillMissingYears(years) {
-  const filledYears = [];
-  const firstYear = years[0];
-  const lastYear = years[years.length - 1];
+  let filledYears = [];
+  let firstYear = years[0];
+  let lastYear = years[years.length - 1];
 
   for (let year = firstYear; year <= lastYear; year++) {
     filledYears.push(year);

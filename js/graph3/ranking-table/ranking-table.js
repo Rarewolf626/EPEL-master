@@ -1,5 +1,11 @@
+function initRankings() {
+    d3.select("#" + rankingId).selectAll("*").remove();
+}
+
 function updateRankings(rankingData, rankingId, headerA, headerB, colA, colB, num_rows = 10) {
     let rankings = d3.select("#" + rankingId);
+    rankings.selectAll("*").remove();
+
 
     let table = rankings
         .selectAll("table")
