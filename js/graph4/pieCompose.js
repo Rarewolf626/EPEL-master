@@ -23,7 +23,7 @@ class ComposePieChart extends HTMLElement {
                 height: 100%;
             }
         `
-        const graph = document.querySelector('#graph4')
+        const graph = document.querySelector('#graph-pieChart')
         graph.setAttribute("class", "row no-gutters")
         graph.style.setProperty("width", `100%`)
         graph.style.setProperty('height', `100vh`)
@@ -138,10 +138,10 @@ class ComposePieChart extends HTMLElement {
         //this.divTop.node().appendChild(legend.getSVG())
         //console.log("test")
         this.divTitle = divRight.append("div").style("position", "absolute").style("width", "100%").style("height", "4%")
-        const divTopAnime = divRight.append("div").attr("id", "divTopAnime").style("position", "absolute").style("width", "100%").style("height", "85%").style("top", "4%")//.style("overflow", "auto")
+        const divTopAnime = divRight.append("div").attr("id", "divTopAnime").style("position", "relative").style("width", "100%").style("height", "80%").style("top", "4%")//.style("overflow", "auto")
         this.divTopAnime = divTopAnime
-        const divBackArrow = divRight.append("div").style("position", "absolute").style("top", "89%").style("width", "100%")
-            .style("height", "11%")
+        const divBackArrow = divRight.append("div").style("position", "relative").style("width", "100%")
+            .style("height", "10%").style("top", "5%")
         //const testSVG = divBackArrow.append("svg").attr("width", "100%").attr("height", "100%")
         //const testPoint = new Point("50%", "50%")
         const backArrowSVG = divBackArrow.append("svg").attr("width", "100%").attr("height", "100%").attr("viewBox","0 0 100 100").attr("preserveAspectRatio","none")
@@ -439,7 +439,9 @@ class ComposePieChart extends HTMLElement {
                 }
                 
                 //console.log(r)
-                this.divTopAnime.node().appendChild(this.top.getSVG())
+                if(this.top !== null) {
+                    this.divTopAnime.node().appendChild(this.top.getSVG())
+                }
             }
         }
         this.newXG3 = newXG3
@@ -579,10 +581,11 @@ class ComposePieChart extends HTMLElement {
                     this.g2.setSVGAttribute(`${newXG2}%`, `${newYG2}%`, `${newWG2}%`, `${newHG2}%`)
                     text.attr("opacity", "1").attr("fill-opacity", "1")
                 }
-                this.composeSVG.appendChild(this.g3.getShadow())
-                this.g3.connectedCallback()
-                const element = document.getElementById("legendCompose");
-                element.remove();
+                if(this.g3 !== null) {
+                    this.composeSVG.appendChild(this.g3.getShadow())
+                    this.g3.connectedCallback()
+                    const element = document.getElementById("legendCompose");
+                    element.remove();
                 /*var colors = this.colorsPerGenre.filter((d) => this.labelsg1.includes(d.genre) || this.labelsg2.includes(d.genre) || this.labelsg3.includes(d.genre))
                 for (let i = 0; i<colors.length; i++) {
                     colors[i].index = i
@@ -595,10 +598,11 @@ class ComposePieChart extends HTMLElement {
                     this.dblclickOnLegend(e.detail)
                 })
                 this.divTop.node().appendChild(legend.getSVG())*/
-                this.currentCallback = (d) => this.labelsg1.includes(d.genre) || this.labelsg2.includes(d.genre) || this.labelsg3.includes(d.genre)
-                this.createLegend(this.currentCallback)
+                    this.currentCallback = (d) => this.labelsg1.includes(d.genre) || this.labelsg2.includes(d.genre) || this.labelsg3.includes(d.genre)
+                    this.createLegend(this.currentCallback)
                 //this.divTop.node().appendChild(legend.getSVG())
                 //this.currentLegend = this.createLegend((d) => this.labelsg1.includes(d.genre) || this.labelsg2.includes(d.genre) || this.labelsg3.includes(d.genre))
+                }
             }
         }
         this.newXG2 = newXG2
@@ -756,10 +760,11 @@ class ComposePieChart extends HTMLElement {
                     this.g1.setSVGAttribute(`${newXG1}%`, `${newYG1}%`, `${newWG1}%`, `${newHG1}%`)
                     text.attr("opacity", "1").attr("fill-opacity", "1")
                 }
-                this.composeSVG.appendChild(this.g2.getShadow())
-                this.g2.connectedCallback()
-                const elementlegend = document.getElementById("legendCompose");
-                elementlegend.remove();
+                if(this.g2 !== null) {
+                    this.composeSVG.appendChild(this.g2.getShadow())
+                    this.g2.connectedCallback()
+                    const elementlegend = document.getElementById("legendCompose");
+                    elementlegend.remove();
                 /*var colors = this.colorsPerGenre.filter((d) => this.labelsg1.includes(d.genre) || this.labelsg2.includes(d.genre))
                 for (let i = 0; i<colors.length; i++) {
                     colors[i].index = i
@@ -772,10 +777,11 @@ class ComposePieChart extends HTMLElement {
                     this.dblclickOnLegend(e.detail)
                 })
                 this.divTop.node().appendChild(legend.getSVG())*/
-                this.currentCallback = (d) => this.labelsg1.includes(d.genre) || this.labelsg2.includes(d.genre)
-                this.createLegend(this.currentCallback)
+                    this.currentCallback = (d) => this.labelsg1.includes(d.genre) || this.labelsg2.includes(d.genre)
+                    this.createLegend(this.currentCallback)
                 //this.divTop.node().appendChild(legend.getSVG())
                 //this.currentLegend = this.createLegend((d) => this.labelsg1.includes(d.genre) || this.labelsg2.includes(d.genre))
+                }
             }
         }
         this.newXG1 = newXG1
@@ -874,3 +880,35 @@ class ComposePieChart extends HTMLElement {
     }
 }
 customElements.define('pie-compose', ComposePieChart)
+d3.csv("data/graph4_pie_chart/data.csv", function (error1, d) {
+    if (error1) throw error1;
+
+
+    //format data if required...
+    //draw chart
+    d3.csv("data/graph4_pie_chart/dataColors.csv", function (error2, c) {
+        if (error2) throw error2;
+        d3.csv("data/graph4_pie_chart/dataAnime.csv", function(error3, a){
+            if (error3) throw error3;
+            const ratio = window.innerHeight/12
+            const width = parseInt(window.innerWidth/ratio, 10)
+            const compose = new ComposePieChart(d, c[0], a, /*0, 0, width, 12,*/ '100%', '100%')
+            compose.connectedCallback()
+        /*const ratio = window.innerHeight/12
+        const width = parseInt(window.innerWidth/ratio, 10)
+        const compose = new ComposePieChart(d, c[0], 0, 0, width, 12, '100%', '100%')
+        compose.connectedCallback()
+        window.addEventListener('resize', function() {
+            // viewport and full window dimensions will change
+            
+            const ratio = window.innerHeight/12
+            const width = parseInt(window.innerWidth/ratio, 10)
+            const pc = document.getElementById("pc")
+            pc.remove()
+            const compose = new ComposePieChart(d, c[0], 0, 0, width, 12, '100%', '100%')
+            compose.connectedCallback()
+        });
+        //const compose = new Legend(c[0], 0, 0, '100%', '100%')*/
+        });
+    });
+});  

@@ -42,17 +42,11 @@ crossorigin="anonymous"></script>
 <script src="lib/fullpage.min.js"></script>
 
 
-<!-- Graph 4 -->
-<script src="js/graph4/pieChart.js"></script>
-<script src="js/graph4/pieLegend.js"></script>
-<script src="js/graph4/topAnime.js"></script>
-<script src="js/graph4/pieCompose.js" defer></script>
-
 
 	
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
 
 	<header class="header-1" id="header">
 	</header>
@@ -238,40 +232,7 @@ crossorigin="anonymous"></script>
 
 		<!-- Visualization 4: Genres Interactive Pie Charts -->
 		<div class="section" id="graph4">
-			<script>
-				d3.csv("data/graph4_pie_chart/data.csv", function (error1, d) {
-					if (error1) throw error1;
-	
-	
-					//format data if required...
-					//draw chart
-					d3.csv("data/graph4_pie_chart/dataColors.csv", function (error2, c) {
-						if (error2) throw error2;
-						d3.csv("data/graph4_pie_chart/dataAnime.csv", function(error3, a){
-							if (error3) throw error3;
-							const ratio = window.innerHeight/12
-							const width = parseInt(window.innerWidth/ratio, 10)
-							const compose = new ComposePieChart(d, c[0], a, /*0, 0, width, 12,*/ '100%', '100%')
-							compose.connectedCallback()
-						/*const ratio = window.innerHeight/12
-						const width = parseInt(window.innerWidth/ratio, 10)
-						const compose = new ComposePieChart(d, c[0], 0, 0, width, 12, '100%', '100%')
-						compose.connectedCallback()
-						window.addEventListener('resize', function() {
-							// viewport and full window dimensions will change
-							
-							const ratio = window.innerHeight/12
-							const width = parseInt(window.innerWidth/ratio, 10)
-							const pc = document.getElementById("pc")
-							pc.remove()
-							const compose = new ComposePieChart(d, c[0], 0, 0, width, 12, '100%', '100%')
-							compose.connectedCallback()
-						});
-						//const compose = new Legend(c[0], 0, 0, '100%', '100%')*/
-						});
-					});
-				});            
-			</script>
+			<div id="graph-pieChart"></div>
 		</div>
 	</div>
 </body>
@@ -294,6 +255,11 @@ crossorigin="anonymous"></script>
 <script src="js/graph3/option_pane.js"></script>
 <script src="js/graph3/info_pane.js"></script>
 <script src="js/graph3/map.js"></script>-->
+<!-- Graph 4 -->
+<script src="js/graph4/pieChart.js"></script>
+<script src="js/graph4/pieLegend.js"></script>
+<script src="js/graph4/topAnime.js"></script>
+<script src="js/graph4/pieCompose.js" defer></script>
 
 
 <script>
