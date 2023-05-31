@@ -2,15 +2,14 @@
 
 
 
-function showStudioInfo(studio, studioData, studioNumAnimesData, animeData, studioTopAnimeData, studioCountriesData) {
+function showStudioInfo(studio, studioData, studioNumAnimes, animeData, studioTopAnimes, studioCountries) {
     // Switch to the studio tab
     studioTab.show()
 
-    country_names = studioCountriesData.filter(d => d.studio == studio).map(d => d.country)
+    country_names = studioCountries.filter(d => d.studio == studio).map(d => d.country)
     let num_countries = country_names.length
 
-    studioData = studioData.find(d => d.name_en == studio)
-    console.log(studioData)
+    studioData = studioData.find(d => d.studio_en == studio)
 
     // Studio name (english and japanese)
     let name = d3.select("#studio-name")
@@ -19,13 +18,13 @@ function showStudioInfo(studio, studioData, studioNumAnimesData, animeData, stud
     name.append("a")
         .attr("href", "https://myanimelist.net/anime/producer/" + studioData.id)
         .attr("target", "_blank")
-        .text(studioData.name_en)
+        .text(studioData.studio_en)
         .attr("style", "color: black; text-decoration: none;")
         .attr("onmouseover", "this.style.color='orange'")
         .attr("onmouseout", "this.style.color='black'")
-    if (studioData.name_ja != "") {
+    if (studioData.studio_ja != "") {
         name.append("span")
-            .text(" (" + studioData.name_ja + ")")
+            .text(" (" + studioData.studio_ja + ")")
             .style("font-size", "0.75em");
     }
 
@@ -34,13 +33,12 @@ function showStudioInfo(studio, studioData, studioNumAnimesData, animeData, stud
     logo.selectAll("*").remove();
     logo.append("img")
         .attr("src", studioData.logo_url)
-        .attr("class", "rounded mx-auto d-block")
-        .attr("alt", studioData.name_en)
-        .attr("title", studioData.name_en)
-        // If no picture, display the default picture of MAL instead (e.g., https://myanimelist.net/anime/producer/253)
         .attr("onerror", "this.onerror=null;this.src='../../data/graph3_map/no_picture_mal.png';")
+        .attr("class", "rounded mx-auto d-block")
+        .attr("alt", studioData.studio_en)
+        .attr("title", studioData.studio_en)
 
-    let num_animes = studioNumAnimesData.find(d => d.studio == studio).num_animes
+    let num_animes = studioNumAnimes.find(d => d.studio == studio).num_animes
 
     let num_info = d3.select("#studio-num-animes-num-countries")
     num_info.selectAll("*").remove();
@@ -57,7 +55,7 @@ function showStudioInfo(studio, studioData, studioNumAnimesData, animeData, stud
 
 // ============================================= Country =============================================
 
-function showCountryInfo(d, topAnimesData, animeData, topStudios, genderData, ageData, daysData) {
+function showCountryInfo(d, countryTopAnimes, animeData, topStudios, genderData, ageData, daysData) {
     // Switch to the country tab
     countryTab.show()
 
@@ -81,7 +79,7 @@ function showCountryInfo(d, topAnimesData, animeData, topStudios, genderData, ag
 
     /* Country stats */
     // Top 3 animes
-    countryTopAnimes = topAnimesData.filter(d => d.country === engName).slice(0, 3);
+    countryTopAnimes = countryTopAnimes.filter(d => d.country === engName).slice(0, 3);
     updatePodium(countryTopAnimes, animeData, "country-top-animes")
 
     // Top studios

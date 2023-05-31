@@ -22,7 +22,11 @@ const arcGenerator = d3.arc()
     .outerRadius(radius)
 
 let svgGender;
-function initializeGenderChart() {
+
+/**
+ * Initialize the gender chart
+ */
+function initGenderChart() {
     d3.select("#country-gender-balance").selectAll("*").remove();
     svgGender = d3.select("#country-gender-balance")
         .append("svg")
@@ -39,6 +43,7 @@ let tooltipGender = d3.select("body")
     .style("visibility", "hidden");
 
 /**
+ * Update the gender chart
  * 
  * @param {*} genderData 
  * @param {*} country 
@@ -47,7 +52,7 @@ let tooltipGender = d3.select("body")
 function updateGenderChart(genderData, country) {
     let data = genderData.find(d => d.country == country)
     if (!data) {
-        initializeGenderChart();
+        initGenderChart();
         return;
     }
 

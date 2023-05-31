@@ -56,14 +56,14 @@ function fillMissingYears(years) {
 /**
  * Creates a histogram of the age distribution of users in a country
  * @param {*} ageData 
- * @param {*} countryName 
+ * @param {*} country 
  * @returns 
  */
-function updateAgeChart(ageData, countryName) {
+function updateAgeChart(ageData, country) {
   let svg = d3.select("#country-age-histogram")
   svg.selectAll("*").remove();
 
-  let data = ageData.filter(d => d.country == countryName)
+  let data = ageData.filter(d => d.country == country)
   if (data.length == 0) {
     // d3.select("#country-age-distribution").append("paragraph").text("No data available for this country")
     return;
