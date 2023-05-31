@@ -78,9 +78,9 @@ function initZoom() {
 
 /**
  * Zoom to show a bounding box, with optional additional padding as percentage of box size
- * @param {*} box 
- * @param {*} centroid 
- * @param {*} paddingPerc 
+ * @param {*} box  [[left, bottom], [right, top]] in map units
+ * @param {*} centroid  [longitude, latitude] of box in map units
+ * @param {*} paddingPerc  padding as percentage of box size
  */
 function boxZoom(box, centroid, paddingPerc) {
     let minXY = box[0];
@@ -136,8 +136,8 @@ d3.queue()
     .defer(d3.csv, COUNTRY_STAT_PATH + "country_num_days_spent_watching_mean.csv")
     .defer(d3.csv, COUNTRY_STAT_PATH + "country_top_animes_3.csv/0.part")
     .defer(d3.csv, COUNTRY_STAT_PATH + "country_top_studios.csv/0.part")
-    // Animes
-    .defer(d3.csv, DATA_PATH + "anime_cleaned.csv")
+    // Anime
+    .defer(d3.csv, DATA_PATH + "AnimeList_clean.csv")
     // Studios
     .defer(d3.csv, STUDIO_PATH + "studios_mal_clean.csv")
     .defer(d3.csv, STUDIO_STAT_PATH + "studio_country_num_ratings.csv/0.part")
@@ -267,12 +267,18 @@ function ready(error,
                 onCountryFocus(d, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData)
             } else {
                 // I selected a country while in studio focus mode
-                onStudioCountryFocus(d)
+                // Get the current value selected in the studio selector
+                let studio = studioSelector.property("value")
+                let country = d.properties.admin
+                onStudioCountryFocus(studio, country, studioData, animeData, studioCountryTopAnimes)
             }
         });
 
     // createZoomButtons();
 }
+
+// Two colors to alternate when a country is selected. These colors alternate in a "heartbeat" fashion
+const COUNTRY_COLORS_SELECTED = ["#2c7bb6", "#a6cee3"]
 
 /**
  * 
@@ -293,6 +299,10 @@ function onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopS
 
     // Color the countries according to the number of users
     countries.style("fill", d => d.properties.color)
+    d3.select("#country" + countryFeature.properties.iso_a2)
+        .style("fill", "#2c7bb6")
+        .on("mouseover", null)
+        .on("mouseout", null)
 
     // Zoom on the country
     boxZoom(path.bounds(countryFeature), path.centroid(countryFeature), 20);
@@ -337,7 +347,10 @@ function onStudioFocus(studio, studioData, studioNumAnimes, animeData, studioTop
 }
 
 
-function onStudioCountryFocus(countryFeature) {
+function onStudioCountryFocus(studio, country, studioData, animeData, studioCountryTopAnimes) {
+    let topAnimesData = studioCountryTopAnimes.filter(d => d.studio == studio && d.country == country)
+    updatePodium(topAnimesData, animeData, "studio-country-top-animes")
+
 }
 
 /**

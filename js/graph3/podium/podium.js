@@ -1,5 +1,4 @@
-
-const default_img_url = "../../data/graph3_map/no_picture_mal.png";
+const DEFAULT_ANIME_IMG_URL = "../../data/graph3_map/no_picture_mal.png";
 
 function updatePodium(topAnimesData, animeData, podiumId) {
     let podium = d3.select("#" + podiumId);
@@ -12,11 +11,12 @@ function updatePodium(topAnimesData, animeData, podiumId) {
     }
 
     // Reorder topAnimesData in the podium order, from left to right
-    topAnimesData = [
-        topAnimesData[1],
-        topAnimesData[0],
-        topAnimesData[2]
-    ];
+    if (topAnimesData.length >= 2) {
+        // swap 0 and 1
+        let tmp = topAnimesData[0];
+        topAnimesData[0] = topAnimesData[1];
+        topAnimesData[1] = tmp;
+    }
 
     // Merge animeData and topAnimesData
     let data = [];
@@ -73,15 +73,21 @@ function updatePodium(topAnimesData, animeData, podiumId) {
                 .append("div")
                 .attr("class", "podium-step")
                 .style("height", "0px")
-                .classed("silver", i === 0)
-                .classed("gold", i === 1)
-                .classed("bronze", i === 2)
-
+            if (data.length === 1) {
+                podium_step = podium_step.classed("gold", true);
+            } else {
+                podium_step = podium_step
+                    .classed("silver", i === 0)
+                    .classed("gold", i === 1)
+                    .classed("bronze", i === 2)
+            }
             // Anime ranking
             podium_step.append("div")
                 .attr("class", "ranking");
             d3.selectAll(".ranking")
-                .data([2, 1, 3])
+                .data(function () {
+                    return (data.length === 1) ? [1] : [2, 1, 3];
+                })
                 .text(d => d);
 
             // Anime number of ratings
