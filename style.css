@@ -1,46 +1,35 @@
-html {
-    scroll-behavior: smooth;
+* {
+    box-sizing: border-box;
 }
 
+html,
 body {
-    width: "100%";
-    height: "100vh";
-
-    background-color: #e9e7e7;
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 10px;
+    height: 100%;
     font-family: sans-serif;
-    font-size: 100%;
     color: #333;
-    padding-left: 25px;
+    display: block;
+    align-items: center;
+    justify-content: center;
 }
-
 
 .info-pane {
     background-color: #efefef;
 }
 
-.leftside {
-    height: 100vh;
-}
-
-.float-child {
-    /*width: 50%;*/
-    float: left;
-    /*padding: 10px;*/
-    margin: 10px;
-    /*border: 2px solid red;*/
-}
-
 /* ======================================== GRAPH 1 ======================================== */
-caption {
+#graph1 caption {
     padding: 10px;
 }
 
-.label,
+#graph1 .label,
 node--root {
     pointer-events: none;
 }
 
-.label {
+#graph1 .label {
     font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-anchor: middle;
     font-size: 20px;
@@ -48,25 +37,23 @@ node--root {
     display: block;
 }
 
-circle {
+#graph1 circle {
     opacity: 60%;
 }
 
-.node {
+#graph1 .node {
     cursor: pointer;
 }
 
-.node:hover {
+#graph1 .node:hover {
     stroke: #71797E;
     stroke-width: 1.5px;
 }
 
-.node--leaf:hover {
+#graph1 .node--leaf:hover {
     stroke: black;
     stroke-width: 1.5px;
 }
-
-
 
 #graph1 .leftside {
     display: flex;
@@ -81,12 +68,12 @@ circle {
     height: 100%;
 }
 
-#plot {
+#graph1 #plot {
     display: block;
     margin: auto;
 }
 
-#year {
+#graph1 #year {
     text-align: center;
     font-size: 50px;
     color: white;
@@ -95,6 +82,14 @@ circle {
     text-decoration: underline;
 }
 
+#graph1 #nb_ratings {
+    text-align: center;
+    font-size: 30px;
+    color: white;
+    opacity: 90%;
+    font-family: "Roboto";
+    margin-top: 50px;
+}
 
 /* ======================================== GRAPH 3 ======================================== */
 .country {
@@ -127,16 +122,6 @@ circle {
 #studio-logo img {
     max-height: 200px;
     width: auto
-}
-
-
-#nb_ratings {
-    text-align: center;
-    font-size: 30px;
-    color: white;
-    opacity: 90%;
-    font-family: "Roboto";
-    margin-top: 50px;
 }
 
 /* ======================================== GRAPH 4 ======================================== */
