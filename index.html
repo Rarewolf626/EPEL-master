@@ -3,152 +3,303 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width">
-	<link href="style.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<title>COM-480 Data visualization</title>
+	<title>VizMoiCa</title>
+	<meta name="author" content="Antoine Métivier, Julien Mettler, Etienne Monnin" />
 
-	<!-- Load d3.js -->
-	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<link rel="icon" href="favicon.ico" />
 
-	<!-- Color scale -->
-	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+	<!-- Our styles -->
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" href="js/graph1/graph1.css" id="graph1-style">
+	<link rel="stylesheet" type="text/css" href="js/graph3/podium/podium.css">
+	<link rel="stylesheet" type="text/css" href="js/graph3/ranking-table/ranking-table.css">
 
-	<!-- Load JS code -->
-	<script src="js/graph4/pieChart.js"></script>
-	<script src="js/graph4/pieLegend.js"></script>
-	<script src="js/graph4/topAnime.js"></script>
-	<script src="js/graph4/pieCompose.js" defer></script>
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+		integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
+	<!-- fullPage.js -->
+	<link rel="stylesheet" href="lib/fullpage.min.css" />
+
+	<!-- Load search icon -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+crossorigin="anonymous"></script>
+<!-- D3.js -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<!-- Load Fuse.js -->
+<script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js"></script>
+<!-- Load Word Cloud Layout -->
+<script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+
+<!-- fullPage.js -->
+<script src="lib/fullpage.min.js"></script>
+
+
+<!-- Graph 4 -->
+<script src="js/graph4/pieChart.js"></script>
+<script src="js/graph4/pieLegend.js"></script>
+<script src="js/graph4/topAnime.js"></script>
+<script src="js/graph4/pieCompose.js" defer></script>
+
+
+	
 </head>
 
 <body>
 
-	<!-- Create a CENTERED TITLE-->
-	<div style="text-align:center">
-		<h1>COM-480 Data visualization</h1>
-		<h2> Visualizing the worlwide influence of Animes</h2>
-	</div>
+	<header class="header-1" id="header">
+	</header>
 
-	<!-- Create a NAVIGATION BAR-->
-	<!-- <div class="topnav">
-		<a href="#graph1">Graph 1</a>
-		<a href="#graph2">Graph 2</a>
-		<a href="#graph3">Graph 3</a>
-		<a href="#graph4">Graph 4</a>
-		<a href="#graph5">Graph 5</a>
-	</div> -->
+	<div id="fullpage">
+		<!-- Home page -->
+		<div class="section" id="home">
+			<div style="text-align:center">
+				<h1>MyAnimeList Social Network</h1>
+				<h2> Visualizing the worlwide influence of animes</h2>
 
-
-	<div id="graph1">
-		<div class="row no-gutters">
-			<div class="col-8 no-gutters">
-				<div class="leftside">
-					<svg id="plot" width="850" height="850"></svg>
-				</div>
-			</div>
-			<div class="col no-gutters">
-				<div class="rightside">
-					<p id="year">year</p>
-					<p id="nb_ratings">percentage : </p>
-					<svg id="plot_desc" width="500" height="850"></svg>
+				<p>Introduction</p>
+				<div class="row no-gutters" >
+					<div class="col no-gutters">
+						<div id="countryCounter" class="counter"></div>	
+						<div id="countryCounter_desc" class="counter_desc">
+							<p>countries</p>
+						</div>
+					</div>
+					<div class="col no-gutters">
+						<div id="animeCounter" class="counter"></div>	
+						<div id="animeCounter_desc" class="counter_desc">
+							<p>anime</p>
+						</div>
+					</div>
+					<div class="col no-gutters">
+						<div id="userCounter" class="counter"></div>	
+						<div id="userCounter_desc" class="counter_desc">
+							<p>users</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		<script src="js/graph1/groupedBarChart.js"></script>
-		<script src="js/graph1/circles.js"></script>
-	</div>
 
-	<div id="graph2"></div>
-
-	<div id="graph3">
-		<h3> A very diverse community... </h3>
-		<div id="map-options">
-			<select id="countrySelector" class="form-control">
-			</select>
-
-			<button id="map-btn" class="btn btn-default">Filter</button>
-		</div>
-
-		<div class="row no-gutters">
-			<div class="col-7 no-gutters">
-				<div class="leftside">
-					<svg id="map" class="svg-content" viewBox="100 0 870 450"></svg>
+		<!-- Visualization1: Circle packing -->
+		<div class="section" id="graph1">
+			<div class="row no-gutters" height = "100%" width="100%">
+				<div class="col-7 no-gutters" height = "100%" width="100%">
+					<div class="leftside">
+						<svg id="circle_packing" height = "100%" width="100%"></svg>
+					</div>
+				</div>
+				<div class="col no-gutters" >
+					<div class="rightside">
+						<p id="year">Information</p>
+						<p id="nb_ratings_per_year"></p>
+						<p id="ratings_gain"></p>
+						<svg id="circle_packing_desc"></svg>
+					</div>
+					</div>
 				</div>
 			</div>
-			<div class="col no-gutters">
-				<div id="infoPane" class="info-pane">
-					<p>Hover over a country to see the number of animes produced there.</p>
+		
 
-					<div id="infoPaneTitle" class="info-pane-title">
-						<h2 id="countryName"></h2>
+		<!-- Visualization 2: Word cloud -->
+		<div class="section" id="graph2">
+			<div class="row no-gutters">
+				<div class="col no-gutters">
+					<p class ="associatedChar"></p>
+				</div>
+				<div class="col no-gutters">
+					<p class="searchedChar"></p>
+				</div>
+				<div class="col-3 no-gutters">
+					<form action="javascript:void(0);">
+						<input type="text" placeholder="Search.." id="search">
+						<button type="submit" id="search-button"><i class="fa fa-search"></i></button>
+					</form>
+				</div>
+			</div>
+			<div id="cloud">
+				<svg id="plot"></svg>
+			</div>
+		</div>
+
+		<!-- Visualization 3: World map -->
+		<div class="section" id="graph3">
+			<!-- Map option panel -->
+			<div class="row no-gutters" id="map-options">
+				<!-- Country selector -->
+				<div class="col-3 no-gutters">
+					<select id="country-selector" class="form-select form-select-lg mb-3"
+						aria-label=".form-select-lg country">
+						<option selected>Select a country...</option>
+					</select>
+				</div>
+				<!-- Reset button -->
+				<div class="col-1 no-gutters">
+					<button id="map-reset-btn" class="btn btn-primary">Reset</button>
+				</div>
+				<!-- Studio selector -->
+				<div class="col-3 no-gutters">
+					<select id="studio-selector" class="form-select form-select-lg mb-3"
+						aria-label=".form-select-lg studio">
+						<option selected>Select a studio...</option>
+					</select>
+				</div>
+			</div>
+
+			<!-- Main content -->
+			<div class="row no-gutters">
+				<!-- World map -->
+				<div class="col-7 rounded" id="map-holder">
+					<!-- <div id="map-holder"></div> -->
+				</div>
+				<!-- Information Pane -->
+				<div class="col-sm rounded info-pane" id="info-pane-map">
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						<li class="nav-item" role="presentation">
+							<button class="nav-link active" id="studio-tab" data-bs-toggle="tab"
+								data-bs-target="#studio" type="button" role="tab" aria-controls="studio"
+								aria-selected="true">Home</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="country-tab" data-bs-toggle="tab" data-bs-target="#country"
+								type="button" role="tab" aria-controls="country" aria-selected="false">Country</button>
+						</li>
+					</ul>
+					<div class="tab-content" id="myTabContent">
+						<!-- Default Pane -->
+						<div class="tab-pane fade show active" id="studio" role="tabpanel" aria-labelledby="studio-tab">
+							<div class="container">
+								<p>Select/click on a country or studio to visualize statistics about it.</p>
+
+								<!-- Default -->
+								<!-- <div class="row-4 no-gutters" id ="country-rankings"> </div> -->
+
+								<!-- Studio general information -->
+								<div class="row" id="studio-name"></div>
+								<div class="row" id="studio-logo"></div>
+								<div class="row" id="studio-num-animes-num-countries"></div>
+								<div class="row" id="studio-country-stats"></div>
+							</div>
+						</div>
 					</div>
 
-					<div id="infoPaneContent" class="info-pane-content">
-						<p id="numAnimes"></p>
+					<!-- Country Pane -->
+					<div class="tab-pane fade" id="country" role="tabpanel" aria-labelledby="country-tab">
+						<!-- Country general information -->
+						<div class="row justify-content-between" id="country-info">
+							<!-- add a box shadow on bottom line of row border-->
+
+							<!-- Name + number of users -->
+							<div class="col-6">
+								<!-- <div class="leftside"> -->
+								<h2 id="countryName"></h2>
+								<h4 id="numUsers"></h4>
+								<!-- </div> -->
+							</div>
+							<!-- Flag -->
+							<div class="col-5" id="country-flag"></div>
+							<span class="border-bottom"></span>
+						</div>
+
+						<!-- First row of stats -->
+						<div class="row" id="country-stats-1">
+							<!-- Top 3 animes -->
+							<div class="col-7 podium" id="country-top-animes"></div>
+							<!-- Top 5 studios -->
+							<div class="col-5" id="country-top-studios"></div>
+
+						</div>
+
+						<!-- Second row of stars -->
+						<div class="row justify-content-between" id="country-stats-2">
+							<!-- Gender pie chart -->
+							<div class="col-4" id="country-gender-balance">
+							</div>
+
+							<!-- Age distribution histogram -->
+							<div class="col-6" id="country-age-distribution">
+								<svg id="country-age-histogram"></svg>
+							</div>
+						</div>
+						<p id="country-gender-pie-chart-title"></p>
+
+						<h4 id="country-num-days" style="text-align: center;"></h4>
 					</div>
-
-					<table id="rankTable">
-						<caption> The countries with largest communities </caption>
-						<thead>
-							<tr>
-								<th>Ranking</th>
-								<th>Country</th>
-								<th>Number of <i>otakus</i></th>
-							</tr>
-						</thead>
-						<tbody></tbody>
-					</table>
-
-					<div id="genderPieChart"></div>
 				</div>
 			</div>
 		</div>
-		<script src="js/graph3/map.js"></script>
 
-	</div>
-
-	<div id="graph4">
-		<script>
-			d3.csv("data/graph4_pie_chart/data.csv", function (error1, d) {
-				if (error1) throw error1;
-
-
-				//format data if required...
-				//draw chart
-				d3.csv("data/graph4_pie_chart/dataColors.csv", function (error2, c) {
-					if (error2) throw error2;
-					d3.csv("data/graph4_pie_chart/dataAnime.csv", function(error3, a){
-						if (error3) throw error3;
-						const ratio = window.innerHeight/12
-					    const width = parseInt(window.innerWidth/ratio, 10)
-					    const compose = new ComposePieChart(d, c[0], a, /*0, 0, width, 12,*/ '100%', '100%')
-					    compose.connectedCallback()
-					/*const ratio = window.innerHeight/12
-					const width = parseInt(window.innerWidth/ratio, 10)
-					const compose = new ComposePieChart(d, c[0], 0, 0, width, 12, '100%', '100%')
-					compose.connectedCallback()
-					window.addEventListener('resize', function() {
-						// viewport and full window dimensions will change
-						
-						const ratio = window.innerHeight/12
+		<!-- Visualization 4: Genres Interactive Pie Charts -->
+		<div class="section" id="graph4">
+			<script>
+				d3.csv("data/graph4_pie_chart/data.csv", function (error1, d) {
+					if (error1) throw error1;
+	
+	
+					//format data if required...
+					//draw chart
+					d3.csv("data/graph4_pie_chart/dataColors.csv", function (error2, c) {
+						if (error2) throw error2;
+						d3.csv("data/graph4_pie_chart/dataAnime.csv", function(error3, a){
+							if (error3) throw error3;
+							const ratio = window.innerHeight/12
+							const width = parseInt(window.innerWidth/ratio, 10)
+							const compose = new ComposePieChart(d, c[0], a, /*0, 0, width, 12,*/ '100%', '100%')
+							compose.connectedCallback()
+						/*const ratio = window.innerHeight/12
 						const width = parseInt(window.innerWidth/ratio, 10)
-						const pc = document.getElementById("pc")
-						pc.remove()
 						const compose = new ComposePieChart(d, c[0], 0, 0, width, 12, '100%', '100%')
 						compose.connectedCallback()
+						window.addEventListener('resize', function() {
+							// viewport and full window dimensions will change
+							
+							const ratio = window.innerHeight/12
+							const width = parseInt(window.innerWidth/ratio, 10)
+							const pc = document.getElementById("pc")
+							pc.remove()
+							const compose = new ComposePieChart(d, c[0], 0, 0, width, 12, '100%', '100%')
+							compose.connectedCallback()
+						});
+						//const compose = new Legend(c[0], 0, 0, '100%', '100%')*/
+						});
 					});
-					//const compose = new Legend(c[0], 0, 0, '100%', '100%')*/
-					});
-				});
-			});            
-		</script>
+				});            
+			</script>
+		</div>
 	</div>
-
-	<div id="graph5"></div>
-
 </body>
+
+
+<!-- Our scripts -->
+<script src="js/utils.js"></script>
+<!-- Home page-->
+<script src="counter.js"></script>
+<!-- Graph 1 -->
+<script src="js/graph1/groupedBarChart.js"></script>
+<script src="js/graph1/circles.js"></script>
+<!-- Graph 2 -->
+<script src="js/graph2/cloud.js"></script>
+<!-- Graph 3 
+<script src="js/graph3/podium/podium.js"></script>
+<script src="js/graph3/ranking-table/ranking-table.js"></script>
+<script src="js/graph3/gender_chart/gender_chart.js"></script>
+<script src="js/graph3/age_chart/age_chart.js"></script>
+<script src="js/graph3/option_pane.js"></script>
+<script src="js/graph3/info_pane.js"></script>
+<script src="js/graph3/map.js"></script>-->
+
+
+<script>
+	new fullpage('#fullpage', {
+		autoScrolling: true
+	});
+</script>
 
 </html>
