@@ -414,6 +414,12 @@ class ComposePieChart extends HTMLElement {
                     //.style("background-color", "var(--tooltip-bg, #FFF)")
                     .style("opacity", "0").style("fill-opacity", "0").style("pointer-events", "none").style("color", this.colorText)//.style("fill", this.colorText)
                     .attr("x", 0).attr("y", 0).attr("id", "titleTopGenre")
+                    const top10 = r.slice(0, 5)
+        const x = '74%'
+        const y = '15%'
+        const width = "100%"
+        const height = "100%"
+        this.top = new TopAnime(top10, "topG", width, height, this.colorSeparationTop, this.colorBackGroundTop, this.colorStarTop, this.colorTextTop)
         const draw = () => {
             const t = (Date.now() - now) / duration
             if (t < 1) {
@@ -433,12 +439,6 @@ class ComposePieChart extends HTMLElement {
                 }
                 
                 //console.log(r)
-                const top10 = r.slice(0, 5)
-                const x = '74%'
-                const y = '15%'
-                const width = "100%"
-                const height = "100%"
-                this.top = new TopAnime(top10, "topG", width, height, this.colorSeparationTop, this.colorBackGroundTop, this.colorStarTop, this.colorTextTop)
                 this.divTopAnime.node().appendChild(this.top.getSVG())
             }
         }
@@ -459,9 +459,14 @@ class ComposePieChart extends HTMLElement {
         const now = Date.now()
         const duration = 1000
         const element = document.getElementById("topG");
-        element.remove();
+        if (element !== null) {
+            element.remove()
+        }
+        //element.remove();
         const elementTitle = document.getElementById("titleTopGenre")
-        elementTitle.remove()
+        if (elementTitle !== null) {
+            elementTitle.remove()
+        }
         const o = this.filterData(this.datas, this.allColors, 'Genre_Secondaire_2', 'Count', (v) => v.Genre_Principal == this.labelsg1[this.kg1] && v.Genre_Secondaire_1===this.labelsg2[this.kg2] && v.Genre_Secondaire_2!=='none' && v.inOthers === '1')
         this.dataOthers = o[0]
         this.labelsOthers = o[1]
@@ -522,6 +527,41 @@ class ComposePieChart extends HTMLElement {
                     //.style("background-color", "var(--tooltip-bg, #FFF)")
                     .attr("opacity", "0").attr("fill-opacity", "0").style("pointer-events", "none").style("fill", this.colorText)
                     .attr("x", `${this.xg3 + 10}%`).attr("y", `${this.yg3 + 6}%`).attr("id", "titleGenre3")
+
+        const r = this.filterData(this.datas, this.allColors, 'Genre_Secondaire_2', 'Count', (v) => v.Genre_Principal == this.labelsg1[this.kg1] && v.Genre_Secondaire_1=== this.labelsg2[this.kg2] && v.Genre_Secondaire_2!=='T' && v.inOthers === '0')
+        const datag3 = r[0]
+        const labelsg3 = r[1]
+        const colorsg3 = r[2]
+        const o = this.filterData(this.datas, this.allColors, 'Genre_Secondaire_2', 'Count', (v) => v.Genre_Principal == this.labelsg1[this.kg1] && v.Genre_Secondaire_1===this.labelsg2[this.kg2] && v.Genre_Secondaire_2!=='none' && v.inOthers === '1')
+        this.dataOthers = o[0]
+        this.labelsOthers = o[1]
+        this.colorsOthers = o[2]
+        this.datag3 = datag3
+        this.labelsg3 = labelsg3
+        this.colorsg3 = colorsg3
+        const g3 = new PieChart(this.datag3, [...this.labelsg3], "g3", `${this.xg3}%`, `${this.yg3}%`, `${this.widthG3}%`, `${this.heightG3}%`, this.colorsg3, this.colorText)
+        this.g3 = g3
+        var kg3 = -1
+        this.kg3 = kg3
+        this.g3.addEventListener("g3", (e) => {
+            this.kg3 = e.detail
+            this.moveToTop()
+        })
+        this.g3.addEventListener("clickOthers-g3", (e) => {
+            this.showOther = e.detail
+            if (this.showOther) {
+                this.showOthers()
+            }else {
+                const el = document.getElementById("others")
+                el.remove()
+                const elLegend  = document.getElementById("legendCompose");
+                elLegend.remove();
+                this.gOthers = null
+                this.createLegend(this.currentCallback)
+            }
+        })
+        this.currentG = this.g3
+        this.currentId = "g3"
         const draw = () => {
             const t = (Date.now() - now) / duration
             if (t < 1) {
@@ -539,40 +579,6 @@ class ComposePieChart extends HTMLElement {
                     this.g2.setSVGAttribute(`${newXG2}%`, `${newYG2}%`, `${newWG2}%`, `${newHG2}%`)
                     text.attr("opacity", "1").attr("fill-opacity", "1")
                 }
-                const r = this.filterData(this.datas, this.allColors, 'Genre_Secondaire_2', 'Count', (v) => v.Genre_Principal == this.labelsg1[this.kg1] && v.Genre_Secondaire_1=== this.labelsg2[this.kg2] && v.Genre_Secondaire_2!=='T' && v.inOthers === '0')
-                const datag3 = r[0]
-                const labelsg3 = r[1]
-                const colorsg3 = r[2]
-                const o = this.filterData(this.datas, this.allColors, 'Genre_Secondaire_2', 'Count', (v) => v.Genre_Principal == this.labelsg1[this.kg1] && v.Genre_Secondaire_1===this.labelsg2[this.kg2] && v.Genre_Secondaire_2!=='none' && v.inOthers === '1')
-                this.dataOthers = o[0]
-                this.labelsOthers = o[1]
-                this.colorsOthers = o[2]
-                this.datag3 = datag3
-                this.labelsg3 = labelsg3
-                this.colorsg3 = colorsg3
-                const g3 = new PieChart(this.datag3, [...this.labelsg3], "g3", `${this.xg3}%`, `${this.yg3}%`, `${this.widthG3}%`, `${this.heightG3}%`, this.colorsg3, this.colorText)
-                this.g3 = g3
-                var kg3 = -1
-                this.kg3 = kg3
-                this.g3.addEventListener("g3", (e) => {
-                    this.kg3 = e.detail
-                    this.moveToTop()
-                })
-                this.g3.addEventListener("clickOthers-g3", (e) => {
-                    this.showOther = e.detail
-                    if (this.showOther) {
-                        this.showOthers()
-                    }else {
-                        const el = document.getElementById("others")
-                        el.remove()
-                        const elLegend  = document.getElementById("legendCompose");
-                        elLegend.remove();
-                        this.gOthers = null
-                        this.createLegend(this.currentCallback)
-                    }
-                })
-                this.currentG = this.g3
-                this.currentId = "g3"
                 this.composeSVG.appendChild(this.g3.getShadow())
                 this.g3.connectedCallback()
                 const element = document.getElementById("legendCompose");
@@ -612,14 +618,20 @@ class ComposePieChart extends HTMLElement {
         const now = Date.now()
         const duration = 1000
         const element = document.getElementById("g3");
-        element.remove();
+        if (element !== null) {
+            element.remove()
+        }
+        //element.remove();
         this.g3 = null
         this.currentG = this.g2
         this.currentId = "g2"
         const elementlegend = document.getElementById("legendCompose");
         elementlegend.remove();
         const elementTitle = document.getElementById("titleGenre3")
-        elementTitle.remove()
+        if (elementTitle !== null) {
+            elementTitle.remove()
+        }
+        //elementTitle.remove()
         const o = this.filterData(this.datas, this.allColors, 'Genre_Secondaire_1', 'Count', (v) => v.Genre_Principal == this.labelsg1[this.kg1] && v.Genre_Secondaire_1!=='none' && v.Genre_Secondaire_2==='none' && v.inOthers === '1')
         this.dataOthers = o[0]
         this.labelsOthers = o[1]
@@ -693,6 +705,40 @@ class ComposePieChart extends HTMLElement {
                     //.style("background-color", "var(--tooltip-bg, #FFF)")
                     .attr("opacity", "0").attr("fill-opacity", "0").style("pointer-events", "none").style("fill", this.colorText)
                     .attr("x", `${this.xg2 + 10}%`).attr("y", `${this.yg2 + 6}%`).attr("id", "titleGenre2")
+                    const r = this.filterData(this.datas, this.allColors, 'Genre_Secondaire_1', 'Count', (v) => v.Genre_Principal == this.labelsg1[this.kg1] && v.Genre_Secondaire_1!=='T' && v.Genre_Secondaire_2==='T' && v.inOthers === '0'/* && parseFloat(v.Count) >= 300*/)
+        const datag2 = r[0]
+        const labelsg2 = r[1]
+        const colorsg2 = r[2]
+        const o = this.filterData(this.datas, this.allColors, 'Genre_Secondaire_1', 'Count', (v) => v.Genre_Principal == this.labelsg1[this.kg1] && v.Genre_Secondaire_1!=='none' && v.Genre_Secondaire_2==='none' && v.inOthers === '1')
+        this.dataOthers = o[0]
+        this.labelsOthers = o[1]
+        this.colorsOthers = o[2]
+        this.datag2 = datag2
+        this.labelsg2 = labelsg2
+        this.colorsg2 = colorsg2
+        const g2 = new PieChart(this.datag2, [...this.labelsg2], "g2", `${this.xg2}%`, `${this.yg2}%`, `${this.widthG2}%`, `${this.heightG2}%`, this.colorsg2, this.colorText)
+        this.g2 = g2
+        var kg2 = -1
+        this.kg2 = kg2
+        this.g2.addEventListener("g2", (e) => {
+            this.kg2 = e.detail
+            this.moveToG3()
+        })
+        this.g2.addEventListener("clickOthers-g2", (e) => {
+            this.showOther = e.detail
+            if (this.showOther) {
+                this.showOthers()
+            }else {
+                const el = document.getElementById("others")
+                el.remove()
+                const elLegend  = document.getElementById("legendCompose");
+                elLegend.remove();
+                this.gOthers = null
+                this.createLegend(this.currentCallback)
+            }
+        })
+        this.currentG = this.g2
+        this.currentId = "g2"
         const draw = () => {
             const t = (Date.now() - now) / duration
             if (t < 1) {
@@ -710,41 +756,6 @@ class ComposePieChart extends HTMLElement {
                     this.g1.setSVGAttribute(`${newXG1}%`, `${newYG1}%`, `${newWG1}%`, `${newHG1}%`)
                     text.attr("opacity", "1").attr("fill-opacity", "1")
                 }
-                
-                const r = this.filterData(this.datas, this.allColors, 'Genre_Secondaire_1', 'Count', (v) => v.Genre_Principal == this.labelsg1[this.kg1] && v.Genre_Secondaire_1!=='T' && v.Genre_Secondaire_2==='T' && v.inOthers === '0'/* && parseFloat(v.Count) >= 300*/)
-                const datag2 = r[0]
-                const labelsg2 = r[1]
-                const colorsg2 = r[2]
-                const o = this.filterData(this.datas, this.allColors, 'Genre_Secondaire_1', 'Count', (v) => v.Genre_Principal == this.labelsg1[this.kg1] && v.Genre_Secondaire_1!=='none' && v.Genre_Secondaire_2==='none' && v.inOthers === '1')
-                this.dataOthers = o[0]
-                this.labelsOthers = o[1]
-                this.colorsOthers = o[2]
-                this.datag2 = datag2
-                this.labelsg2 = labelsg2
-                this.colorsg2 = colorsg2
-                const g2 = new PieChart(this.datag2, [...this.labelsg2], "g2", `${this.xg2}%`, `${this.yg2}%`, `${this.widthG2}%`, `${this.heightG2}%`, this.colorsg2, this.colorText)
-                this.g2 = g2
-                var kg2 = -1
-                this.kg2 = kg2
-                this.g2.addEventListener("g2", (e) => {
-                    this.kg2 = e.detail
-                    this.moveToG3()
-                })
-                this.g2.addEventListener("clickOthers-g2", (e) => {
-                    this.showOther = e.detail
-                    if (this.showOther) {
-                        this.showOthers()
-                    }else {
-                        const el = document.getElementById("others")
-                        el.remove()
-                        const elLegend  = document.getElementById("legendCompose");
-                        elLegend.remove();
-                        this.gOthers = null
-                        this.createLegend(this.currentCallback)
-                    }
-                })
-                this.currentG = this.g2
-                this.currentId = "g2"
                 this.composeSVG.appendChild(this.g2.getShadow())
                 this.g2.connectedCallback()
                 const elementlegend = document.getElementById("legendCompose");
@@ -783,14 +794,20 @@ class ComposePieChart extends HTMLElement {
         const now = Date.now()
         const duration = 1000
         const element = document.getElementById("g2");
-        element.remove();
+        if (element !== null) {
+            element.remove()
+        }
+        //element.remove();
         this.g2 = null
         this.currentG = this.g1
         this.currentId = "g1"
         const elementlegend = document.getElementById("legendCompose");
         elementlegend.remove();
         const elementTitle = document.getElementById("titleGenre2")
-        elementTitle.remove()
+        if (elementTitle !== null) {
+            elementTitle.remove()
+        }
+        //elementTitle.remove()
         const o = this.filterData(this.datas, this.allColors, 'Genre_Principal', 'Count', (v) => v.Genre_Secondaire_1==='none' && v.Genre_Secondaire_2==='none' && v.inOthers === '1')
         this.dataOthers = o[0]
         this.labelsOthers = o[1]
