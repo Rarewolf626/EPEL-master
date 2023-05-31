@@ -267,10 +267,7 @@ function ready(error,
                 onCountryFocus(d, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData)
             } else {
                 // I selected a country while in studio focus mode
-                // Get the current value selected in the studio selector
-                let studio = studioSelector.property("value")
-                let country = d.properties.admin
-                onStudioCountryFocus(studio, country, studioData, animeData, studioCountryTopAnimes)
+                onStudioCountryFocus(d, animeData, studioCountryTopAnimes)
             }
         });
 
@@ -347,7 +344,18 @@ function onStudioFocus(studio, studioData, studioNumAnimes, animeData, studioTop
 }
 
 
-function onStudioCountryFocus(studio, country, studioData, animeData, studioCountryTopAnimes) {
+function onStudioCountryFocus(countryFeature, animeData, studioCountryTopAnimes) {
+    let studio = studioSelector.property("value")
+    let country = countryFeature.properties.admin
+
+    // d3.select("#country" + countryFeature.properties.iso_a2)
+    //     .style("fill", "#a6cee3")
+    //     .on("mouseover", null)
+    //     .on("mouseout", null)
+
+    
+
+    // Top 3 animes from this studio in this country
     let topAnimesData = studioCountryTopAnimes.filter(d => d.studio == studio && d.country == country)
     updatePodium(topAnimesData, animeData, "studio-country-top-animes")
 

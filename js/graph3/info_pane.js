@@ -33,10 +33,15 @@ function showStudioInfo(studio, studioData, studioNumAnimes, animeData, studioTo
     logo.selectAll("*").remove();
     logo.append("img")
         .attr("src", studioData.logo_url)
-        .attr("onerror", "this.onerror=null;this.src='../../data/graph3_map/no_picture_mal.png';")
+        .on("error", function () {
+            d3.select(this)
+                .attr("src", "../" + DEFAULT_IMG_URL)
+                .attr("onerror", null)
+        })
         .attr("class", "rounded mx-auto d-block")
         .attr("alt", studioData.studio_en)
         .attr("title", studioData.studio_en)
+
 
     let num_animes = studioNumAnimes.find(d => d.studio == studio).num_animes
 
@@ -113,16 +118,20 @@ function showCountryInfo(d, countryTopAnimes, animeData, topStudios, genderData,
 
 /**
  * 
- * @param {*} d 
+ * @param {*} countryFeature 
  */
-function updateFlag(d) {
+function updateFlag(countryFeature) {
     let flag = d3.select("#country-flag")
     flag.selectAll("*").remove();
     flag = flag.append("img")
-        .attr("src", d.properties.flag_path)
+        .attr("src", countryFeature.properties.flag_path)
         .attr("class", "rounded mx-auto d-block")
-        .attr("alt", d.properties.admin)
-        .attr("title", d.properties.admin)
+        .attr("alt", countryFeature.properties.admin)
+        .attr("title", countryFeature.properties.admin)
         // If no picture, display the default picture of MAL instead (e.g., https://myanimelist.net/anime/producer/253)
-        .attr("onerror", "this.onerror=null;this.src='../../data/graph3_map/no_picture_mal.png';")
+        .on("error", function () {
+            d3.select(this)
+                .attr("src", "../" + DEFAULT_IMG_URL)
+                .attr("onerror", null)
+        });
 }
