@@ -14,7 +14,6 @@ let ac = d3.select(".associatedChar")
     .text("associated character: ")
     .html("<span style='text-decoration: underline;'>closest character</span>" + ": ");
 
-
 let sc = d3.select(".searchedChar")
     .style("font-size", "20px")
     .attr("text-anchor", "start")

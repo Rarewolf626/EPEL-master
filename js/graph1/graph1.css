@@ -35,12 +35,12 @@ text.bar_labels {
 
 .leftside {
     width: 100%;
-    height: 100%;
+    height: 100vh;
 }
 
 .rightside {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background: #efefef;
 }
 

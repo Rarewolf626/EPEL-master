@@ -6,7 +6,7 @@ const h = 500;
 const topIndexes = [0, 5, 10, 15, 20];
 const padding = 0;
 const tr_duration = 450
-const bar_legends_y = 605
+const bar_legends_y = 630
 
 let yScale = d3.scaleBand()
     .domain(base.map(function (x) {
