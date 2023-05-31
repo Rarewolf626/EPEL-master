@@ -86,13 +86,13 @@ function showCountryInfo(d, topAnimesData, animeData, topStudios, genderData, ag
 
     // Top studios
     topStudios = topStudios.filter(d => d.country === engName)
-    updateRankings(topStudios, "country-top-studios", "Studio", "Number of ratings", "studio", "num_ratings")
+    updateRankings(topStudios, "country-top-studios", "Studio", "Ratings", "studio", "num_ratings")
 
     // Gender balance
     genderBalance = updateGenderChart(genderData, engName);
 
     // Age distribution
-    ageDistrib = createAgeChart(ageData, engName);
+    ageDistrib = updateAgeChart(ageData, engName);
     // Resize the width and height of the chart
     // ageDistrib.attr("width", "100%")
 

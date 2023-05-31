@@ -14,10 +14,17 @@ function updateRankings(rankingData, rankingId, headerA, headerB, colA, colB, nu
     thead_tr.append("th").text(headerB)
 
     let tbody = rankings.append("tbody");
-    for (let i = 0; i < num_rows; i++) {
-        let tr = tbody.append("tr")
-        tr.append("td").text(i + 1)
-        tr.append("td").text(rankingData[i][colA])
-        tr.append("td").text(formatAsThousands(rankingData[i][colB]))
-    }
+    let rows = tbody.selectAll("tr")
+        .data(rankingData.slice(0, num_rows))
+        .enter()
+        .append("tr");
+
+    rows.append("td")
+        .text((d, i) => i + 1);
+
+    rows.append("td")
+        .text(d => d[colA]);
+
+    rows.append("td")
+        .text(d => formatAsThousands(d[colB]));
 }
