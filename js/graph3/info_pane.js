@@ -52,7 +52,7 @@ function showStudioInfo(studio, studioData, studioNumAnimesData, animeData, stud
     // Disable the color fill during mouseover
     // studioMap.selectAll("path").style("fill", null)
 
-    
+
 }
 
 // ============================================= Country =============================================
@@ -86,7 +86,11 @@ function showCountryInfo(d, topAnimesData, animeData, topStudios, genderData, ag
 
     // Top studios
     topStudios = topStudios.filter(d => d.country === engName)
-    updateRankings(topStudios, "country-top-studios", "Studio", "Ratings", "studio", "num_ratings")
+    rankings = updateRankings(topStudios, "country-top-studios", "Studio", "Ratings", "studio", "num_ratings")
+
+    // .attr("onclick", d => "studioSelector.value='" + d.studio) //+ "'; updateStudioInfo();")
+    // d3.select("#country-top-studios").selectAll("td:nth-child(2)").attr("class", "studio")
+
 
     // Gender balance
     genderBalance = updateGenderChart(genderData, engName);

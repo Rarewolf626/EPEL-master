@@ -220,13 +220,6 @@ function ready(error,
     studioSelector = createStudioSelector(studioNumAnimesData);
     studioSelector.on("change", function () {
         let studio = this.value;
-        studio_country_names = studioCountriesData.filter(d => d.studio == studio).map(d => d.country);
-        if (studio_country_names.length == 0) { // e.g. "Select a studio..." is selected
-            resetMap();
-            return;
-        }
-        // Color all countries who have at least one anime from the selected studio in blue, the rest in gray
-        countries.style("fill", d => studio_country_names.includes(d.properties.admin) ? "#0000ff" : "#ccc")
 
         onStudioFocus(studio, studioData, studioNumAnimesData, animeData, studioCountryTopAnimeData, studioCountriesData)
     })
@@ -297,13 +290,25 @@ function onCountryFocus(countryFeature, topAnimesData, animeData, topStudios, ge
 
     // Show info pane
     showCountryInfo(countryFeature, topAnimesData, animeData, topStudios, genderData, ageData, daysData)
+    // Select all the second th of the table and add a "a" that wen clicked, sets the studio selector to the corresponding studio 
+    d3.select("#country-top-studios")
+        .selectAll("td:nth-child(2) a")
+        .attr("onclick", d => "studioSelector.property(\"value\", \"" + d.studio + "\"); updateStudioInfo();")
 }
 
 
 function onStudioFocus(studio, studioData, studioNumAnimesData, animeData, studioTopAnimeData, studioCountriesData) {
     country_focus = false
     studio_focus = true
+
     countrySelector.property("value", "Select a country...");
+    studio_country_names = studioCountriesData.filter(d => d.studio == studio).map(d => d.country);
+    if (studio_country_names.length == 0) { // e.g. "Select a studio..." is selected
+        resetMap();
+        return;
+    }
+    // Color all countries who have at least one anime from the selected studio in blue, the rest in gray
+    countries.style("fill", d => studio_country_names.includes(d.properties.admin) ? "#0000ff" : "#ccc")
 
     initiateZoom();
 
