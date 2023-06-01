@@ -12,20 +12,20 @@ class Point {
         this.x = x
         this.y = y
     }
-    toSvgPath () {
+    toSvgPath() {
         return `${this.x} ${this.y}`
     }
 
-    static fromAngle(angle, scale=1) {
-        return new Point(Math.cos(angle)*scale, Math.sin(angle)*scale)
+    static fromAngle(angle, scale = 1) {
+        return new Point(Math.cos(angle) * scale, Math.sin(angle) * scale)
     }
 }
 
 class PieChart extends HTMLElement {
-    constructor(data, labels, id, x, y, width, height, colors = ['#FAAA32', '#3EFA7D', '#FA6A25', '#0C94FA', '#FA1F19', '#0CFAE2', '#AB6D23'], colorText="red", donut = '0.02', proportion = '0.8', scaleSelect = '0.8', scaleAngle = '1.1', gap = '0.015') {
+    constructor(data, labels, id, x, y, width, height, colors = ['#FAAA32', '#3EFA7D', '#FA6A25', '#0C94FA', '#FA1F19', '#0CFAE2', '#AB6D23'], colorText = "red", donut = '0.02', proportion = '0.8', scaleSelect = '0.8', scaleAngle = '1.1', gap = '0.015') {
         super()
         this.colorText = colorText
-        const shadow = this.attachShadow({mode : 'open'})
+        const shadow = this.attachShadow({ mode: 'open' })
         this.shadow = shadow
         this.proportion = parseFloat(proportion)
         this.scaleSelect = parseFloat(scaleSelect)
@@ -75,7 +75,7 @@ class PieChart extends HTMLElement {
                     })
                     this.dispatchEvent(event)
                 })
-            }else {
+            } else {
                 path.addEventListener('click', () => {
                     const event = new CustomEvent(id, {
                         detail: k,
@@ -131,15 +131,15 @@ class PieChart extends HTMLElement {
         this.paths[k].addEventListener(idEvent, callback)
     }
 
-    removeListeners(){
-        for (let k = 0; k < this.paths.length; k++){
+    removeListeners() {
+        for (let k = 0; k < this.paths.length; k++) {
             const clone = this.paths[k].cloneNode(true)
             this.paths[k].parentNode.replaceChild(clone, this.paths[k])
             this.paths[k] = clone
         }
     }
 
-    addListeners(){
+    addListeners() {
         for (let k = 0; k < this.paths.length; k++) {
             this.paths[k].addEventListener('mouseover', () => this.handlePathHover(k))
             this.paths[k].addEventListener('mouseout', () => this.handlePathOut())
@@ -154,7 +154,7 @@ class PieChart extends HTMLElement {
                     this.removeListeners()
                     this.dispatchEvent(event)
                 })
-            }else {
+            } else {
                 this.paths[k].addEventListener("click", () => {
                     const event = new CustomEvent(`clickOthers-${this.id}`, {
                         detail: true,
@@ -184,7 +184,7 @@ class PieChart extends HTMLElement {
         return this.shadow
     }
 
-    setSVGAttribute(x, y, width, height){
+    setSVGAttribute(x, y, width, height) {
         //console.log(document.querySelector(`#${this.id}`))
         const svg = document.querySelector(`#${this.id}`)
         svg.setAttribute("x", x)
@@ -193,10 +193,10 @@ class PieChart extends HTMLElement {
         svg.setAttribute("height", height)
     }
 
-    connectedCallback () {
+    connectedCallback() {
         const total = this.data.reduce((acc, v) => acc + v, 0)
         const s = d3.select(`#${this.id}`)
-        for (let k = 0; k<this.labels.length; k++) {
+        for (let k = 0; k < this.labels.length; k++) {
             const ratio = ((this.data[k] / total) * 100).toFixed(2)
             this.labels[k] = `${this.labels[k]} \n ${ratio}%`
         }
@@ -225,11 +225,11 @@ class PieChart extends HTMLElement {
         window.requestAnimationFrame(draw)
     }
 
-    draw(progress = 1){
+    draw(progress = 1) {
         const total = this.data.reduce((acc, v) => acc + v, 0)
         let angle = 0
-        let start = new Point(1,0)
-        for (let k = 0; k < this.data.length; k++){
+        let start = new Point(1, 0)
+        for (let k = 0; k < this.data.length; k++) {
             const ratio = (this.data[k] / total) * progress
             if (progress === 1) {
                 this.positionLabel(this.labels[k], angle + ratio * Math.PI, this.proportion)
@@ -244,8 +244,8 @@ class PieChart extends HTMLElement {
         }
     }
 
-    handlePathHover (k) {
-        for (let i = 0; i<this.labels.length; i++) {
+    handlePathHover(k) {
+        for (let i = 0; i < this.labels.length; i++) {
             if (i !== k) {
                 this.labels[i].classed('is-active', false)
                 this.labels[i].style("opacity", "0")
@@ -256,8 +256,8 @@ class PieChart extends HTMLElement {
         this.drawOpen(k)
     }
 
-    handlePathOut () {
-        for (let i = 0; i<this.labels.length; i++) {
+    handlePathOut() {
+        for (let i = 0; i < this.labels.length; i++) {
             this.labels[i].classed('is-active', false)
             this.labels[i].style("opacity", "0")
         }
@@ -266,15 +266,15 @@ class PieChart extends HTMLElement {
         this.draw()
     }
 
-    drawOpen(index, progress=1) {
+    drawOpen(index, progress = 1) {
         const total = this.data.reduce((acc, v) => acc + v, 0)
         let angle = 0
-        let start = index === 0 ? Point.fromAngle(0, this.scaleAngle) : new Point(1,0)
+        let start = index === 0 ? Point.fromAngle(0, this.scaleAngle) : new Point(1, 0)
         let angles = []
         let sum = 0
-        for (let k = 0; k<this.data.length; k++) {
-            if (k!= index) {
-                const ratio = (this.data[k] / total) * progress* this.scaleSelect
+        for (let k = 0; k < this.data.length; k++) {
+            if (k != index) {
+                const ratio = (this.data[k] / total) * progress * this.scaleSelect
                 angles[k] = ratio * 2 * Math.PI
                 sum += angles[k]
             }
@@ -285,40 +285,40 @@ class PieChart extends HTMLElement {
             return
         }*/
         angles[index] = diff
-        for (let k = 0; k < this.data.length; k++){
-                if (progress === 1) {
-                    this.positionLabel(this.labels[k], angle + angles[k]/2, this.proportion)
-                }
-                angle += angles[k]
-                const largeFlag = angles/(2*Math.PI) > .5 ? '1' : '0'
-                const scale = k === index ? this.scaleAngle : 1
-                const end = Point.fromAngle(angle, scale)
-                this.paths[k].setAttribute('d', `M 0 0 L ${start.toSvgPath()} A 1 1 0 ${largeFlag} 1 ${end.toSvgPath()} L 0 0`)
-                this.lines[k].setAttribute('x2', end.x)
-                this.lines[k].setAttribute('y2', end.y)
-                if (k === index -1){
-                    start = Point.fromAngle(angle, this.scaleAngle)
-                }else if(k === index){
-                    start = Point.fromAngle(angle)
-                }else {
-                    start = end 
-                }
+        for (let k = 0; k < this.data.length; k++) {
+            if (progress === 1) {
+                this.positionLabel(this.labels[k], angle + angles[k] / 2, this.proportion)
+            }
+            angle += angles[k]
+            const largeFlag = angles / (2 * Math.PI) > .5 ? '1' : '0'
+            const scale = k === index ? this.scaleAngle : 1
+            const end = Point.fromAngle(angle, scale)
+            this.paths[k].setAttribute('d', `M 0 0 L ${start.toSvgPath()} A 1 1 0 ${largeFlag} 1 ${end.toSvgPath()} L 0 0`)
+            this.lines[k].setAttribute('x2', end.x)
+            this.lines[k].setAttribute('y2', end.y)
+            if (k === index - 1) {
+                start = Point.fromAngle(angle, this.scaleAngle)
+            } else if (k === index) {
+                start = Point.fromAngle(angle)
+            } else {
+                start = end
+            }
         }
     }
 
-    positionLabel (label, angle, proportion) {
+    positionLabel(label, angle, proportion) {
         if (!label || !angle) {
             return
         }
         const point = Point.fromAngle(angle)
-        
-        label.attr('y', `${(point.y * proportion *  0.35 + 0.5) * 100}%`)
+
+        label.attr('y', `${(point.y * proportion * 0.35 + 0.5) * 100}%`)
         if (Math.cos(angle) > 0) {
-            label.attr('x', `${(point.x * proportion*0.3 + 0.4) * 100}%`)
-        }else {
-            label.attr('x', `${(point.x * proportion*0.3 + 0.2) * 100}%`)
+            label.attr('x', `${(point.x * proportion * 0.3 + 0.4) * 100}%`)
+        } else {
+            label.attr('x', `${(point.x * proportion * 0.3 + 0.2) * 100}%`)
         }
-        
+
     }
 }
 customElements.define('pie-chart', PieChart)
