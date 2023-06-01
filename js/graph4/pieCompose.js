@@ -415,6 +415,7 @@ class ComposePieChart extends HTMLElement {
                     .style("opacity", "0").style("fill-opacity", "0").style("pointer-events", "none").style("color", this.colorText)//.style("fill", this.colorText)
                     .attr("x", 0).attr("y", 0).attr("id", "titleTopGenre")
                     const top10 = r.slice(0, 5)
+        this.divTitle.style("opacity", "1")
         const x = '74%'
         const y = '15%'
         const width = "100%"
@@ -892,7 +893,20 @@ d3.csv("data/graph4_pie_chart/data.csv", function (error1, d) {
             if (error3) throw error3;
             const ratio = window.innerHeight/12
             const width = parseInt(window.innerWidth/ratio, 10)
-            const compose = new ComposePieChart(d, c[0], a, /*0, 0, width, 12,*/ '100%', '100%')
+            const colorBackGround="white"
+            const colorText="black"
+            const colorBackGroundTop="#efefef"
+            const colorTextTop="black"
+            const colorSeparationTop="black"
+            const colorStarTop=["red", "black"]
+            const colorArrowBack="red"
+            const colorStrokeBackArrow="black"
+            const colorBackGroundOthers = "#efefef"
+            const colorTextOthers = "black"
+            const colorCloseOthers = "black"
+            const compose = new ComposePieChart(d, c[0], a, /*0, 0, width, 12,*/ '100%', '100%', colorBackGround, colorText,
+                colorBackGroundTop, colorTextTop, colorSeparationTop, colorStarTop, colorArrowBack, colorStrokeBackArrow,
+                colorBackGroundOthers, colorTextOthers, colorCloseOthers)
             compose.connectedCallback()
         /*const ratio = window.innerHeight/12
         const width = parseInt(window.innerWidth/ratio, 10)
