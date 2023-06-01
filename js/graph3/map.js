@@ -1,5 +1,5 @@
 
-const DATA_PATH = "../../data/";
+const DATA_PATH = "./data/";
 
 const STUDIO_PATH = DATA_PATH + "studios/",
     MAP_PATH = DATA_PATH + "graph3_map/";
