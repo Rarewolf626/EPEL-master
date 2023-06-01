@@ -1,5 +1,5 @@
 // URL of the default image to use when an image is not found
-const DEFAULT_IMG_URL = "../data/graph3_map/no_picture_mal.png";
+const DEFAULT_IMG_URL = "data/graph3_map/no_picture_mal.png";
 
 // Adds a comma for every thousands, e.g., converts 123456 to "123,456"
 let formatAsThousands = d3.format(",")

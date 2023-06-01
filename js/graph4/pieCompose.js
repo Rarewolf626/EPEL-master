@@ -109,14 +109,14 @@ class ComposePieChart extends HTMLElement {
         composeSVG.node().appendChild(this.g1.getShadow())
         //svg.appendChild(this.drawLegend())
         //this.drawLegend()
-        console.log(allColors)
+        //console.log(allColors)
         var colorsPerGenre = []
         //console.log(Object.keys(this.allColors))
         const keys = Object.keys(allColors)
         for (let k =0; k<keys.length; k++){
             colorsPerGenre[k] = {'index' : k, 'genre' : keys[k], 'color' : allColors[keys[k]]}
         }
-        console.log(colorsPerGenre)
+        //console.log(colorsPerGenre)
         this.colorsPerGenre = colorsPerGenre
         /*var colors = colorsPerGenre.filter((d) => labelsg1.includes(d.genre))
         for (let i = 0; i<colors.length; i++) {
@@ -226,7 +226,7 @@ class ComposePieChart extends HTMLElement {
         console.log(labelsg1)*/
         const legend = new Legend(colors, 0, 0, '100%', '100%', this.colorText)
         legend.addEventListener("click-legend", (e) => {
-            console.log(this.labelsg1)
+            //console.log(this.labelsg1)
             this.clickOnLegend(e.detail)
         })
         legend.addEventListener("dblclick-legend", (e) => {
