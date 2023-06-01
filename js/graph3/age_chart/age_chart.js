@@ -1,6 +1,6 @@
 // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
 // Its opacity is set to 0: we don't see it by default.
-let tooltip = d3.select("#country-age-distribution")
+let tooltipAgeChart = d3.select("#country-age-distribution")
   .append("div")
   .style("opacity", 0)
   .attr("class", "tooltip")
@@ -12,23 +12,23 @@ let tooltip = d3.select("#country-age-distribution")
 // A function that change this tooltip when the user hover a point.
 // Its opacity is set to 1: we can now see it. Plus it sets the text and position of tooltip depending on the datapoint (d)
 let showTooltip = function (d) {
-  tooltip
+  tooltipAgeChart
     .transition()
     .duration(100)
     .style("opacity", 1)
-  tooltip
+  tooltipAgeChart
     .html("Birth year: " + d.birth_year + " (" + d.num_users + " users)")
     .style("left", (d3.mouse(this)[0] + 20) + "px")
     .style("top", (d3.mouse(this)[1]) + "px")
 }
 let moveTooltip = function (d) {
-  tooltip
+  tooltipAgeChart
     .style("left", (d3.mouse(this)[0] + 20) + "px")
     .style("top", (d3.mouse(this)[1]) + "px")
 }
 // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
 let hideTooltip = function (d) {
-  tooltip
+  tooltipAgeChart
     .transition()
     .duration(100)
     .style("opacity", 0)
