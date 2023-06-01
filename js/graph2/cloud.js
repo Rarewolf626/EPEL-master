@@ -1,6 +1,6 @@
-let margin = { top: 10, right: 10, bottom: 10, left: 80 },
+let margin = { top: 10, right: 20, bottom: 10, left: 20 },
     width = 620 - margin.left - margin.right,
-    height = 270 - margin.top - margin.bottom;
+    height = 320 - margin.top - margin.bottom;
 
 const size = 18
 let char = ""
@@ -8,15 +8,17 @@ let tags = []
 let selected = []
 
 let ac = d3.select(".associatedChar")
-    .style("font-size", "20px")
+    .style("font-size", "25px")
     .attr("text-anchor", "start")
+    .style("margin-bottom", "30px")
     .attr("alignment-baseline", "hanging")
     .text("associated character: ")
     .html("<span style='text-decoration: underline;'>closest character</span>" + ": ");
 
 let sc = d3.select(".searchedChar")
-    .style("font-size", "20px")
+    .style("font-size", "25px")
     .attr("text-anchor", "start")
+    .style("margin-bottom", "30px")
     .attr("alignment-baseline", "hanging")
     .text("searched character: ")
     .html("<span style='text-decoration: underline;'>searched character</span>" + ": ");

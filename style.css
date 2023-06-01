@@ -22,6 +22,24 @@ body {
 }
 
 
+.transitionTitle {
+    font-size: 60px; 
+    margin-left: 50px; 
+    margin-right: 50px;
+}
+
+.transitionP1 {
+    font-size: 32px; 
+    margin-left: 50px;
+    margin-right: 50px;
+}
+.transitionP2 {
+    font-size: 32px; 
+    margin-top: 50px; 
+    margin-left: 50px; 
+    margin-right: 50px;
+}
+
 .float-child {
     /*width: 50%;*/
     float: left;
