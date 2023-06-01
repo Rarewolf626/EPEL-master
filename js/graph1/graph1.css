@@ -1,0 +1,73 @@
+.headline,
+node--root,
+text.bar_labels {
+    pointer-events: none;
+}
+
+
+.headline {
+    font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-anchor: middle;
+    font-size: 20px;
+    fill: black;
+    display: block;
+}
+
+.node {
+    cursor: pointer;
+}
+
+.node:hover {
+    stroke: #71797E;
+    stroke-width: 1.5px;
+}
+
+.node--leaf:hover {
+    stroke: black;
+    stroke-width: 1.5px;
+    background: #e9e7e7
+}
+
+.node--root:hover {
+    stroke: white;
+}
+
+
+.leftside {
+    width: 100%;
+    height: 100vh;
+}
+
+.rightside {
+    width: 100%;
+    height: 100vh;
+    background: #efefef;
+}
+
+#year {
+    text-align: center;
+    font-size: 50px;
+    color: black;
+    opacity: 90%;
+    text-decoration: underline;
+}
+
+#nb_ratings_per_year {
+    text-align: center;
+    font-size: 25px;
+    color: black;
+    opacity: 90%;
+    margin-top: 40px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+   
+}
+
+#ratings_gain {
+    text-align: center;
+    font-size: 25px;
+    color: black;
+    opacity: 90%;
+    margin-top: 0px;
+    padding-top: 0px;
+}

@@ -22,8 +22,9 @@ class Point {
 }
 
 class PieChart extends HTMLElement {
-    constructor(data, labels, id, x, y, width, height, colors = ['#FAAA32', '#3EFA7D', '#FA6A25', '#0C94FA', '#FA1F19', '#0CFAE2', '#AB6D23'], donut = '0.02', proportion = '0.8', scaleSelect = '0.8', scaleAngle = '1.1', gap = '0.015') {
+    constructor(data, labels, id, x, y, width, height, colors = ['#FAAA32', '#3EFA7D', '#FA6A25', '#0C94FA', '#FA1F19', '#0CFAE2', '#AB6D23'], colorText="red", donut = '0.02', proportion = '0.8', scaleSelect = '0.8', scaleAngle = '1.1', gap = '0.015') {
         super()
+        this.colorText = colorText
         const shadow = this.attachShadow({mode : 'open'})
         this.shadow = shadow
         this.proportion = parseFloat(proportion)
@@ -31,7 +32,7 @@ class PieChart extends HTMLElement {
         this.scaleAngle = parseFloat(scaleAngle)
         this.data = data
         this.id = id
-        const svg = strToDom(`<svg id=${id} style="overflow: visible;" viewBox="-1.6 -1.6 3.2 3.2" x="${x}" y="${y}" width="${width}" height="${height}">
+        const svg = strToDom(`<svg id=${id} style="overflow: visible;" viewBox="-1.6 -1.6 3.2 3.2" x=${x} y=${y} width=${width} height=${height}>
             <g class="pathGroup" mask="url(#graphMask${id})">
                 
             </g>
@@ -50,9 +51,30 @@ class PieChart extends HTMLElement {
             path.setAttribute('fill', color)
             pathGroup.appendChild(path)
             path.addEventListener('mouseover', () => this.handlePathHover(k))
-            path.addEventListener('mouseout', () => this.handlePathOut(k))
+            path.addEventListener('mouseout', () => this.handlePathOut())
             if (labels[k] === 'Others') {
                 kOther = k
+                path.addEventListener("click", () => {
+                    const event = new CustomEvent(`clickOthers-${id}`, {
+                        detail: true,
+                        bubbles: true,
+                        cancelable: true,
+                        composed: false,
+                    });
+                    this.removeListeners()
+                    this.paths[kOther].addEventListener("click", () => {
+                        const event2 = new CustomEvent(`clickOthers-${id}`, {
+                            detail: false,
+                            bubbles: true,
+                            cancelable: true,
+                            composed: false,
+                        });
+                        this.removeListeners()
+                        this.addListeners()
+                        this.dispatchEvent(event2)
+                    })
+                    this.dispatchEvent(event)
+                })
             }else {
                 path.addEventListener('click', () => {
                     const event = new CustomEvent(id, {
@@ -102,6 +124,12 @@ class PieChart extends HTMLElement {
         this.shadow.appendChild(style)
         this.shadow.appendChild(svg)
     }
+    addOtherListener(idEvent, callback) {
+        this.addListener(this.kOther, idEvent, callback)
+    }
+    addListener(k, idEvent, callback) {
+        this.paths[k].addEventListener(idEvent, callback)
+    }
 
     removeListeners(){
         for (let k = 0; k < this.paths.length; k++){
@@ -114,7 +142,7 @@ class PieChart extends HTMLElement {
     addListeners(){
         for (let k = 0; k < this.paths.length; k++) {
             this.paths[k].addEventListener('mouseover', () => this.handlePathHover(k))
-            this.paths[k].addEventListener('mouseout', () => this.handlePathOut(k))
+            this.paths[k].addEventListener('mouseout', () => this.handlePathOut())
             if (k !== this.kOther) {
                 this.paths[k].addEventListener('click', () => {
                     const event = new CustomEvent(this.id, {
@@ -124,6 +152,28 @@ class PieChart extends HTMLElement {
                         composed: false,
                     });
                     this.removeListeners()
+                    this.dispatchEvent(event)
+                })
+            }else {
+                this.paths[k].addEventListener("click", () => {
+                    const event = new CustomEvent(`clickOthers-${this.id}`, {
+                        detail: true,
+                        bubbles: true,
+                        cancelable: true,
+                        composed: false,
+                    });
+                    this.removeListeners()
+                    this.paths[k].addEventListener("click", () => {
+                        const event2 = new CustomEvent(`clickOthers-${this.id}`, {
+                            detail: false,
+                            bubbles: true,
+                            cancelable: true,
+                            composed: false,
+                        });
+                        this.removeListeners()
+                        this.addListeners()
+                        this.dispatchEvent(event2)
+                    })
                     this.dispatchEvent(event)
                 })
             }
@@ -144,13 +194,18 @@ class PieChart extends HTMLElement {
     }
 
     connectedCallback () {
+        const total = this.data.reduce((acc, v) => acc + v, 0)
         const s = d3.select(`#${this.id}`)
+        for (let k = 0; k<this.labels.length; k++) {
+            const ratio = ((this.data[k] / total) * 100).toFixed(2)
+            this.labels[k] = `${this.labels[k]} \n ${ratio}%`
+        }
         this.labels = this.labels.map((l) => {
             const label = s.append('text').text(l)
-                .style("font-size", "0.12").style("font-weight", "0.2")
+                .style("font-size", "0.2").style("font-weight", "0.2")
                 .style("transform", "translate(-50%, -50%)").style("background-color", "var(--tooltip-bg, #FFF)")
                 .style("opacity", "0").style("transition", "opacity .3s")
-                .style("pointer-events", "none").style("fill", "red")
+                .style("pointer-events", "none").style("fill", this.colorText)
             return label
         })
         this.restartLabels = this.labels
@@ -190,14 +245,24 @@ class PieChart extends HTMLElement {
     }
 
     handlePathHover (k) {
+        for (let i = 0; i<this.labels.length; i++) {
+            if (i !== k) {
+                this.labels[i].classed('is-active', false)
+                this.labels[i].style("opacity", "0")
+            }
+        }
         this.labels[k].classed('is-active', true)
         this.labels[k].style("opacity", "1")
         this.drawOpen(k)
     }
 
-    handlePathOut (k) {
-        this.labels[k].classed('is-active', false)
-        this.labels[k].style("opacity", "0")
+    handlePathOut () {
+        for (let i = 0; i<this.labels.length; i++) {
+            this.labels[i].classed('is-active', false)
+            this.labels[i].style("opacity", "0")
+        }
+        //this.labels[k].classed('is-active', false)
+        //this.labels[k].style("opacity", "0")
         this.draw()
     }
 
@@ -246,8 +311,14 @@ class PieChart extends HTMLElement {
             return
         }
         const point = Point.fromAngle(angle)
+        
         label.attr('y', `${(point.y * proportion *  0.35 + 0.5) * 100}%`)
-        label.attr('x', `${(point.x * proportion * 0.35 + 0.5) * 100}%`)
+        if (Math.cos(angle) > 0) {
+            label.attr('x', `${(point.x * proportion*0.3 + 0.4) * 100}%`)
+        }else {
+            label.attr('x', `${(point.x * proportion*0.3 + 0.2) * 100}%`)
+        }
+        
     }
 }
 customElements.define('pie-chart', PieChart)
