@@ -1,8 +1,8 @@
 let margin = { top: 10, right: 20, bottom: 10, left: 20 },
     width = 620 - margin.left - margin.right,
-    height = 320 - margin.top - margin.bottom;
+    height = 280 - margin.top - margin.bottom;
 
-const size = 18
+const size = 17
 let char = ""
 let tags = []
 let selected = []
