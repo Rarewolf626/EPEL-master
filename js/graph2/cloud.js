@@ -58,7 +58,7 @@ function associatedChar(characters) {
     }
 }
 
-d3.json("../data/graph2_cloud/char.json", function (error, json) {
+d3.json("data/graph2_cloud/char.json", function (error, json) {
     if (error) throw error;
 
     let data = json.dfTag;
