@@ -1,7 +1,13 @@
 // ============================================= Studio =============================================
-
-
-
+/**
+ * 
+ * @param {*} studio 
+ * @param {*} studioData 
+ * @param {*} studioNumAnimes 
+ * @param {*} animeData 
+ * @param {*} studioTopAnimes 
+ * @param {*} studioCountries 
+ */
 function showStudioInfo(studio, studioData, studioNumAnimes, animeData, studioTopAnimes, studioCountries) {
     // Switch to the studio tab
     studioTab.show()
@@ -50,16 +56,43 @@ function showStudioInfo(studio, studioData, studioNumAnimes, animeData, studioTo
     num_info.append("h5")
         .text(num_animes + " anime" + (num_animes > 1 ? "s" : "") + ", watched in " + num_countries + " countries")
         .attr("class", "d-block text-center")
+}
 
+/**
+ * 
+ * @param {*} studio 
+ * @param {*} country 
+ * @param {*} studioCountryTopAnimes 
+ * @param {*} animeData 
+ */
+function showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeData) {
+    studioCountryTopAnimes = studioCountryTopAnimes.filter(d => d.studio == studio && d.country == country)
 
-    // Disable the color fill during mouseover
-    // studioMap.selectAll("path").style("fill", null)
+    let info = d3.select("#studio-country-info")
+    info.selectAll("*").remove();
 
+    info.append("span")
+        .attr("class", "border-top")
 
+    info.append("h4")
+        .text(`The favorite animes of this studio in ${country} are`)
+
+    // Top 3 animes from this studio in this country
+    updatePodium(studioCountryTopAnimes, animeData, "studio-country-top-animes")
 }
 
 // ============================================= Country =============================================
-
+/**
+ * 
+ * @param {*} d 
+ * @param {*} countryTopAnimes 
+ * @param {*} animeData 
+ * @param {*} topStudios 
+ * @param {*} genderData 
+ * @param {*} ageData 
+ * @param {*} daysData 
+ * @returns 
+ */
 function showCountryInfo(d, countryTopAnimes, animeData, topStudios, genderData, ageData, daysData) {
     // Switch to the country tab
     countryTab.show()

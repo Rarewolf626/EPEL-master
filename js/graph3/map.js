@@ -1,3 +1,4 @@
+
 const DATA_PATH = "../../data/";
 
 const STUDIO_PATH = DATA_PATH + "studios/",
@@ -9,7 +10,6 @@ const GEOJSON_PATH = MAP_PATH + "geojson/",
 
 const STUDIO_STAT_PATH = STAT_PATH + "studios/",
     COUNTRY_STAT_PATH = STAT_PATH + "countries/";
-
 
 // Dimensions of map group
 const MAP_WIDTH = 870,
@@ -137,7 +137,7 @@ d3.queue()
     .defer(d3.csv, COUNTRY_STAT_PATH + "country_top_animes_3.csv/0.part")
     .defer(d3.csv, COUNTRY_STAT_PATH + "country_top_studios.csv/0.part")
     // Anime
-    .defer(d3.csv, DATA_PATH + "AnimeList_clean.csv")
+    .defer(d3.csv, DATA_PATH + "anime_cleaned.csv")
     // Studios
     .defer(d3.csv, STUDIO_PATH + "studios_mal_clean.csv")
     .defer(d3.csv, STUDIO_STAT_PATH + "studio_country_num_ratings.csv/0.part")
@@ -353,12 +353,7 @@ function onStudioCountryFocus(countryFeature, animeData, studioCountryTopAnimes)
     //     .on("mouseover", null)
     //     .on("mouseout", null)
 
-    
-
-    // Top 3 animes from this studio in this country
-    let topAnimesData = studioCountryTopAnimes.filter(d => d.studio == studio && d.country == country)
-    updatePodium(topAnimesData, animeData, "studio-country-top-animes")
-
+    showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeData)
 }
 
 /**
