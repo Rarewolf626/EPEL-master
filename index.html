@@ -26,7 +26,6 @@
 	<!-- Load search icon -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-	
 </head>
 
 <body style="overflow-x: hidden;">
@@ -42,21 +41,21 @@
 				<h2> Visualizing the worlwide influence of animes</h2>
 
 				<p>Introduction</p>
-				<div class="row no-gutters" >
+				<div class="row no-gutters">
 					<div class="col no-gutters">
-						<div id="countryCounter" class="counter"></div>	
+						<div id="countryCounter" class="counter"></div>
 						<div id="countryCounter_desc" class="counter_desc">
 							<p>countries</p>
 						</div>
 					</div>
 					<div class="col no-gutters">
-						<div id="animeCounter" class="counter"></div>	
+						<div id="animeCounter" class="counter"></div>
 						<div id="animeCounter_desc" class="counter_desc">
 							<p>anime</p>
 						</div>
 					</div>
 					<div class="col no-gutters">
-						<div id="userCounter" class="counter"></div>	
+						<div id="userCounter" class="counter"></div>
 						<div id="userCounter_desc" class="counter_desc">
 							<p>users</p>
 						</div>
@@ -68,41 +67,59 @@
 		<!-- Transition to visualisation 1 -->
 		<div class="section">
 			<p class="transitionTitle"> Evolution in Anime tastes from 2006 to 2018</p>
-			<p class="transitionP1">Since 2006, Anime has experienced a consistent rise in popularity, however over time preferences in Anime have changed, leading to the development of unique tastes in different countries.</p>
-			<p class="transitionP2">The first visualization illustrates the evolution of trends in Anime over time. Each outer circle corresponds to a specific year, while each inner circle represents a country. The size of each circle is determined by the number of ratings associated with it. By clicking on any outer circle, you can zoom in to examine it more closely. Additionally, you can click on up to two inner circles, which will display a bar plot on the right side. Each group in the bar plot represents the top 1, 2, 3, 4, or 5 anime for the corresponding inner circles, in comparison to the outer circle. In cases where an anime name is too long to be fully displayed, it will be hidden, but hovering over the bar will reveal the complete name.</p>
+			<p class="transitionP1">Since 2006, Anime has experienced a consistent rise in popularity, however over time
+				preferences in Anime have changed, leading to the development of unique tastes in different countries.
+			</p>
+			<p class="transitionP2">The first visualization illustrates the evolution of trends in Anime over time. Each
+				outer circle corresponds to a specific year, while each inner circle represents a country. The size of
+				each circle is determined by the number of ratings associated with it. By clicking on any outer circle,
+				you can zoom in to examine it more closely. Additionally, you can click on up to two inner circles,
+				which will display a bar plot on the right side. Each group in the bar plot represents the top 1, 2, 3,
+				4, or 5 anime for the corresponding inner circles, in comparison to the outer circle. In cases where an
+				anime name is too long to be fully displayed, it will be hidden, but hovering over the bar will reveal
+				the complete name.</p>
 		</div>
-	
+
 		<!-- Visualization1: Circle packing -->
 		<div class="section" id="graph1">
-			<div class="row no-gutters" height = "100%" width="100%">
-				<div class="col-7 no-gutters" height = "100%" width="100%">
+			<div class="row no-gutters" height="100%" width="100%">
+				<div class="col-7 no-gutters" height="100%" width="100%">
 					<div class="leftside">
-						<svg id="circle_packing" height = "100%" width="100%"></svg>
+						<svg id="circle_packing" height="100%" width="100%"></svg>
 					</div>
 				</div>
-				<div class="col no-gutters" >
+				<div class="col no-gutters">
 					<div class="rightside">
 						<p id="year">Information</p>
 						<p id="nb_ratings_per_year"></p>
 						<p id="ratings_gain"></p>
 						<svg id="circle_packing_desc"></svg>
 					</div>
-					</div>
 				</div>
 			</div>
-		
+		</div>
+
 		<!-- Transition to visualisation 2 -->
 		<div class="section">
 			<p class="transitionTitle"> Variety of Characters in Anime</p>
-			<p class="transitionP1">Many individuals have a tendency to connect with characters in films, shows, books, and anime is no exception. That is why, the inclusion of a diverse range of traits for anime characters can be very important.</p>
-			<p class="transitionP2">The second visualization aims to show that characters in anime can share many similarities in traits, while also having a wide range of unique characteristics. Traits in the word cloud are depicted by individual words, with their size determined by the number of associated characters. Clicking on any word will highlight it in orange. Upon selecting a word, the name of the nearest character will be displayed in the top left corner. Additionally, there is a search bar located at the top right. If you enter a character's name, it will locate the closest matching name in the dataset and display its traits in red. Words cannot be simultaneously highlighted in both orange and red, so they will appear in blue.</p>
+			<p class="transitionP1">Many individuals have a tendency to connect with characters in films, shows, books,
+				and anime is no exception. That is why, the inclusion of a diverse range of traits for anime characters
+				can be very important.</p>
+			<p class="transitionP2">The second visualization aims to show that characters in anime can share many
+				similarities in traits, while also having a wide range of unique characteristics. Traits in the word
+				cloud are depicted by individual words, with their size determined by the number of associated
+				characters. Clicking on any word will highlight it in orange. Upon selecting a word, the name of the
+				nearest character will be displayed in the top left corner. Additionally, there is a search bar located
+				at the top right. If you enter a character's name, it will locate the closest matching name in the
+				dataset and display its traits in red. Words cannot be simultaneously highlighted in both orange and
+				red, so they will appear in blue.</p>
 		</div>
 
 		<!-- Visualization 2: Word cloud -->
 		<div class="section" id="graph2">
 			<div class="row no-gutters">
 				<div class="col no-gutters">
-					<p class ="associatedChar"></p>
+					<p class="associatedChar"></p>
 				</div>
 				<div class="col no-gutters">
 					<p class="searchedChar"></p>
@@ -114,7 +131,7 @@
 					</form>
 				</div>
 			</div>
-			<div id="cloud" height ="100vh">
+			<div id="cloud" height="100vh">
 				<svg id="plot"></svg>
 			</div>
 		</div>
@@ -168,9 +185,6 @@
 							<div class="container">
 								<p>Select/click on a country or studio to visualize statistics about it.</p>
 
-								<!-- Default -->
-								<!-- <div class="row-4 no-gutters" id ="country-rankings"> </div> -->
-
 								<!-- Studio general information -->
 								<div class="row" id="studio-name"></div>
 								<div class="row" id="studio-logo"></div>
@@ -199,12 +213,11 @@
 						</div>
 
 						<!-- First row of stats -->
-						<div class="row" id="country-stats-1">
+						<div class="row justify-content-between" id="country-stats-1">
 							<!-- Top 3 animes -->
-							<div class="col-7 podium" id="country-top-animes"></div>
+							<div class="col-5 podium" id="country-top-animes"></div>
 							<!-- Top 5 studios -->
 							<div class="col-5" id="country-top-studios"></div>
-
 						</div>
 
 						<!-- Second row of stars -->
@@ -228,16 +241,16 @@
 
 		<!-- Visualization 4: Genres Interactive Pie Charts -->
 		<div class="section" id="graph4">
-			<div id="graph-pieChart"></div>
+			<div id="graph-pieChart">
+			</div>
 		</div>
 	</div>
 </body>
 
-
 <!-- Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-crossorigin="anonymous"></script>
+	integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+	crossorigin="anonymous"></script>
 <!-- D3.js -->
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
@@ -247,7 +260,7 @@ crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
 <!-- fullPage.js -->
 <script src="lib/fullpage.min.js"></script>
-	
+
 <!-- Our scripts -->
 <script src="js/utils.js"></script>
 <!-- Home page-->
@@ -257,14 +270,16 @@ crossorigin="anonymous"></script>
 <script src="js/graph1/circles.js"></script>
 <!-- Graph 2 -->
 <script src="js/graph2/cloud.js"></script>
-<!-- Graph 3 
+
+<!-- Graph 3 -->
 <script src="js/graph3/podium/podium.js"></script>
 <script src="js/graph3/ranking-table/ranking-table.js"></script>
 <script src="js/graph3/gender_chart/gender_chart.js"></script>
 <script src="js/graph3/age_chart/age_chart.js"></script>
 <script src="js/graph3/option_pane.js"></script>
 <script src="js/graph3/info_pane.js"></script>
-<script src="js/graph3/map.js"></script>-->
+<script src="js/graph3/map.js"></script>
+
 <!-- Graph 4 -->
 <script src="js/graph4/pieChart.js"></script>
 <script src="js/graph4/pieLegend.js"></script>

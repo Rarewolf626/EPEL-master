@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>World Map</title>
+	<meta name="author" content="Antoine Métivier, Julien Mettler, Etienne Monnin" />
+
+	<link rel="icon" href="../../favicon.ico" />
+
+	<!-- Bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+	<!-- Our styles -->
+	<link rel="stylesheet" type="text/css" href="../../style.css">
+	<link rel="stylesheet" type="text/css" href="podium/podium.css">
+	<link rel="stylesheet" type="text/css" href="ranking-table/ranking-table.css">
+</head>
+
+<body>
+	<!-- Visualization 3: World map -->
+	<div id="graph3">
+		<!-- Map option panel -->
+		<div class="row no-gutters" id="map-options">
+			<!-- Country selector -->
+			<div class="col-3 no-gutters">
+				<select id="country-selector" class="form-select form-select-lg mb-3"
+					aria-label=".form-select-lg country">
+					<option selected>Select a country...</option>
+				</select>
+			</div>
+			<!-- Reset button -->
+			<div class="col-1 no-gutters">
+				<button id="map-reset-btn" class="btn btn-primary">Reset</button>
+			</div>
+			<!-- Studio selector -->
+			<div class="col-3 no-gutters">
+				<select id="studio-selector" class="form-select form-select-lg mb-3"
+					aria-label=".form-select-lg studio">
+					<option selected>Select a studio...</option>
+				</select>
+			</div>
+		</div>
+
+		<!-- Main content -->
+		<div class="row no-gutters" id="map-content">
+			<!-- World map -->
+			<div class="col-7 rounded" id="map-holder">
+				<!-- <div id="map-holder"></div> -->
+			</div>
+			<!-- Information Pane -->
+			<div class="col-sm rounded info-pane" id="info-pane-map">
+				<ul class="nav nav-tabs" id="myTab" role="tablist">
+					<li class="nav-item" role="presentation">
+						<button class="nav-link active" id="studio-tab" data-bs-toggle="tab" data-bs-target="#studio"
+							type="button" role="tab" aria-controls="studio" aria-selected="true">Home</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="country-tab" data-bs-toggle="tab" data-bs-target="#country"
+							type="button" role="tab" aria-controls="country" aria-selected="false">Country</button>
+					</li>
+				</ul>
+				<div class="tab-content" id="myTabContent">
+					<!-- Default Pane -->
+					<div class="tab-pane fade show active" id="studio" role="tabpanel" aria-labelledby="studio-tab">
+						<div class="container">
+							<p>Select/click on a country or studio to visualize statistics about it.</p>
+
+							<!-- Default -->
+							<!-- <div class="row-4 no-gutters" id ="country-rankings"> </div> -->
+
+							<!-- Studio general information -->
+							<div class="row" id="studio-name"></div>
+							<div class="row" id="studio-logo"></div>
+							<div class="row" id="studio-num-animes-num-countries"></div>
+
+							<div class="row" id="studio-country-info"></div>
+							<div class="row" id="studio-country-top-animes"></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Country Pane -->
+				<div class="tab-pane fade" id="country" role="tabpanel" aria-labelledby="country-tab">
+					<!-- Country general information -->
+					<div class="row justify-content-between" id="country-info">
+						<!-- add a box shadow on bottom line of row border-->
+
+						<!-- Name + number of users -->
+						<div class="col-6">
+							<!-- <div class="leftside"> -->
+							<h2 id="countryName"></h2>
+							<h4 id="numUsers"></h4>
+							<!-- </div> -->
+						</div>
+						<!-- Flag -->
+						<div class="col-5" id="country-flag"></div>
+						<span class="border-bottom"></span>
+					</div>
+
+					<!-- First row of stats -->
+					<div class="row justify-content-between" id="country-stats-1">
+						<!-- Top 3 animes -->
+						<div class="col-5 podium" id="country-top-animes"></div>
+						<!-- Top 5 studios -->
+						<div class="col-5" id="country-top-studios"></div>
+
+					</div>
+
+					<!-- Second row of stars -->
+					<div class="row justify-content-between" id="country-stats-2">
+						<!-- Gender pie chart -->
+						<div class="col-4" id="country-gender-balance">
+						</div>
+
+						<!-- Age distribution histogram -->
+						<div class="col-6" id="country-age-distribution">
+							<svg id="country-age-histogram"></svg>
+						</div>
+					</div>
+					<p id="country-gender-pie-chart-title"></p>
+
+					<h4 id="country-num-days" style="text-align: center;"></h4>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<!-- D3.js -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+	crossorigin="anonymous"></script>
+
+<!-- Our scripts -->
+<script src="../utils.js"></script>
+<script src="podium/podium.js"></script>
+<script src="ranking-table/ranking-table.js"></script>
+<script src="gender_chart/gender_chart.js"></script>
+<script src="age_chart/age_chart.js"></script>
+<script src="option_pane.js"></script>
+<script src="info_pane.js"></script>
+<script src="map.js"></script>
+
+</html>

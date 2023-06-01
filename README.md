@@ -65,7 +65,7 @@ We are also interested in the studios whose animes are watched in the highest nu
 
 We observe that the most popular studios worldwide do not necessarily produce the most popular animes in terms of ratings:
 
-![Number of ratings per studio](/data/plots/studio_num_ratings.png)
+![Number of ratings per studio](/data/plots/studio_total_ratings.png)
 
 
 #### **Genres ([eda_genre.ipynb](/preprocessing/eda_genre.ipynb))**

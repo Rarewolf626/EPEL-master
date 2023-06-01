@@ -1,457 +1,390 @@
-const data_path = "../../data/";
-const map_path = data_path + "graph3_map/";
-const geojson_path = map_path + "geojson/";
-const stat_path = map_path + "stats/";
 
-const div = d3.select("#graph3");
-console.log(div)
+const DATA_PATH = "../../data/";
 
-// Create a map such that the key is "Czech Republic" and the value is "Czechia", etc.
-const country_name_map = new Map([
-    ["Czech Republic", "Czechia"],
-    ["Bahamas", "The Bahamas"],
-    ["Brunei Darussalam", "Brunei"],
-    ["Congo", "Republic of the Congo"],
-    ["Congo DRC", "Democratic Republic of the Congo"],
-    ["Côte d'Ivoire", "Ivory Coast"],
-    ["Palestinian Territory", "Palestine"],
-    ["Russian Federation", "Russia"],
-    ["Serbia", "Republic of Serbia"],
-    ["Tanzania", "United Republic of Tanzania"],
-    ["United States", "United States of America"]
-]);
+const STUDIO_PATH = DATA_PATH + "studios/",
+    MAP_PATH = DATA_PATH + "graph3_map/";
 
+const GEOJSON_PATH = MAP_PATH + "geojson/",
+    FLAG_PATH = MAP_PATH + "flags/",
+    STAT_PATH = MAP_PATH + "stats/";
 
-// Function that maps num_users to color
-// arguments: a color scale, a data
-// returns: a color
-countToColor = function (color, d) {
-    //Get data value
-    let value = d.properties.value;
+const STUDIO_STAT_PATH = STAT_PATH + "studios/",
+    COUNTRY_STAT_PATH = STAT_PATH + "countries/";
 
-    if (value) {
-        //If value exists…
-        return color(value);
-    } else {
-        //If value is undefined…
-        return "#ccc";
-    }
-}
+// Dimensions of map group
+const MAP_WIDTH = 870,
+    MAP_HEIGHT = 450;
+// Min and Max zoom factors
+const MIN_ZOOM = 1,
+    MAX_ZOOM = 20 * MIN_ZOOM
+// X and Y offsets for center of map to be shown in center of holder
+const MID_X = (MAP_WIDTH - MIN_ZOOM * MAP_WIDTH) / 2,
+    MID_Y = (MAP_HEIGHT - MIN_ZOOM * MAP_HEIGHT) / 2;
 
-//Number formatting for population values
-let formatAsThousands = d3.format(",");  //e.g. converts 123456 to "123,456"
+// Map projection
+let projection = d3.geoNaturalEarth1()
 
-let btn = d3.select("#map-btn");
-btn.on("click", function () {
-    console.log("yes")
-    map_update(true);
-})
+// Map path generator
+let path = d3.geoPath()
+    .projection(projection)
 
-let infoPane = d3.select("#infoPane");
+// Color scheme for countries, based on the number of users
+let colorCountries = d3.scaleLinear()
+    .range(["#fee5d9", "#fdd0a2", "#fdae6b", "#fd8d3c", "#f16913", "#d94801", "#a63603", "#7f2704", "#7f2704"])
+    .domain([0, 100]);
 
+// Map zoom behavior
+let zoom = d3.zoom()
+    .on("zoom", () => {
+        let t = d3.event.transform;
+        countriesGroup.attr("transform", "translate(" + [t.x, t.y] + ")scale(" + t.k + ")");
+    });
 
-// Display the total number of countries and the total number of users
+// Map SVG
+let mapSvg = d3.select("#map-holder")
+    .append("svg")
+    .attr("width", "100%")
+    .attr("height", "100%")
+    // .attr("width", map_width)
+    // .attr("height", map_height)
+    // .attr("viewBox", "100 100 " + w + " " + h)
+    .attr("class", "svg-content")
+// .call(zoom)
 
-// Default country
-let map_selectedCountry = "Switzerland";
+// Container in which all zoom-able elements will live
+let countriesGroup = mapSvg.append("g")
+    .attr("id", "map")
+// All paths
+let countries;
+
+const CLIENT_WIDTH = d3.select("#map-holder").node().clientWidth,
+    CLIENT_HEIGHT = d3.select("#map-holder").node().clientHeight;
 
 /**
- * 
- * @param {*} countData 
+ * Initiate the zoom: calculate zoom/pan limits and set zoom to default value
  */
-function createCountrySelector(countData) {
-    let countrySelector = d3.select("#countrySelector");
-    countrySelector.selectAll("option")
-        .data(countData)
+function initZoom() {
+    // set extent of zoom to chosen values
+    // set translate extent so that panning can't cause map to move out of viewport
+    zoom.scaleExtent([MIN_ZOOM, MAX_ZOOM])
+        .translateExtent([[0, 0], [MAP_WIDTH, MAP_HEIGHT]]);
+    // change zoom transform to min zoom and centre offsets
+    mapSvg.transition()
+        .duration(1000)
+        .call(zoom.transform, d3.zoomIdentity.translate(MID_X, MID_Y).scale(MIN_ZOOM));
+}
+
+
+
+/**
+ * Zoom to show a bounding box, with optional additional padding as percentage of box size
+ * @param {*} box  [[left, bottom], [right, top]] in map units
+ * @param {*} centroid  [longitude, latitude] of box in map units
+ * @param {*} paddingPerc  padding as percentage of box size
+ */
+function boxZoom(box, centroid, paddingPerc) {
+    let minXY = box[0];
+    let maxXY = box[1];
+    // find size of map area defined
+    let zoomWidth = Math.abs(minXY[0] - maxXY[0]);
+    let zoomHeight = Math.abs(minXY[1] - maxXY[1]);
+    // find midpoint of map area defined
+    let zoomMidX = centroid[0];
+    let zoomMidY = centroid[1];
+    // increase map area to include padding
+    zoomWidth = zoomWidth * (1 + paddingPerc / 100);
+    zoomHeight = zoomHeight * (1 + paddingPerc / 100);
+    // find scale required for area to fill svg
+    let maxXscale = MAP_WIDTH / zoomWidth;
+    let maxYscale = MAP_HEIGHT / zoomHeight;
+    let zoomScale = Math.min(maxXscale, maxYscale);
+    // handle some edge cases
+    // limit to max zoom (handles tiny countries)
+    zoomScale = Math.min(zoomScale, MAX_ZOOM);
+    // limit to min zoom (handles large countries and countries that span the date line)
+    zoomScale = Math.max(zoomScale, MIN_ZOOM);
+    // Find screen pixel equivalent once scaled
+    let offsetX = zoomScale * zoomMidX;
+    let offsetY = zoomScale * zoomMidY;
+    // Find offset to centre, making sure no gap at left or top of holder
+    let dleft = Math.min(0, MAP_WIDTH / 2 - offsetX);
+    let dtop = Math.min(0, MAP_HEIGHT / 2 - offsetY);
+    // Make sure no gap at bottom or right of holder
+    dleft = Math.max(MAP_WIDTH - MAP_WIDTH * zoomScale, dleft);
+    dtop = Math.max(MAP_HEIGHT - MAP_HEIGHT * zoomScale, dtop);
+    // set zoom
+    mapSvg.transition()
+        .duration(500)
+        .call(zoom.transform, d3.zoomIdentity.translate(dleft, dtop).scale(zoomScale));
+}
+
+
+
+// Load all the json data from data/map asynchronously and call the ready function to draw the map
+d3.queue()
+    // Countries
+    .defer(d3.json, GEOJSON_PATH + "custom50_processed.json")
+    .defer(d3.csv, COUNTRY_STAT_PATH + "country_num_users.csv")
+    .defer(d3.csv, COUNTRY_STAT_PATH + "country_gender_balance.csv")
+    .defer(d3.csv, COUNTRY_STAT_PATH + "country_users_ages.csv", function (d) {
+        return {
+            country: d.country,
+            birth_year: +d.birth_year,
+            num_users: +d.num_users,
+        }
+    })
+    .defer(d3.csv, COUNTRY_STAT_PATH + "country_num_days_spent_watching_mean.csv")
+    .defer(d3.csv, COUNTRY_STAT_PATH + "country_top_animes_3.csv/0.part")
+    .defer(d3.csv, COUNTRY_STAT_PATH + "country_top_studios.csv/0.part")
+    // Anime
+    .defer(d3.csv, DATA_PATH + "anime_cleaned.csv")
+    // Studios
+    .defer(d3.csv, STUDIO_PATH + "studios_mal_clean.csv")
+    .defer(d3.csv, STUDIO_STAT_PATH + "studio_country_num_ratings.csv/0.part")
+    .defer(d3.csv, STUDIO_STAT_PATH + "studio_num_animes.csv")
+    .defer(d3.csv, STUDIO_STAT_PATH + "studio_country_top_animes_3.csv/0.part")
+    .await(ready);
+
+let countryFocus = false
+let studioFocus = false
+
+let studioCountryNames = [];
+
+let countrySelector;
+let studioSelector;
+const COUNTRY_SELECTOR_DEFAULT_OPTION = "Select a country...",
+    STUDIO_SELECTOR_DEFAULT_OPTION = "Select a studio..."
+
+let countryTabTriggerEl = document.querySelector('#country-tab')
+let countryTab = new bootstrap.Tab(countryTabTriggerEl)
+
+let studioTabTriggerEl = document.querySelector('#studio-tab')
+let studioTab = new bootstrap.Tab(studioTabTriggerEl)
+
+
+/**
+ * Draw the map and all the other elements
+ * @param {*} error  Error message
+ * @param {*} geojsonData  Geojson data
+ * @param {*} userData  Country-Number of users
+ * @param {*} genderData Country-Gender balance
+ * @param {*} ageData Country-Age distribution
+ * @param {*} daysData Country-Mean number of days spent watching anime
+ * @param {*} countryTopAnimes Country-Top 3 animes (most rated)
+ * @param {*} countryTopStudios Country-Top studios (most rated)
+ * @param {*} animeData Anime
+ * @param {*} studioData Studio
+ * @param {*} studioCountries Studio-Country-Number of ratings
+ * @param {*} studioNumAnimes Studio-Number of animes
+ * @param {*} studioCountryTopAnimes Studio-Country-Top 3 animes (most rated)
+ */
+function ready(error,
+    geojsonData, userData, genderData, ageData, daysData, countryTopAnimes, countryTopStudios,
+    animeData,
+    studioData, studioCountries, studioNumAnimes, studioCountryTopAnimes,
+) {
+    if (error) throw error;
+
+    // Prepare the data for the choropleth map
+    for (let i = 0; i < geojsonData.features.length; i++) {
+        let countryJSON = geojsonData.features[i].properties.admin;
+        for (let j = 0; j < userData.length; j++) {
+            let countryCSV = userData[j].country;
+            let numUsers = userData[j].num_users;
+            let rank = userData[j].rank;
+            if (countryCSV == countryJSON) {
+                geojsonData.features[i].properties.value = numUsers;
+                geojsonData.features[i].properties.color = colorCountries(numUsers);
+                geojsonData.features[i].properties.countRank = rank;
+                break;
+            }
+        }
+        geojsonData.features[i].properties.color = geojsonData.features[i].properties.color || "#ccc";
+        geojsonData.features[i].properties.flag_path = FLAG_PATH + geojsonData.features[i].properties.iso_a2 + ".svg";
+    }
+
+    // Country selector
+    countrySelector = createCountrySelector(geojsonData);
+    countrySelector.on("change", function () {
+        let countryFeature = geojsonData.features.find(d => d.properties.admin == this.value);
+        if (!countryFeature) { // e.g. "Select a country..." is selected
+            resetMap();
+            return;
+        }
+        onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData);
+    })
+
+    // Studio selector
+    studioSelector = createStudioSelector(studioNumAnimes);
+    studioSelector.on("change", function () {
+        let studio = this.value;
+        if (studio == STUDIO_SELECTOR_DEFAULT_OPTION) {
+            resetMap();
+            return;
+        }
+        onStudioFocus(studio, studioData, studioNumAnimes, animeData, studioCountryTopAnimes, studioCountries)
+    })
+
+    /* Draw the map */
+    // Create an invisible background rectangle to catch zoom events
+    countriesGroup.append("rect")
+        // .attr("x", 100)
+        // .attr("y", 100)
+        .attr("width", MAP_WIDTH) // 100%
+        .attr("height", MAP_HEIGHT) // 100%
+        .attr("opacity", 0);
+
+    // Bind data and create one path per GeoJSON feature
+    countries = countriesGroup.selectAll("path")
+        .data(geojsonData.features)
         .enter()
-        .append("option")
-        .attr("value", function (d) {
-            return d["country"];
+        .append("path")
+        .attr("d", path)
+        .attr("id", d => "country" + d.properties.iso_a2)
+        .attr("class", "country")
+        .style("fill", d => d.properties.color)
+        .on("mouseover", function (d) {
+            if (studioFocus == false) {
+                // Color in blue on mouseover
+                d3.select(this).style("fill", "#2c7bb6");
+            } else {
+                // Color in light blue on mouseover
+                d3.select(this).style("fill", "#a6cee3");
+            }
+
+            // Set the value of the country selector to be the country name
+            countrySelector.property("value", d.properties.admin);
         })
-        .text(function (d) {
-            return d["country"];
-        }) // Display the text in bold
-        .exit();
-    countrySelector.node().value = "Switzerland";
-}
-
-/**
- * 
- * @param {*} countData 
- */
-function createCountryRankings(countData) {
-    let rankTableBody = d3.select("#rankTable").select("tbody");
-
-    let rankedCountries = countData.sort(function (a, b) {
-        return parseInt(b.num_users) - parseInt(a.num_users);
-    }).slice(0, 10);
-
-    for (let i = 0; i < rankedCountries.length; i++) {
-        /* Append a new element             
-            <tr>
-                <td>i+1</td>
-                <td>top10Data[i].country</td>
-                <td>top10Data[i].num_users</td>
-            </tr>
-        */
-        let tr = rankTableBody.append("tr")
-        tr.append("td").text(i + 1)
-        tr.append("td").text(rankedCountries[i].country)
-        tr.append("td").text(formatAsThousands(rankedCountries[i].num_users))
-    }
-}
-
-
-const map_width = 870;
-const map_height = 450;
-
-const map_update = (filtered) => {
-    // Load all the json data from data/map asynchronously
-    // and call the ready function to draw the map
-
-    d3.queue()
-        .defer(d3.json, geojson_path + "custom.geo.json")
-        .defer(d3.csv, stat_path + "country_num_users.csv", function (d) {
-            return {
-                country: country_name_map.get(d.country) || d.country,
-                num_users: +d.num_users
+        .on("mouseout", function (d) {
+            if (studioFocus == false) {
+                d3.select(this).style("fill", d => d.properties.color);
+            } else {
+                d3.select(this).style("fill", d => studioCountryNames.includes(d.properties.admin) ? "#0000ff" : "#ccc")
             }
         })
-        .defer(d3.csv, stat_path + "country_gender_balance.csv")
-        .await(ready);
-
-    function ready(error, geojsonData, countData, genderData) {
-        if (error) throw error;
-
-        console.log(geojsonData)
-        console.log(countData)
-
-        // General information
-        const numCountries = countData.length;
-        const numUsers = d3.sum(countData, function (d) {
-            return d.num_users;
+        .on("click", function (d) {
+            if (studioFocus == false) {
+                onCountryFocus(d, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData)
+            } else {
+                // I selected a country while in studio focus mode
+                onStudioCountryFocus(d, animeData, studioCountryTopAnimes)
+            }
         });
 
-        // infoPane.append("text").attr("id", "numCountries").text("Number of countries: " + numCountries);
-        // infoPane.append("br");
-        // infoPane.append("text").attr("id", "total").text("Number of otakus: " + formatAsThousands(numUsers));
-
-
-        // Country selector
-        createCountrySelector(countData);
-
-        // Country rankings
-        createCountryRankings(countData);
-
-        /* Draw the map */
-
-        //Define map projection
-        let projection = d3.geoNaturalEarth1()
-
-        //Define path generator
-        let path = d3.geoPath()
-            .projection(projection)
-
-        // Define a color scheme that is based on shades of red, to map to the country num_users
-        let color = d3.scaleLinear()
-            .range(["#fee5d9", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15"])
-            .domain([0, 100]);
-
-        // Create SVG element
-        let svg = d3.select("#map")
-
-        //Define what to do when panning or zooming
-        let dragging = function (d) {
-
-            //Log out d3.event.transform, so you can see all the goodies inside
-            //console.log(d3.event.transform);
-
-            //Get the current (pre-dragging) translation offset
-            let offset = projection.translate();
-
-            //Augment the offset, following the mouse movement
-            offset[0] += d3.event.dx;
-            offset[1] += d3.event.dy;
-
-            //Update projection with new offset and scale
-            projection.translate(offset)
-
-            //Update all paths
-            svg.selectAll("path")
-                .attr("d", path);
-        }
-
-
-        //Define what to do when panning or zooming
-        let zooming = function (d) {
-
-            //Log out d3.event.transform, so you can see all the goodies inside
-            //console.log(d3.event.transform);
-
-            //New offset array
-            var offset = [d3.event.transform.x, d3.event.transform.y];
-
-            //Calculate new scale
-            var newScale = d3.event.transform.k * 2000;
-
-            //Update projection with new offset and scale
-            projection.translate(offset)
-                .scale(newScale);
-
-            //Update all paths and circles
-            svg.selectAll("path")
-                .attr("d", path);
-        }
-
-        //Then define the zoom behavior
-        let drag = d3.drag()
-            // .scaleExtent([0.5, 12.0])  //This limits how far you can zoom in
-            //.translateExtent([[-1000, -1000], [w + 10, h + 10]])  //This limits how far you can pan out
-            .on("drag", dragging);
-
-        let zoom = d3.zoom()
-            .scaleExtent([0.5, 12.0])  //This limits how far you can zoom in
-            .translateExtent([[-1000, -1000], [w + 10, h + 10]])  //This limits how far you can pan out
-            .on("zoom", zooming);
-
-        //The center of the country, roughly
-        let center = projection([-97.0, 39.0]);
-
-        //Create a container in which all zoom-able elements will live
-        let map = svg.append("g")
-            .attr("id", "map_group")
-            .call(drag)  //Bind the drag behavior
-        // .call(zoom)  //Bind the zoom behavior
-
-        //Create a new, invisible background rect to catch zoom events
-        map.append("rect")
-            .attr("x", 100)
-            .attr("y", 0)
-            .attr("width", "100%")
-            .attr("height", "100%")
-            .attr("opacity", 0);
-
-        //Merge the ag. data and GeoJSON
-        //Loop through once for each ag. data value
-        for (let i = 0; i < countData.length; i++) {
-
-            //Grab state name
-            let countryCSV = countData[i].country;
-
-            //Grab data value, and convert to float
-            let numUsers = parseFloat(countData[i].num_users);
-
-            //Find the corresponding state inside the GeoJSON
-            for (let j = 0; j < geojsonData.features.length; j++) {
-                let countryJSON = geojsonData.features[j].properties.admin;
-                if (countryCSV == countryJSON) {
-                    //Copy the data value into the JSON
-                    geojsonData.features[j].properties.value = numUsers;
-                    //Stop looking through the JSON
-                    break;
-                }
-            }
-        }
-
-        //Bind data and create one path per GeoJSON feature
-        svg.selectAll("path")
-            .data(geojsonData.features)
-            .enter()
-            .append("path")
-            .attr("d", path)
-            .attr("stroke-width", "0.05px")
-            .attr("stroke", "black")
-            .filter(function (d) {
-                if (filtered && d.properties.value < 1000) {
-                    d.properties.value = 0;
-                }
-                return true;
-            })
-            .style("fill", function (d) {
-                return countToColor(color, d)
-            })
-            .on("mouseover", function (d) {
-
-                //d3.select("#rankTable").selectAll("*").remove();
-
-                // Brighten the color on mouseover
-                d3.select(this).style("fill", d => d3.rgb(countToColor(color, d)).brighter(0.8));
-
-                // Get the country name and count
-                let country = d.properties.admin;
-                let count = d.properties.value;
-
-                // Diplay the country name and count
-                d3.select("#countryName").text(country);
-
-                if (count) {
-                    d3.select("#numAnimes").text(formatAsThousands(count)).append("i").text(" otakus");
-                } else {
-                    d3.select("#numAnimes").text("No otakus here :(");
-                }
-                // Display the tooltip
-                d3.select("#tooltip").classed("hidden", false);
-
-
-            })
-            .on("mouseout", function (d) {
-                d3.select(this).style("fill", d => countToColor(color, d));
-                // empty #countryName and #numAnimes if country does not exist
-                d3.select("#countryName").text("");
-                d3.select("#numAnimes").text("");
-
-                // Delete everything under div with id genderPieChart
-                d3.select("#genderPieChart").selectAll("*").remove();
-
-            })
-            .on("click", function (d) {
-                // don't stop event propagation
-                d3.event.stopPropagation();
-
-                // Get the country name and count
-                let country = d.properties.admin;
-                let count = d.properties.value;
-
-                // Display the gender balance pie chart
-                // Get the data corresponding to the country
-                let countryData = genderData.find(d => d.country == country);
-                if (!countryData) return;
-
-                // set the dimensions and margins of the graph
-                let width = 300
-                let height = 300
-                let margin = 40
-
-                // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
-                let radius = Math.min(width, height) / 2 - margin
-
-                // Create a pie chart with countryData["Male"], countryData["Female"], countryData["Non-Binary"]
-                let svg = d3.select("#genderPieChart")
-                    .append("svg")
-                    .attr("width", width)
-                    .attr("height", height)
-                    .append("g")
-                    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-                let genderBalance = { "Male": countryData["Male"], "Female": countryData["Female"], "Non-Binary": countryData["Non-Binary"] }
-
-                // set the color scale
-                let color = d3.scaleOrdinal().domain(genderBalance).range(d3.schemeDark2);
-
-                // Compute the position of each group on the pie:
-                let pie = d3.pie()
-                    .value(function (d) { return d.value; })
-                let data_ready = pie(d3.entries(genderBalance));
-
-                // shape helper to build arcs:
-                let arcGenerator = d3.arc()
-                    .innerRadius(0)
-                    .outerRadius(radius)
-
-                // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
-                svg
-                    .selectAll('whatever')
-                    .data(data_ready)
-                    .enter()
-                    .append('path')
-                    .transition()
-                    .duration(1000)
-                    .attr('d', arcGenerator)
-                    .attr('fill', function (d) { return (color(d.data.key)) })
-                    .attr("stroke", "black")
-                    .style("stroke-width", "2px")
-                    .style("opacity", 0.7)
-
-                // Now add the annotation. Use the centroid method to get the best coordinates
-                svg
-                    .selectAll('whatever')
-                    .data(data_ready)
-                    .enter()
-                    .append('text')
-                    .text(function (d) { return d.data.key })
-                    .attr("transform", function (d) { return "translate(" + arcGenerator.centroid(d) + ")"; })
-                    .style("text-anchor", "middle")
-                    .style("font-size", 17)
-                    .append('text')
-                    .text(function (d) { return d.data.value })
-                    .attr("transform", function (d) { return "translate(" + arcGenerator.centroid(d) + ")"; })
-                    .style("text-anchor", "middle")
-                    .style("font-size", 10)
-                    .style("font-weight", "bold")
-                // If click again, prevent the same pie chart from being appended again IF NO MOUSEOVER IN BETWEEN
-            });
-        // createZoomButtons();
-    }
-
-    //Create zoom buttons
-    let createZoomButtons = function () {
-
-        //Create the clickable groups
-
-        //Zoom in button
-        let zoomIn = svg.append("g")
-            .attr("class", "map_zoom")	//All share the 'zoom' class
-            .attr("id", "in")		//The ID will tell us which direction to head
-            .attr("transform", "translate(" + (map_width - 110) + "," + (map_height - 70) + ")");
-
-        zoomIn.append("rect")
-            .attr("x", 0)
-            .attr("y", 0)
-            .attr("width", 30)
-            .attr("height", 30);
-
-        zoomIn.append("text")
-            .attr("x", 15)
-            .attr("y", 20)
-            .text("+");
-
-        //Zoom out button
-        let zoomOut = svg.append("g")
-            .attr("class", "map_zoom")
-            .attr("id", "out")
-            .attr("transform", "translate(" + (map_width - 70) + "," + (map_height - 70) + ")");
-
-        zoomOut.append("rect")
-            .attr("x", 0)
-            .attr("y", 0)
-            .attr("width", 30)
-            .attr("height", 30);
-
-        zoomOut.append("text")
-            .attr("x", 15)
-            .attr("y", 20)
-            .html("&ndash;");
-
-        //Zooming interaction
-
-        d3.selectAll(".map_zoom")
-            .on("click", function () {
-
-                //Set how much to scale on each click
-                let scaleFactor;
-
-                //Which way are we headed?
-                let direction = d3.select(this).attr("id");
-
-                //Modify the k scale value, depending on the direction
-                switch (direction) {
-                    case "in":
-                        scaleFactor = 1.5;
-                        break;
-                    case "out":
-                        scaleFactor = 0.75;
-                        break;
-                    default:
-                        break;
-                }
-
-                //This triggers a zoom event, scaling by 'scaleFactor'
-                map.transition()
-                    .call(zoom.scaleBy, scaleFactor);
-
-            });
-
-    };
+    // createZoomButtons();
 }
 
-map_update(false);
+// Two colors to alternate when a country is selected. These colors alternate in a "heartbeat" fashion
+const COUNTRY_COLORS_SELECTED = ["#2c7bb6", "#a6cee3"]
+
+/**
+ * 
+ * @param {*} countryFeature 
+ * @param {*} countryTopAnimes 
+ * @param {*} animeData 
+ * @param {*} countryTopStudios 
+ * @param {*} genderData 
+ * @param {*} ageData 
+ * @param {*} daysData 
+ */
+function onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData) {
+    countryFocus = true
+    studioFocus = false
+    studioSelector.property("value", "Select a studio...");
+
+    studioCountryNames = []
+
+    // Color the countries according to the number of users
+    countries.style("fill", d => d.properties.color)
+    d3.select("#country" + countryFeature.properties.iso_a2)
+        .style("fill", "#2c7bb6")
+        .on("mouseover", null)
+        .on("mouseout", null)
+
+    // Zoom on the country
+    boxZoom(path.bounds(countryFeature), path.centroid(countryFeature), 20);
+
+    // Show info pane
+    showCountryInfo(countryFeature, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData)
+    // Select all the second th of the table and add a "a" that wen clicked, sets the studio selector to the corresponding studio 
+    d3.select("#country-top-studios")
+        .selectAll("td:nth-child(2) a")
+        .attr("onclick", d => "studioSelector.property(\"value\", \"" + d.studio + "\"); updateStudioInfo();")
+}
+
+
+/**
+ * 
+ * @param {*} studio 
+ * @param {*} studioData 
+ * @param {*} studioNumAnimes 
+ * @param {*} animeData 
+ * @param {*} studioTopAnimes 
+ * @param {*} studioCountries 
+ * @returns 
+ */
+function onStudioFocus(studio, studioData, studioNumAnimes, animeData, studioTopAnimes, studioCountries) {
+    countryFocus = false
+    studioFocus = true
+    countrySelector.property("value", COUNTRY_SELECTOR_DEFAULT_OPTION);
+
+    // Dezoom
+    initZoom();
+
+    studioCountryNames = studioCountries.filter(d => d.studio == studio).map(d => d.country);
+    if (studioCountryNames.length == 0) {
+        resetMap();
+        return;
+    }
+    // Color all countries who have at least one anime from the selected studio in blue, the rest in gray
+    countries.style("fill", d => studioCountryNames.includes(d.properties.admin) ? "#0000ff" : "#ccc")
+
+    // Show info pane
+    showStudioInfo(studio, studioData, studioNumAnimes, animeData, studioTopAnimes, studioCountries)
+}
+
+
+function onStudioCountryFocus(countryFeature, animeData, studioCountryTopAnimes) {
+    let studio = studioSelector.property("value")
+    let country = countryFeature.properties.admin
+
+    // d3.select("#country" + countryFeature.properties.iso_a2)
+    //     .style("fill", "#a6cee3")
+    //     .on("mouseover", null)
+    //     .on("mouseout", null)
+
+    showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeData)
+}
+
+/**
+ * Initialize the map
+ */
+function initMap() {
+    initZoom()
+    // init podium
+    // init table
+    initGenderChart()
+    // init histogram
+}
+
+/**
+ * Reset the map to its initial state
+ */
+function resetMap() {
+    countryFocus = false
+    studioFocus = false
+    countrySelector.property("value", COUNTRY_SELECTOR_DEFAULT_OPTION);
+    studioSelector.property("value", STUDIO_SELECTOR_DEFAULT_OPTION);
+
+    // Dezoom
+    initZoom();
+
+    // Color the countries according to the number of users
+    countries.style("fill", d => d.properties.color)
+}
+
+// Reset button
+let resetBtn = d3.select("#map-reset-btn")
+    .on("click", resetMap)
+
+initMap();
