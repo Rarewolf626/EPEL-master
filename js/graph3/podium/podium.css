@@ -97,7 +97,7 @@
     align-items: center;
     justify-content: flex-end;
     text-align: center;
-    font-size: 18px;
+    font-size: 13px;
     font-weight: bold;
     width: 25%;
     border-radius: 5px;
@@ -143,6 +143,6 @@
 
 .podium-step .ranking {
     text-align: center;
-    font-size: 40px;
+    font-size: 25px;
     font-weight: bold;
 }

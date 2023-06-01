@@ -122,7 +122,7 @@ function showCountryInfo(d, countryTopAnimes, animeData, topStudios, genderData,
 
     // Top studios
     topStudios = topStudios.filter(d => d.country === engName)
-    rankings = updateRankings(topStudios, "country-top-studios", "Studio", "Ratings", "studio", "num_ratings")
+    rankings = updateRankings(topStudios, "country-top-studios", "Studio", "Ratings", "studio", "num_ratings", num_rows=5)
 
     // .attr("onclick", d => "studioSelector.value='" + d.studio) //+ "'; updateStudioInfo();")
     // d3.select("#country-top-studios").selectAll("td:nth-child(2)").attr("class", "studio")

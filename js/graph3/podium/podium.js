@@ -97,11 +97,11 @@ function updatePodium(topAnimes, animeData, podiumId) {
         .style("height", function () {
             switch (d3.select(this).attr("class")) {
                 case "podium-step gold":
-                    return "100px";
-                case "podium-step silver":
                     return "75px";
-                case "podium-step bronze":
+                case "podium-step silver":
                     return "50px";
+                case "podium-step bronze":
+                    return "25px";
             }
         });
 }

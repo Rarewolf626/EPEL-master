@@ -64,7 +64,6 @@ body {
     background-color: #efefef;
 }
 
-/* ======================================== GRAPH 3 ======================================== */
 .country {
     stroke: black;
     /* country border color */
@@ -78,7 +77,7 @@ body {
 }
 
 #country-info {
-    height: 125px;
+    height: 110px;
     margin-top: 2%;
 }
 
@@ -87,7 +86,7 @@ body {
 }
 
 #country-flag img {
-    height: 100px;
+    height: 90px;
     width: auto;
     box-shadow: 0px 4px 8px rgba(38, 38, 38, 0.2);
 }
