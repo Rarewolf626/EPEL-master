@@ -2,7 +2,8 @@
     box-sizing: border-box;
 } */
 
-html, body {
+html,
+body {
     /* width: "100%"; */
     height: "100%";
     background-color: #e9e7e7;
@@ -11,6 +12,19 @@ html, body {
     color: #333;
 }
 
+/* In all the div whose class starts with "col"  and that are children of a div whose id begins with "country-stats" and whose class starts with "row" */
+div[id^="country-stats"] div[class^="col"] {
+    align-self: center;
+
+    /* Borders: rounded black */
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.custom-column {
+    height: 40%;
+    background-color: lightgray;
+}
 
 #home .counter {
     font-size: 100px;

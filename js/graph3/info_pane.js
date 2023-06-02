@@ -146,8 +146,10 @@ function showCountryInfo(countryFeature, countryTopAnimes, animeData, topStudios
     // Gender balance
     updateGenderChart(genderData, engName);
 
+
     // Age distribution
     updateAgeChart(ageData, engName);
+
 
     // Mean number of days spent watching anime
     updateMeanDays(daysData, engName);

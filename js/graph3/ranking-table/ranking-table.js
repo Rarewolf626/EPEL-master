@@ -48,7 +48,7 @@ function updateRankings(rankingData, rankingId, headerA, headerB, colA, colB, nu
         .style("opacity", 1);
 
     rowsEnter.append("td")
-        .text((d, i) => i + 1);
+        .text((_, i) => i + 1);
 
     rowsEnter.append("td")
         .text(d => d[colA]);

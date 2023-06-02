@@ -2,8 +2,8 @@ let genderChart = d3.select("#country-gender-balance")
 // chart.selectAll("*").remove();
 
 // set the dimensions and margins of the graph
-const GENDER_WIDTH = 300,
-    GENDER_HEIGHT = 300,
+const GENDER_WIDTH = 275,
+    GENDER_HEIGHT = 275,
     GENDER_MARGIN = 40,
     GENDER_RADIUS = Math.min(GENDER_WIDTH, GENDER_HEIGHT) / 2 - GENDER_MARGIN
 
@@ -32,6 +32,11 @@ function initGenderChart() {
         .attr("height", GENDER_HEIGHT)
         .append("g")
         .attr("transform", "translate(" + GENDER_WIDTH / 2 + "," + GENDER_HEIGHT / 2 + ")");
+    d3.selectAll("#country-gender-balance")
+        .append("h6")
+        .text("Gender Balance")
+        .attr("class", "text-center")
+        .style("margin-top", "0.5em")
 }
 
 let tooltipGender = d3.select("body")
