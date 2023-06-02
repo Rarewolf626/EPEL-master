@@ -50,9 +50,6 @@ class ComposePieChart extends HTMLElement {
         this.dataOthers = o[0]
         this.labelsOthers = o[1]
         this.colorsOthers = o[2]
-        /*console.log(datag1)
-        console.log(labelsg1.length)
-        console.log(colorsg1.length)*/
         this.datag1 = datag1
         this.labelsg1 = labelsg1
         this.colorsg1 = colorsg1
@@ -78,7 +75,6 @@ class ComposePieChart extends HTMLElement {
         var kg1 = -1
         this.kg1 = kg1
         this.g1.addEventListener("g1", (e) => {
-            //console.log(e.detail)
             this.kg1 = e.detail
             this.moveToG2()
         })
@@ -109,24 +105,18 @@ class ComposePieChart extends HTMLElement {
         composeSVG.node().appendChild(this.g1.getShadow())
         //svg.appendChild(this.drawLegend())
         //this.drawLegend()
-        //console.log(allColors)
         var colorsPerGenre = []
-        //console.log(Object.keys(this.allColors))
         const keys = Object.keys(allColors)
         for (let k =0; k<keys.length; k++){
             colorsPerGenre[k] = {'index' : k, 'genre' : keys[k], 'color' : allColors[keys[k]]}
         }
-        //console.log(colorsPerGenre)
         this.colorsPerGenre = colorsPerGenre
         /*var colors = colorsPerGenre.filter((d) => labelsg1.includes(d.genre))
         for (let i = 0; i<colors.length; i++) {
             colors[i].index = i
         }
-        /*console.log()
-        console.log(labelsg1)*/
         /*const legend = new Legend(colors, 0, 0, '100%', '100%', colorText)
         legend.addEventListener("click-legend", (e) => {
-            console.log(this.labelsg1)
             this.clickOnLegend(e.detail)
         })
         legend.addEventListener("dblclick-legend", (e) => {
@@ -136,7 +126,6 @@ class ComposePieChart extends HTMLElement {
         this.currentCallback = (d) => this.labelsg1.includes(d.genre)
         this.createLegend(this.currentCallback)
         //this.divTop.node().appendChild(legend.getSVG())
-        //console.log("test")
         this.divTitle = divRight.append("div").style("position", "absolute").style("width", "100%").style("height", "4%")
         const divTopAnime = divRight.append("div").attr("id", "divTopAnime").style("position", "relative").style("width", "100%").style("height", "80%").style("top", "4%")//.style("overflow", "auto")
         this.divTopAnime = divTopAnime
@@ -222,11 +211,8 @@ class ComposePieChart extends HTMLElement {
         for (let i = 0; i<colors.length; i++) {
             colors[i].index = i
         }
-        /*console.log()
-        console.log(labelsg1)*/
         const legend = new Legend(colors, 0, 0, '100%', '100%', this.colorText)
         legend.addEventListener("click-legend", (e) => {
-            //console.log(this.labelsg1)
             this.clickOnLegend(e.detail)
         })
         legend.addEventListener("dblclick-legend", (e) => {
@@ -439,7 +425,6 @@ class ComposePieChart extends HTMLElement {
                     text.style("opacity", "1").style("fill-opacity", "1")
                 }
                 
-                //console.log(r)
                 if(this.top !== null) {
                     this.divTopAnime.node().appendChild(this.top.getSVG())
                 }

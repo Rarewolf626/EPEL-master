@@ -269,7 +269,6 @@ function updateBar(dataset, nb, colorsText) {
                 svgGroupedBarPlot.selectAll("text.bar_color_text").transition().duration(tr_duration).style("opacity", 1); 
                 
                 if(nb !=0) {
-                    console.log(nb);
                     svgGroupedBarPlot.select("text.xAxis_Label").transition().duration(tr_duration).style("opacity", 1);
                 }
                 isTransitionEnded = true;
