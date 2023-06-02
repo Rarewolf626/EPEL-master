@@ -53,7 +53,7 @@ function updatePodium(topAnimes, animeData, podiumId) {
         .append("img")
         .on("error", function () {
             d3.select(this)
-                .attr("src", "../" + DEFAULT_IMG_URL)
+                .attr("src", DEFAULT_IMG_URL)
                 .attr("onerror", null)
         })
         .attr("class", "rounded mx-auto d-block")

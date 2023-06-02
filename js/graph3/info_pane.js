@@ -42,7 +42,7 @@ function showStudioInfo(studio, studioData, studioNumAnimes, animeData, studioTo
         .attr("src", studioData.logo_url)
         .on("error", function () {
             d3.select(this)
-                .attr("src", "../" + DEFAULT_IMG_URL)
+                .attr("src", DEFAULT_IMG_URL)
                 .attr("onerror", null)
         })
         .attr("class", "rounded mx-auto d-block")
@@ -104,7 +104,10 @@ function showCountryInfo(countryFeature, countryTopAnimes, animeData, topStudios
 
     /* Country general information */
     // Country name (english and japanese)
-    let countryName = d3.select("#country-name")
+    let colLeft = d3.select("#country-name-num-users")
+    colLeft.selectAll("*").remove();
+
+    let countryName = colLeft.append("h2")
         .text(engName)
     if (japName != "") {
         countryName
@@ -115,12 +118,15 @@ function showCountryInfo(countryFeature, countryTopAnimes, animeData, topStudios
 
     // Country's number of users
     let numUsers = countryFeature.properties.value;
-
-    let countryNumUsers = d3.select("#country-num-users");
-    let numUsersText = numUsers ?
-        `${formatAsThousands(numUsers)} otakus (ranked #${countryFeature.properties.countRank})` :
-        "No otakus here :(";
-    countryNumUsers.text(numUsersText);
+    let numUsersText = colLeft.append("h4")
+    if (!numUsers) {
+        numUsersText.text("No otakus here :(")
+    } else {
+        numUsersText.html(
+            `<span class="counter" id="country-num-users-ctr"></span> otaku${numUsers > 1 ? "s" : ""} (ranked #${countryFeature.properties.countRank})`
+        )
+        animateCounter("#country-num-users-ctr", numUsers)
+    }
 
     // Country flag
     updateFlag(countryFeature);
@@ -167,37 +173,19 @@ function updateMeanDays(daysData, country) {
     let countryNumDays = d3.select("#country-num-days")
     countryNumDays.selectAll("*").remove();
 
-    countryNumDays.append("span")
-        .text("On average, an otaku has spent")
-        .append("br")
+    countryNumDays.html(`
+    <span>On average, an otaku has spent</span><br>
+    <span class="counter" id="country-days-ctr"></span>
+    <span> days, </span>
+    <span class="counter" id="country-hours-ctr"></span>
+    <span> hours and </span>
+    <span class="counter" id="country-minutes-ctr"></span>
+    <span> minutes watching animes (ranked #${countryDays.rank})</span>
+  `);
 
-    // Number of days
-    countryNumDays.append("span")
-        .attr("class", "counter")
-        .attr("id", "country-days-ctr")
-        .style("font-size", "1em")
-    countryNumDays.append("span")
-        .text(" days, ")
-
-    // Number of hours
-    countryNumDays.append("span")
-        .attr("class", "counter")
-        .attr("id", "country-hours-ctr")
-        .style("font-size", "1em")
-    countryNumDays.append("span")
-        .text(" hours and ")
-
-    // Number of minutes
-    countryNumDays.append("span")
-        .attr("class", "counter")
-        .attr("id", "country-minutes-ctr")
-        .style("font-size", "1em")
-    countryNumDays.append("span")
-        .text(" minutes watching animes (ranked #" + countryDays.rank + ")");
-
-    animateCounter("#country-days-ctr", numDays, 1000)
-    animateCounter("#country-hours-ctr", numHours, 1000)
-    animateCounter("#country-minutes-ctr", numMinutes, 1000)
+    animateCounter("#country-days-ctr", numDays)
+    animateCounter("#country-hours-ctr", numHours)
+    animateCounter("#country-minutes-ctr", numMinutes)
 
     return countryNumDays;
 }
@@ -212,12 +200,12 @@ function updateFlag(countryFeature) {
     countryFlag.selectAll("*").remove();
     countryFlag.append("img")
         .attr("src", countryFeature.properties.flag_path)
-        .attr("class", "rounded mx-auto d-block")
+        .attr("class", "rounded")
         .attr("alt", countryFeature.properties.admin)
         .attr("title", countryFeature.properties.admin)
         .on("error", function () {
             d3.select(this)
-                .attr("src", "../" + DEFAULT_IMG_URL)
+                .attr("src", DEFAULT_IMG_URL)
                 .attr("onerror", null)
         });
 

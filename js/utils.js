@@ -5,7 +5,7 @@
  * @param {*} endValue  The end value
  * @param {*} duration  The duration of the animation in milliseconds
  */
-function animateCounter(selector, endValue, duration = 2000) {
+function animateCounter(selector, endValue, duration = 1000) {
     d3.selectAll(selector)
         .transition()
         .tween("text", function () {

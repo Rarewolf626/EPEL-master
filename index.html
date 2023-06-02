@@ -48,19 +48,19 @@
 				<p>Introduction</p>
 				<div class="row no-gutters">
 					<div class="col no-gutters">
-						<div id="countryCounter" class="counter"></div>
+						<div id="countryCounter" class="counter" style="font-size: 100px;"></div>
 						<div id="countryCounter_desc" class="counter_desc">
 							<p>countries</p>
 						</div>
 					</div>
 					<div class="col no-gutters">
-						<div id="animeCounter" class="counter"></div>
+						<div id="animeCounter" class="counter" style="font-size: 100px;"></div>
 						<div id="animeCounter_desc" class="counter_desc">
 							<p>anime</p>
 						</div>
 					</div>
 					<div class="col no-gutters">
-						<div id="userCounter" class="counter"></div>
+						<div id="userCounter" class="counter" style="font-size: 100px;"></div>
 						<div id="userCounter_desc" class="counter_desc">
 							<p>users</p>
 						</div>
@@ -192,7 +192,7 @@
 			<div class="row no-gutters">
 				<!-- World map -->
 				<div class="col-7 rounded" id="map-holder">
-					<!-- <div id="map-holder"></div> -->
+					<div id="map-holder"></div>
 				</div>
 				<!-- Information Pane -->
 				<div class="col-sm rounded info-pane" id="info-pane-map">
@@ -225,18 +225,11 @@
 					<!-- Country Pane -->
 					<div class="tab-pane fade" id="country" role="tabpanel" aria-labelledby="country-tab">
 						<!-- Country general information -->
-						<div class="row justify-content-between" id="country-info">
-							<!-- add a box shadow on bottom line of row border-->
-
+						<div class="row justify-content-between d-flex flex-grow-1" id="country-info">
 							<!-- Name + number of users -->
-							<div class="col-6">
-								<!-- <div class="leftside"> -->
-								<h2 id="country-name"></h2>
-								<h4 id="country-num-users"></h4>
-								<!-- </div> -->
-							</div>
+							<div class="col-8" id="country-name-num-users"></div>
 							<!-- Flag -->
-							<div class="col-5" id="country-flag"></div>
+							<div class="col-md-auto" id="country-flag"></div>
 							<span class="border-bottom"></span>
 						</div>
 
@@ -248,12 +241,10 @@
 							<div class="col-4" id="country-top-studios"></div>
 						</div>
 
-						<!-- Second row of stars -->
+						<!-- Second row of stats -->
 						<div class="row justify-content-between" id="country-stats-2">
 							<!-- Gender pie chart -->
-							<div class="col-4" id="country-gender-balance">
-							</div>
-
+							<div class="col-4" id="country-gender-balance"></div>
 							<!-- Age distribution histogram -->
 							<div class="col-6" id="country-age-distribution">
 								<svg id="country-age-histogram"></svg>
@@ -312,9 +303,9 @@
 <script src="js/utils.js"></script>
 <!-- Home page-->
 <script>
-	animateCounter("#countryCounter", 204);
-	animateCounter("#animeCounter", 14478);
-	animateCounter("#userCounter", 302673);
+	animateCounter("#countryCounter", 204, duration = 2000);
+	animateCounter("#animeCounter", 14478, duration = 2000);
+	animateCounter("#userCounter", 302673, duration = 2000);
 </script>
 <!-- Graph 1 -->
 <script src="js/graph1/groupedBarChart.js"></script>
