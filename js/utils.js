@@ -1,17 +1,16 @@
 /**
- * Animates a counter from a start value to an end value.
+ * Animates a counter from 0 to an end value.
  * 
  * @param {*} selector  The selector of the element to animate
- * @param {*} startValue  The start value
  * @param {*} endValue  The end value
  * @param {*} duration  The duration of the animation in milliseconds
  */
-function animateCounter(selector, startValue, endValue, duration = 2000) {
+function animateCounter(selector, endValue, duration = 2000) {
     d3.selectAll(selector)
         .transition()
         .tween("text", function () {
             let node = this;
-            const interpolator = d3.interpolateNumber(startValue, endValue);
+            const interpolator = d3.interpolateNumber(0, endValue);
             return function (t) {
                 d3.select(node)
                     .text(Math.round(interpolator(t)).toLocaleString("en-US"))
@@ -34,7 +33,8 @@ function formatAsDays(days) {
     const xDays = Math.floor(days);
     const xHours = Math.floor(hours % 24);
     const xMinutes = Math.floor(minutes % 60);
-    return `${xDays} days, ${xHours} hours, and ${xMinutes} minutes`;
+
+    return [xDays, xHours, xMinutes];
 }
 
 /**
