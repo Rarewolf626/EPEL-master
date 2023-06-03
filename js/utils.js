@@ -1,3 +1,11 @@
+// URL of the default image to use when an image is not found
+const DEFAULT_IMG_URL = "data/graph3_map/no_picture_mal.png";
+
+/**
+ * Adds a comma for every thousands, e.g., converts "123456" to "123,456"
+ */
+let formatAsThousands = d3.format(",")
+
 /**
  * Animates a counter from 0 to an end value.
  * 
@@ -18,14 +26,6 @@ function animateCounter(selector, endValue, duration = 1000) {
         })
         .duration(duration);
 }
-
-// URL of the default image to use when an image is not found
-const DEFAULT_IMG_URL = "data/graph3_map/no_picture_mal.png";
-
-/**
- * Adds a comma for every thousands, e.g., converts "123456" to "123,456"
- */
-let formatAsThousands = d3.format(",")
 
 function formatAsDays(days) {
     const hours = days * 24;
