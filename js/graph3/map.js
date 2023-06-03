@@ -290,15 +290,12 @@ function ready(error,
         .attr("class", "country")
         .style("fill", d => d.properties.color)
         .on("mouseover", function (d) {
-            if (studioFocus == false) {
-                d3.select(this).style("fill", "#2c7bb6"); // Blue
-            } else {
-                d3.select(this).style("fill", "#a6cee3"); // Light blue
-            }
+            d3.select(this).style("fill", "#2c7bb6"); // Blue
             // Set the value of the country selector to be the country name
             countrySelector.property("value", d.properties.admin);
         })
         .on("mouseout", function (d) {
+            // Reset the default color of the country
             if (studioFocus == false) {
                 d3.select(this).style("fill", d => d.properties.color);
             } else {
@@ -315,6 +312,7 @@ function ready(error,
                 countries.style("fill", d => studioCountryNames.includes(d.properties.admin) ? "#0000ff" : "#ccc")
                 onStudioCountryFocus(d, animeData, studioCountryTopAnimes)
             }
+            // Color the selected country in blue
             d3.select("#country" + d.properties.iso_a2)
                 .style("fill", "#2c7bb6")
                 .on("mouseover", null)

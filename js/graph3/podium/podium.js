@@ -10,10 +10,7 @@ function updatePodium(topAnimes, animeData, podiumId) {
     podium.selectAll("*").remove();
     podium.text("");
 
-    if (topAnimes.length === 0) {
-        podium.text("No data available");
-        return;
-    }
+    if (topAnimes.length === 0) return;
 
     // Reorder topAnimesData in the podium order, from left to right
     if (topAnimes.length >= 2) {

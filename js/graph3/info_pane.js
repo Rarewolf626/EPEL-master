@@ -78,6 +78,7 @@ function showStudioInfo(studio, studioData, studioNumAnimes, studioNumCountries)
  */
 function showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeData) {
     studioCountryTopAnimes = studioCountryTopAnimes.filter(d => d.studio == studio && d.country == country)
+    let isDataAvailable = studioCountryTopAnimes.length > 0
 
     let info = d3.select("#studio-country-info")
     info.selectAll("*").remove();
@@ -88,8 +89,11 @@ function showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeDat
     info.append("h5")
         .style("margin-top", "0.5em")
         .attr("class", "text-center")
-        .text(`The favorite animes from this studio in ${country} are`)
+        .text(isDataAvailable ?
+            `The favorite animes from this studio in ${country} are` :
+            "No data available for this country")
 
+    if (!isDataAvailable) return;
     // Top 3 animes from this studio in this country
     info.append("div")
         .attr("class", "col-9 podium")
