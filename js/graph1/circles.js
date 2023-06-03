@@ -8,22 +8,22 @@ let gCircle = svgCircle.append("g").attr("class","gCircle").attr("transform", "t
 
 let pack = d3.pack()
     .size([diameter, diameter])
-    .padding(1.5)
+    .padding(1)
 
 
-const nb_ratings_per_year = {"2006" : 6656,
-    "2007" : 485419,
-    "2008" : 1845826,
-    "2009" : 3027156,
-    "2010" : 3094369,
-    "2011" : 3132426,
-    "2012" : 3826551,
-    "2013" : 4585220,
-    "2014" : 4873577,
-    "2015":  5235096,
-    "2016" : 5578943,
-    "2017" : 5214298,
-    "2018" : 2320709};
+const nb_ratings_per_year = {
+    "2007" : 233861,
+    "2008" : 1452724,
+    "2009" : 2516130,
+    "2010" : 2588342,
+    "2011" : 2629463,
+    "2012" : 3229892,
+    "2013" : 3974054,
+    "2014" : 4211973,
+    "2015":  4508772,
+    "2016" : 4784803,
+    "2017" : 4485364,
+    "2018" : 1768670};
 
 const years = Object.keys(nb_ratings_per_year);
 const ratings = Object.values(nb_ratings_per_year)
@@ -36,17 +36,18 @@ for (let i = 1; i < years.length; i++) {
     ratingDifferences[currentYear] = difference;
 }
 
-d3.select("#nb_ratings_per_year").text("From 2006 to 2018,");
+d3.select("#nb_ratings_per_year").text("From 2007 to 2018,");
 d3.select("#ratings_gain").text("a total of " + ratings.reduce((partialSum, a) => partialSum + a, 0).toLocaleString("en-US") + " ratings were given");
 
 const total = Object.keys(nb_ratings_per_year).map(function(key){return nb_ratings_per_year[key]}).reduce((partialSum, a) => partialSum + a, 0);
 
 d3.json("data/graph1_circles/circles.json",function (error, root) {
-    let country1 = ""
-    let country2 = ""
-    let top1 = []
-    let top2 = []
-    let year = ""
+    if(error) throw error;
+    let country1 = "";
+    let country2 = "";
+    let top1 = [];
+    let top2 = [];
+    let year = "";
 
     root = d3.hierarchy(root)
         .sum(function (d) { return d.size })
@@ -112,9 +113,7 @@ d3.json("data/graph1_circles/circles.json",function (error, root) {
                         gCircle.selectAll(".headline").style("fill", function (d) { return d.data.name == country1 && year == d.parent.data.name ? "white" : "black" });
                         tooltip.style("visibility", "visible");
                         update_tops(d)
-                    }
-                   
-                    
+                    } 
      
                 }
                 else {
@@ -207,7 +206,7 @@ d3.json("data/graph1_circles/circles.json",function (error, root) {
             updateBar(dataset,0,year);
             circle.style("fill", function (d) { return  d.parent ? d.children ? "##7f2704" : "#D0D0D0" :   "white" }); 
             d3.select("#year").text("Information");
-            d3.select("#nb_ratings_per_year").text("From 2006 to 2018,");
+            d3.select("#nb_ratings_per_year").text("From 2007 to 2018,");
             d3.select("#ratings_gain").text("a total of " + ratings.reduce((partialSum, a) => partialSum + a, 0).toLocaleString("en-US") + " ratings were given");
 
         }

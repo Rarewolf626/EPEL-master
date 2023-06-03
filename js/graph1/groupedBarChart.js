@@ -170,7 +170,7 @@ bar.append("rect")
     .attr("fill", colorCycle())
     .on("mouseover", function (d) {
         tooltip.text(d[0]); 
-        if (BrowserText.getWidth(d[0], 14, 'sans-serif') + 20 > xScale(d[1])) {
+        if (BrowserText.getWidth(d[0], 15, 'sans-serif') + 20 > xScale(d[1])) {
             tooltip.style("visibility", "visible");
         }
     })
@@ -257,7 +257,7 @@ function updateBar(dataset, nb, colorsText) {
                     .attr("font-family", "sans-serif")
                     .style("font-size", "14px")
                     .text(function (d) {
-                        if (BrowserText.getWidth(d[0], 14, '"sans-serif"') + 20> xScale(d[1]) & d[0] != "") {
+                        if (BrowserText.getWidth(d[0], 15, '"sans-serif"') + 20 > xScale(d[1]) & d[0] != "") {
                             return "";
                         }
                         return d[0];
