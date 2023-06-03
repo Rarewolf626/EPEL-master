@@ -170,7 +170,7 @@ bar.append("rect")
     .attr("fill", colorCycle())
     .on("mouseover", function (d) {
         tooltip.text(d[0]); 
-        if (BrowserText.getWidth(d[0], 14, 'Arial') > xScale(d[1])) {
+        if (BrowserText.getWidth(d[0], 14, 'sans-serif') + 20 > xScale(d[1])) {
             tooltip.style("visibility", "visible");
         }
     })
@@ -269,7 +269,6 @@ function updateBar(dataset, nb, colorsText) {
                 svgGroupedBarPlot.selectAll("text.bar_color_text").transition().duration(tr_duration).style("opacity", 1); 
                 
                 if(nb !=0) {
-                    console.log(nb);
                     svgGroupedBarPlot.select("text.xAxis_Label").transition().duration(tr_duration).style("opacity", 1);
                 }
                 isTransitionEnded = true;
