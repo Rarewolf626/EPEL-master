@@ -176,7 +176,7 @@
 					</select>
 				</div>
 				<!-- Reset button -->
-				<div class="col-1 no-gutters">
+				<div class="col-md-auto no-gutters">
 					<button id="map-reset-btn" class="btn btn-primary">Reset</button>
 				</div>
 				<!-- Studio selector -->
@@ -198,63 +198,75 @@
 				<div class="col-sm rounded info-pane" id="info-pane-map">
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
 						<li class="nav-item" role="presentation">
-							<button class="nav-link active" id="studio-tab" data-bs-toggle="tab"
-								data-bs-target="#studio" type="button" role="tab" aria-controls="studio"
-								aria-selected="true">Home</button>
+							<button class="nav-link active" id="country-tab" data-bs-toggle="tab"
+								data-bs-target="#country" type="button" role="tab" aria-controls="country"
+								aria-selected="false">Country</button>
 						</li>
 						<li class="nav-item" role="presentation">
-							<button class="nav-link" id="country-tab" data-bs-toggle="tab" data-bs-target="#country"
-								type="button" role="tab" aria-controls="country" aria-selected="false">Country</button>
+							<button class="nav-link" id="studio-tab" data-bs-toggle="tab" data-bs-target="#studio"
+								type="button" role="tab" aria-controls="studio" aria-selected="true">Studio</button>
 						</li>
 					</ul>
 					<div class="tab-content" id="myTabContent">
-						<!-- Default Pane -->
-						<div class="tab-pane fade show active" id="studio" role="tabpanel" aria-labelledby="studio-tab">
+						<!-- Country Pane -->
+						<div class="tab-pane fade show active" id="country" role="tabpanel"
+							aria-labelledby="country-tab">
+
+							<h4 class="country-undefined" style="margin-top: 3%">Select or click on a country to
+								visualize statistics about it.</h4>
+
+							<!-- Country general information -->
+							<div class="row justify-content-between d-flex flex-grow-1 country-defined"
+								id="country-info">
+								<!-- Name + number of users -->
+								<div class="col-8" id="country-name-num-users"></div>
+								<!-- Flag -->
+								<div class="col-md-auto" id="country-flag"></div>
+								<span class="border-bottom"></span>
+							</div>
+
+							<!-- First row of stats -->
+							<div class="row justify-content-between d-flex flex-grow-1 country-defined"
+								id="country-stats-1">
+								<!-- Top 3 animes -->
+								<div class="col-6" id="country-top-animes">
+									<div class="podium" id="podium-country-top-animes" style="align-self: center;">
+									</div>
+								</div>
+								<!-- Top 5 studios -->
+								<div class="col-6" id="country-top-studios" style="align-self: center;">
+								</div>
+							</div>
+
+							<!-- Second row of stats -->
+							<div class="row justify-content-center d-flex flex-grow-1 country-defined"
+								id="country-stats-2">
+								<!-- Gender pie chart -->
+								<div class="col-md-auto" id="country-gender-balance" style="align-self: center;"></div>
+								<!-- Age distribution histogram -->
+								<div class="col-md-auto" id="country-age-distribution" style="align-self: center;">
+								</div>
+							</div>
+
+							<div class="row country-defined" id="country-num-days-row"
+								style="padding-top: 10px;height:10%">
+								<h5 id="country-num-days" style="text-align: center;">
+								</h5>
+							</div>
+						</div>
+
+						<!-- Studio Pane -->
+						<div class="tab-pane fade" id="studio" role="tabpanel" aria-labelledby="studio-tab">
 							<div class="container">
-								<p>Select/click on a country or studio to visualize statistics about it.</p>
+								<h4 class="studio-undefined" style="margin-top: 3%">Select a studio to visualize
+									statistics about it.</h4>
 								<!-- Studio general information -->
-								<div class="row" id="studio-name"></div>
-								<div class="row" id="studio-logo"></div>
-								<div class="row" id="studio-country-info">
+								<div class="row studio-defined" id="studio-name"></div>
+								<div class="row studio-defined" id="studio-logo"></div>
+								<div class="row studio-defined" id="studio-num-animes-num-countries"></div>
+								<div class="row studio-defined" id="studio-country-info">
 								</div>
 							</div>
-						</div>
-					</div>
-
-					<!-- Country Pane -->
-					<div class="tab-pane fade" id="country" role="tabpanel" aria-labelledby="country-tab">
-						<!-- Country general information -->
-						<div class="row justify-content-between d-flex flex-grow-1" id="country-info">
-							<!-- Name + number of users -->
-							<div class="col-8" id="country-name-num-users"></div>
-							<!-- Flag -->
-							<div class="col-md-auto" id="country-flag"></div>
-							<span class="border-bottom"></span>
-						</div>
-
-						<!-- First row of stats -->
-						<div class="row justify-content-between d-flex flex-grow-1" id="country-stats-1">
-							<!-- Top 3 animes -->
-							<div class="col-6" id="country-top-animes">
-								<div class="podium" id="podium-country-top-animes" style="align-self: center;">
-								</div>
-							</div>
-							<!-- Top 5 studios -->
-							<div class="col-6" id="country-top-studios" style="align-self: center;">
-							</div>
-						</div>
-
-						<!-- Second row of stats -->
-						<div class="row justify-content-center d-flex flex-grow-1" id="country-stats-2">
-							<!-- Gender pie chart -->
-							<div class="col-md-auto" id="country-gender-balance" style="align-self: center;"></div>
-							<!-- Age distribution histogram -->
-							<div class="col-md-auto" id="country-age-distribution" style="align-self: center;"></div>
-						</div>
-
-						<div class="row" id="country-num-days-row" style="padding-top: 10px;height:10%">
-							<h5 id="country-num-days" style="text-align: center;">
-							</h5>
 						</div>
 					</div>
 				</div>

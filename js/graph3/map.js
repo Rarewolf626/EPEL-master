@@ -1,5 +1,5 @@
 
-const DATA_PATH = "data/";
+const DATA_PATH = "../../data/";
 
 const STUDIO_PATH = DATA_PATH + "studios/",
     MAP_PATH = DATA_PATH + "graph3_map/";
@@ -45,11 +45,7 @@ let mapSvg = d3.select("#map-holder")
     .append("svg")
     .attr("width", "100%")
     .attr("height", "100%")
-    // .attr("width", map_width)
-    // .attr("height", map_height)
-    // .attr("viewBox", "100 100 " + w + " " + h)
     .attr("class", "svg-content")
-// .call(zoom)
 
 // Container in which all zoom-able elements will live
 let countriesGroup = mapSvg.append("g")
@@ -162,6 +158,89 @@ let studioTabTriggerEl = document.querySelector('#studio-tab')
 let studioTab = new bootstrap.Tab(studioTabTriggerEl)
 
 
+let countryState = "country-undefined"
+let countryPanel = d3.select("#country")
+let countryDefDivs = countryPanel.selectAll(".country-defined")
+let countryUndefDivs = countryPanel.selectAll(".country-undefined")
+
+let studioState = "studio-undefined"
+let studioPanel = d3.select("#studio")
+let studioDefDivs = studioPanel.selectAll(".studio-defined")
+let studioUndefDivs = studioPanel.selectAll(".studio-undefined")
+
+// Function to set the visibility based on the state
+// function setState(state) {
+//     if (state === "country-defined") {
+//         countryDefDivs.style("display", "block");
+//         countryDefDivs.style("visibility", "visible")
+//         countryUndefDivs.style("display", "none");
+//         countryUndefDivs.style("visibility", "hidden")
+//     } else if (state === "country-undefined") {
+//         countryDefDivs.style("display", "none");
+//         countryDefDivs.style("visibility", "hidden")
+//         // e.g. a country that has no otakus
+//         if (countryFocus) {
+//             d3.selectAll("#country-info").style("display", "block");
+//             d3.selectAll("#country-info").style("visibility", "visible");
+//         } else {
+//             countryUndefDivs.style("display", "block");
+//             countryUndefDivs.style("visibility", "visible")
+//         }
+//     } else if (state === "studio-defined") {
+//         studioDefDivs.style("display", "block");
+//         studioDefDivs.style("visibility", "visible")
+
+//         studioUndefDivs.style("display", "none");
+//         studioUndefDivs.style("visibility", "hidden")
+//     } else if (state === "studio-undefined") {
+//         studioDefDivs.style("display", "none");
+//         studioDefDivs.style("visibility", "hidden")
+
+//         studioUndefDivs.style("display", "block");
+//         studioUndefDivs.style("visibility", "visible")
+//     }
+//     countryState = state;
+//     studioState = state;
+// }
+
+
+function setCountryState(state) {
+    if (state === "country-defined") {
+        countryDefDivs.style("display", "block");
+        countryDefDivs.style("visibility", "visible")
+        countryUndefDivs.style("display", "none");
+        countryUndefDivs.style("visibility", "hidden")
+    } else if (state === "country-undefined") {
+        countryDefDivs.style("display", "none");
+        countryDefDivs.style("visibility", "hidden")
+        // e.g. a country that has no otakus
+        if (countryFocus) {
+            d3.selectAll("#country-info").style("display", "block");
+            d3.selectAll("#country-info").style("visibility", "visible");
+        } else {
+            countryUndefDivs.style("display", "block");
+            countryUndefDivs.style("visibility", "visible")
+        }
+    }
+    countryState = state;
+}
+
+function setStudioState(state) {
+    if (state === "studio-defined") {
+        studioDefDivs.style("display", "block");
+        studioDefDivs.style("visibility", "visible")
+
+        studioUndefDivs.style("display", "none");
+        studioUndefDivs.style("visibility", "hidden")
+    } else if (state === "studio-undefined") {
+        studioDefDivs.style("display", "none");
+        studioDefDivs.style("visibility", "hidden")
+
+        studioUndefDivs.style("display", "block");
+        studioUndefDivs.style("visibility", "visible")
+    }
+    studioState = state;
+}
 /**
  * Draw the map and all the other elements
  * @param {*} error  Error message
@@ -211,7 +290,7 @@ function ready(error,
             resetMap();
             return;
         }
-        onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData);
+        onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData, studioCountryTopAnimes);
     })
 
     // Studio selector
@@ -222,16 +301,14 @@ function ready(error,
             resetMap();
             return;
         }
-        onStudioFocus(studio, studioData, studioNumAnimes, animeData, studioCountryTopAnimes, studioCountries)
+        onStudioFocus(studio, studioData, studioNumAnimes, studioCountries)
     })
 
     /* Draw the map */
     // Create an invisible background rectangle to catch zoom events
     countriesGroup.append("rect")
-        // .attr("x", 100)
-        // .attr("y", 100)
-        .attr("width", MAP_WIDTH) // 100%
-        .attr("height", MAP_HEIGHT) // 100%
+        .attr("width", MAP_WIDTH)
+        .attr("height", MAP_HEIGHT)
         .attr("opacity", 0);
 
     // Bind data and create one path per GeoJSON feature
@@ -264,18 +341,14 @@ function ready(error,
         })
         .on("click", function (d) {
             if (studioFocus == false) {
-                onCountryFocus(d, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData)
+                onCountryFocus(d, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData, studioCountryTopAnimes)
             } else {
                 // I selected a country while in studio focus mode
                 onStudioCountryFocus(d, animeData, studioCountryTopAnimes)
             }
         });
 
-    // createZoomButtons();
 }
-
-// Two colors to alternate when a country is selected. These colors alternate in a "heartbeat" fashion
-const COUNTRY_COLORS_SELECTED = ["#2c7bb6", "#a6cee3"]
 
 /**
  * 
@@ -287,7 +360,7 @@ const COUNTRY_COLORS_SELECTED = ["#2c7bb6", "#a6cee3"]
  * @param {*} ageData 
  * @param {*} daysData 
  */
-function onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData) {
+function onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData, studioCountryTopAnimes) {
     countryFocus = true
     studioFocus = false
     studioSelector.property("value", "Select a studio...");
@@ -306,10 +379,6 @@ function onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopS
 
     // Show info pane
     showCountryInfo(countryFeature, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData)
-    // Select all the second th of the table and add a "a" that wen clicked, sets the studio selector to the corresponding studio 
-    // d3.select("#country-top-studios")
-    //     .selectAll("td:nth-child(2) a")
-    //     .attr("onclick", d => "studioSelector.property(\"value\", \"" + d.studio + "\"); updateStudioInfo();")
 }
 
 
@@ -323,7 +392,7 @@ function onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopS
  * @param {*} studioCountries 
  * @returns 
  */
-function onStudioFocus(studio, studioData, studioNumAnimes, animeData, studioTopAnimes, studioCountries) {
+function onStudioFocus(studio, studioData, studioNumAnimes, studioCountries) {
     countryFocus = false
     studioFocus = true
     countrySelector.property("value", COUNTRY_SELECTOR_DEFAULT_OPTION);
@@ -333,17 +402,28 @@ function onStudioFocus(studio, studioData, studioNumAnimes, animeData, studioTop
 
     studioCountryNames = studioCountries.filter(d => d.studio == studio).map(d => d.country);
     if (studioCountryNames.length == 0) {
+        setStudioState("studio-undefined")
         resetMap();
         return;
     }
+
+    setCountryState("country-undefined")
+    setStudioState("studio-defined")
+
     // Color all countries who have at least one anime from the selected studio in blue, the rest in gray
     countries.style("fill", d => studioCountryNames.includes(d.properties.admin) ? "#0000ff" : "#ccc")
 
     // Show info pane
-    showStudioInfo(studio, studioData, studioNumAnimes, animeData, studioTopAnimes, studioCountries)
+    showStudioInfo(studio, studioData, studioNumAnimes, studioCountries)
 }
 
 
+/**
+ * 
+ * @param {*} countryFeature 
+ * @param {*} animeData 
+ * @param {*} studioCountryTopAnimes 
+ */
 function onStudioCountryFocus(countryFeature, animeData, studioCountryTopAnimes) {
     let studio = studioSelector.property("value")
     let country = countryFeature.properties.admin
@@ -356,7 +436,6 @@ function onStudioCountryFocus(countryFeature, animeData, studioCountryTopAnimes)
     showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeData)
 }
 
-let currentCountryState = "country-undefined"
 
 /**
  * Initialize the map
@@ -371,17 +450,23 @@ function initMap() {
     initGenderChart()
     // init histogram
 
-    setState(currentCountryState)
+    setCountryState(countryState)
 }
 
 /**
  * Reset the map to its initial state
  */
 function resetMap() {
+    countryTab.show()
+
     countryFocus = false
     studioFocus = false
+
     countrySelector.property("value", COUNTRY_SELECTOR_DEFAULT_OPTION);
     studioSelector.property("value", STUDIO_SELECTOR_DEFAULT_OPTION);
+
+    setCountryState("country-undefined")
+    setStudioState("studio-undefined")
 
     // Dezoom
     initZoom();

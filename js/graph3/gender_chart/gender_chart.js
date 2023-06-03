@@ -1,4 +1,4 @@
-let genderChart = d3.select("#country-gender-balance")
+let genderChart;
 // chart.selectAll("*").remove();
 
 // set the dimensions and margins of the graph
@@ -25,20 +25,15 @@ let svgGender;
  * Initialize the gender chart
  */
 function initGenderChart() {
-    d3.select("#country-gender-balance").selectAll("*").remove();
-    d3.select("#country-gender-balance").selectAll("h6").remove()
+    genderChart = d3.select("#country-gender-balance")
 
-    svgGender = d3.select("#country-gender-balance")
+    svgGender = genderChart
         .append("svg")
         .attr("width", GENDER_WIDTH)
         .attr("height", GENDER_HEIGHT)
         .append("g")
         .attr("transform", "translate(" + GENDER_WIDTH / 2 + "," + GENDER_HEIGHT / 2 + ")");
-    d3.selectAll("#country-gender-balance")
-        .append("h6")
-        .text("Gender balance")
-        .attr("class", "text-center")
-        .style("margin-top", "0.5em")
+
 }
 
 let tooltipGender = d3.select("body")
@@ -55,11 +50,17 @@ let tooltipGender = d3.select("body")
  * @returns 
  */
 function updateGenderChart(genderData, country) {
+    genderChart.selectAll("h6").remove()
+    genderChart.selectAll("svg").remove();
+    // genderChart.selectAll("*").remove();
+
     let data = genderData.find(d => d.country == country)
     if (!data) {
-        initGenderChart();
         return;
     }
+
+    initGenderChart();
+
 
     let genderBalance = { "Male": data["Male"], "Female": data["Female"], "Non-Binary": data["Non-Binary"] }
 
@@ -122,6 +123,11 @@ function updateGenderChart(genderData, country) {
         })
 
     t.exit().remove()
+
+    genderChart.append("h6")
+        .text("Gender balance")
+        .attr("class", "text-center")
+        .style("margin-top", "0.5em")
 
     return svgGender;
 }

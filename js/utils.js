@@ -13,7 +13,7 @@ let formatAsThousands = d3.format(",")
  * @param {*} endValue  The end value
  * @param {*} duration  The duration of the animation in milliseconds
  */
-function animateCounter(selector, endValue, duration = 1000) {
+function animateCounter(selector, endValue, duration = 1500) {
     d3.selectAll(selector)
         .transition()
         .tween("text", function () {

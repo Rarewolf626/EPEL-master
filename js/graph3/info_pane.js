@@ -9,9 +9,11 @@
  * @param {*} studioTopAnimes Most rated animes of each studio
  * @param {*} studioCountries Country names where each studio is popular
  */
-function showStudioInfo(studio, studioData, studioNumAnimes, animeData, studioTopAnimes, studioCountries) {
+function showStudioInfo(studio, studioData, studioNumAnimes, studioCountries) {
     // Switch to the studio tab
     studioTab.show()
+
+    d3.select("#studio-country-info").selectAll("*").remove();
 
     country_names = studioCountries.filter(d => d.studio == studio).map(d => d.country)
     let numCountries = country_names.length
@@ -77,7 +79,7 @@ function showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeDat
         .attr("class", "border-top")
 
     info.append("h5")
-        .style("margin-top", "1em")
+        .style("margin-top", "0.5em")
         .attr("class", "text-center")
         .text(`The favorite animes from this studio in ${country} are`)
 
@@ -91,29 +93,6 @@ function showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeDat
 }
 
 // ============================================= Country =============================================
-let countryPanel = d3.select("#country")
-let countryDefDivs = countryPanel.selectAll(".country-defined")
-let countryUndefDivs = countryPanel.selectAll(".country-undefined")
-
-// Function to set the visibility based on the state
-function setState(state) {
-    if (state === "country-defined") {
-        countryDefDivs.style("display", "block");
-        countryDefDivs.style("visibility", "visible")
-
-        countryUndefDivs.style("display", "none");
-        countryUndefDivs.style("visibility", "hidden")
-
-    } else if (state === "country-undefined") {
-        countryDefDivs.style("display", "none");
-        countryDefDivs.style("visibility", "hidden")
-
-        countryUndefDivs.style("display", "block");
-        countryUndefDivs.style("visibility", "visible")
-    }
-    currentCountryState = state;
-    console.log("State changed to " + currentCountryState);
-}
 
 
 /**
@@ -157,17 +136,10 @@ function showCountryInfo(countryFeature, countryTopAnimes, animeData, topStudios
     let numUsersText = colLeft.append("h4")
     if (!numUsers) {
         numUsersText.text("No otakus here :(")
-        // countryPanel.select("#country-stats-1").attr("style", "visibility: hidden;")
-        // countryPanel.select("#country-stats-2").attr("style", "visibility: hidden;")
-        // countryPanel.select("#country-num-days-row").attr("style", "visibility: hidden;")
-        // initMap();
-        setState("country-undefined")
+        setCountryState("country-undefined")
         return;
     }
-    setState("country-defined")
-    // countryPanel.select("#country-stats-1").attr("style", "visibility: visible;")
-    // countryPanel.select("#country-stats-2").attr("style", "visibility: visible;")
-    // countryPanel.select("#country-num-days-row").attr("style", "visibility: visible;")
+    setCountryState("country-defined")
     numUsersText.html(
         `<span class="counter" id="country-num-users-ctr"></span> otaku${numUsers > 1 ? "s" : ""} (ranked #${countryFeature.properties.countRank})`
     )
@@ -188,9 +160,6 @@ function showCountryInfo(countryFeature, countryTopAnimes, animeData, topStudios
     // Top studios
     topStudios = topStudios.filter(d => d.country === engName)
     rankings = updateRankings(topStudios, "country-top-studios", "Studio", "Ratings", "studio", "num_ratings", num_rows = 10)
-
-    // .attr("onclick", d => "studioSelector.value='" + d.studio) //+ "'; updateStudioInfo();")
-    // d3.select("#country-top-studios").selectAll("td:nth-child(2)").attr("class", "studio")
 
     // Gender balance
     updateGenderChart(genderData, engName);
