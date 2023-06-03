@@ -25,6 +25,9 @@ function updateRankings(rankingData, tableId, headerA, headerB, colA, colB, num_
         .data(rankingData.slice(0, num_rows))
         .enter()
         .append("tr")
+        .classed("gold", (_, i) => i == 0)
+        .classed("silver", (_, i) => i == 1)
+        .classed("bronze", (_, i) => i == 2);
 
     // Column 1: ranking
     rows.append("td")

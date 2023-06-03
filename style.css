@@ -15,10 +15,6 @@ body {
 /* In all the div whose class starts with "col"  and that are children of a div whose id begins with "country-stats" and whose class starts with "row" */
 div[id^="country-stats"] div[class^="col"] {
     align-self: center;
-
-    /* Borders: rounded black */
-    border: 1px solid black;
-    border-radius: 5px;
 }
 
 .center-table {

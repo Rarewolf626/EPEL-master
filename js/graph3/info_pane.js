@@ -82,7 +82,12 @@ function showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeDat
         .text(`The favorite animes from this studio in ${country} are`)
 
     // Top 3 animes from this studio in this country
-    updatePodium(studioCountryTopAnimes, animeData, "studio-country-top-animes")
+    info.append("div")
+        .attr("class", "podium")
+        .attr("id", "podium-studio-country-top-animes")
+        .style("align-self", "center")
+
+    updatePodium(studioCountryTopAnimes, animeData, "podium-studio-country-top-animes")
 }
 
 // ============================================= Country =============================================
@@ -173,6 +178,7 @@ function showCountryInfo(countryFeature, countryTopAnimes, animeData, topStudios
     // Top 3 animes
     countryTopAnimes = countryTopAnimes.filter(d => d.country === engName).slice(0, 3);
     updatePodium(countryTopAnimes, animeData, "podium-country-top-animes")
+    d3.selectAll("#country-top-animes").selectAll("h6").text("").remove()
     d3.selectAll("#country-top-animes")
         .append("h6")
         .text("The most rated anime")
