@@ -1,5 +1,5 @@
 
-const DATA_PATH = "../../data/";
+const DATA_PATH = "data/";
 
 const STUDIO_PATH = DATA_PATH + "studios/",
     MAP_PATH = DATA_PATH + "graph3_map/";
@@ -210,6 +210,7 @@ function setCountryState(state) {
         countryDefDivs.style("visibility", "visible")
         countryUndefDivs.style("display", "none");
         countryUndefDivs.style("visibility", "hidden")
+
     } else if (state === "country-undefined") {
         countryDefDivs.style("display", "none");
         countryDefDivs.style("visibility", "hidden")
@@ -229,18 +230,21 @@ function setStudioState(state) {
     if (state === "studio-defined") {
         studioDefDivs.style("display", "block");
         studioDefDivs.style("visibility", "visible")
-
         studioUndefDivs.style("display", "none");
         studioUndefDivs.style("visibility", "hidden")
+
     } else if (state === "studio-undefined") {
         studioDefDivs.style("display", "none");
         studioDefDivs.style("visibility", "hidden")
 
+        d3.selectAll("")
         studioUndefDivs.style("display", "block");
         studioUndefDivs.style("visibility", "visible")
     }
     studioState = state;
 }
+
+
 /**
  * Draw the map and all the other elements
  * @param {*} error  Error message
