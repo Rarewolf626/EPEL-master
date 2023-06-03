@@ -33,6 +33,13 @@ let hideTooltip = function (d) {
     .duration(100)
     .style("opacity", 0)
 }
+// d3.select("#x-axis-group")
+// .append("text")
+// .attr("x", width + margin.right/4)
+// .attr("y", -10)
+// .attr("fill", "currentColor")
+// .attr("text-anchor", "middle")
+// .text(xLabel)
 
 
 /**
@@ -74,7 +81,7 @@ function updateAgeChart(ageData, country) {
   // set the dimensions and margins of the graph
   let margin = { top: 20, right: 30, bottom: 30, left: 40 },
     width = 400 - margin.left - margin.right,
-    height = 280 - margin.top - margin.bottom;
+    height = 230 - margin.top - margin.bottom;
 
   // append the svg object to the body of the page
   let svg = chart.append("svg")
@@ -96,7 +103,6 @@ function updateAgeChart(ageData, country) {
   let xAxis = d3.axisBottom(xScale)
     .tickValues(xDomain)
 
-  let xLabel = "Birth year →"
   svg.append("g")
     .attr("id", "x-axis-group")
     .attr("transform", "translate(0," + height + ")")
@@ -128,7 +134,7 @@ function updateAgeChart(ageData, country) {
       .text(yLabel))
   // Change the y tick step minimum to 1
 
-
+  let xLabel = "Birth year →"
   d3.select("#x-axis-group")
     .append("text")
     .attr("x", width)

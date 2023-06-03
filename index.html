@@ -167,7 +167,7 @@
 		<!-- Visualization 3: World map -->
 		<div class="section" id="graph3">
 			<!-- Map option panel -->
-			<div class="row no-gutters" id="map-options"  style="height:7vh;">
+			<div class="row no-gutters" id="map-options" style="height:7vh;">
 				<!-- Country selector -->
 				<div class="col-3 no-gutters">
 					<select id="country-selector" class="form-select form-select-lg mb-3"
@@ -189,7 +189,7 @@
 			</div>
 
 			<!-- Main content -->
-			<div class="row no-gutters"  style="height:93vh;">
+			<div class="row no-gutters" style="height:93vh;">
 				<!-- World map -->
 				<div class="col-7 rounded" id="map-holder">
 					<div id="map-holder"></div>
@@ -235,33 +235,24 @@
 						<!-- First row of stats -->
 						<div class="row justify-content-between d-flex flex-grow-1" id="country-stats-1">
 							<!-- Top 3 animes -->
-							<div class="col-6">
-								<div class="podium custom-column" id="country-top-animes" style="align-self: center;">
+							<div class="col-6" id="country-top-animes">
+								<div class="podium" id="podium-country-top-animes" style="align-self: center;">
 								</div>
 							</div>
 							<!-- Top 5 studios -->
-							<div class="col-6">
-								<div class="custom-column" id="country-top-studios" style="align-self: center;">
-								</div>
+							<div class="col-6" id="country-top-studios" style="align-self: center;">
 							</div>
 						</div>
 
 						<!-- Second row of stats -->
-						<div class="row justify-content-between d-flex flex-grow-1" id="country-stats-2"  style="height:40%;">
+						<div class="row justify-content-between d-flex flex-grow-1" id="country-stats-2">
 							<!-- Gender pie chart -->
-							<div class="col-md-auto">
-								<div class="custom-column" id="country-gender-balance" style="align-self: center;">
-								</div>
-
-							</div>
+							<div class="col-md-auto" id="country-gender-balance" style="align-self: center;"></div>
 							<!-- Age distribution histogram -->
-							<div class="col-md-auto">
-								<div class="custom-column" id="country-age-distribution" style="align-self: center;">
-								</div>
-							</div>
+							<div class="col-md-auto" id="country-age-distribution" style="align-self: center;"></div>
 						</div>
 
-						<div class="row" id="country-num-days-row" style="padding-top: 10px;height:15%">
+						<div class="row" id="country-num-days-row" style="padding-top: 10px;height:10%">
 							<h5 id="country-num-days" style="text-align: center;">
 							</h5>
 						</div>

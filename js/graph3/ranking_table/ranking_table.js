@@ -10,6 +10,7 @@ function updateRankings(rankingData, tableId, headerA, headerB, colA, colB, num_
     let rankings = d3.select("#" + tableId);
     rankings.selectAll("*").remove();
     let table = rankings.append("table")
+        .classed("center-table", true)
 
     /* Table header */
     let thead = table.append("thead");

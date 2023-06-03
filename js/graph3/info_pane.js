@@ -76,8 +76,10 @@ function showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeDat
     info.append("span")
         .attr("class", "border-top")
 
-    info.append("h4")
-        .text(`The favorite animes of this studio in ${country} are`)
+    info.append("h5")
+        .style("margin-top", "1em")
+        .attr("class", "text-center")
+        .text(`The favorite animes from this studio in ${country} are`)
 
     // Top 3 animes from this studio in this country
     updatePodium(studioCountryTopAnimes, animeData, "studio-country-top-animes")
@@ -170,11 +172,16 @@ function showCountryInfo(countryFeature, countryTopAnimes, animeData, topStudios
     /* Country stats */
     // Top 3 animes
     countryTopAnimes = countryTopAnimes.filter(d => d.country === engName).slice(0, 3);
-    updatePodium(countryTopAnimes, animeData, "country-top-animes")
+    updatePodium(countryTopAnimes, animeData, "podium-country-top-animes")
+    d3.selectAll("#country-top-animes")
+        .append("h6")
+        .text("The most rated anime")
+        .attr("class", "text-center")
+        .style("margin-top", "0.5em")
 
     // Top studios
     topStudios = topStudios.filter(d => d.country === engName)
-    rankings = updateRankings(topStudios, "country-top-studios", "Studio", "Ratings", "studio", "num_ratings", num_rows = 5)
+    rankings = updateRankings(topStudios, "country-top-studios", "Studio", "Ratings", "studio", "num_ratings", num_rows = 10)
 
     // .attr("onclick", d => "studioSelector.value='" + d.studio) //+ "'; updateStudioInfo();")
     // d3.select("#country-top-studios").selectAll("td:nth-child(2)").attr("class", "studio")

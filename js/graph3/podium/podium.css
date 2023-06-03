@@ -32,15 +32,15 @@
 }
 
 .podium-element .num_ratings {
-    font-size: 15px;
-    margin-top: 10px;
+    font-size: 13px;
+    margin-top: 2%;
 }
 
 /* ===========================
     Poster
     =========================== */
 .poster {
-    width: 90%;
+    width: 75%;
     height: auto;
     margin-bottom: 10px;
     display: block;

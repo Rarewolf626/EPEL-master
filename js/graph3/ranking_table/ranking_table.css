@@ -5,10 +5,14 @@ table {
     font-size: 0.8rem;
 }
 
+thead {
+    text-align: center;
+}
+
 td,
 th {
     border: 1px solid rgb(190, 190, 190);
-    padding: 5px 10px;
+    padding: 1% 10px;
     text-align: center;
 }
 

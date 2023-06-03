@@ -21,10 +21,11 @@ div[id^="country-stats"] div[class^="col"] {
     border-radius: 5px;
 }
 
-.custom-column {
-    height: 40%;
-    background-color: lightgray;
+.center-table {
+    margin-left: auto;
+    margin-right: auto;
 }
+
 
 #home .counter {
     font-size: 100px;

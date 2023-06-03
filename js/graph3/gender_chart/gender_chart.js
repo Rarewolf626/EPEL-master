@@ -2,9 +2,9 @@ let genderChart = d3.select("#country-gender-balance")
 // chart.selectAll("*").remove();
 
 // set the dimensions and margins of the graph
-const GENDER_WIDTH = 275,
-    GENDER_HEIGHT = 275,
-    GENDER_MARGIN = 40,
+const GENDER_WIDTH = 200,
+    GENDER_HEIGHT = 200,
+    GENDER_MARGIN = 10,
     GENDER_RADIUS = Math.min(GENDER_WIDTH, GENDER_HEIGHT) / 2 - GENDER_MARGIN
 
 const GENDER_LABELS = ["Female", "Male", "Non-Binary"]
@@ -36,7 +36,7 @@ function initGenderChart() {
         .attr("transform", "translate(" + GENDER_WIDTH / 2 + "," + GENDER_HEIGHT / 2 + ")");
     d3.selectAll("#country-gender-balance")
         .append("h6")
-        .text("Gender Balance")
+        .text("Gender balance")
         .attr("class", "text-center")
         .style("margin-top", "0.5em")
 }
