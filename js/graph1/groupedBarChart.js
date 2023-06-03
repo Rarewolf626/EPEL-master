@@ -170,7 +170,7 @@ bar.append("rect")
     .attr("fill", colorCycle())
     .on("mouseover", function (d) {
         tooltip.text(d[0]); 
-        if (BrowserText.getWidth(d[0], 14, 'Arial') > xScale(d[1])) {
+        if (BrowserText.getWidth(d[0], 14, 'sans-serif') + 20 > xScale(d[1])) {
             tooltip.style("visibility", "visible");
         }
     })
