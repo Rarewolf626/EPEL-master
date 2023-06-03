@@ -142,7 +142,7 @@ function showCountryInfo(countryFeature, countryTopAnimes, animeData, topStudios
     let numUsers = countryFeature.properties.value;
     let numUsersText = colLeft.append("h4")
     if (!numUsers) {
-        numUsersText.text("No otakus here :(")
+        numUsersText.text(engName == "Japan" ? "The country of the rising sun :D" : "No otakus here :(")
         setCountryState("country-undefined")
         return;
     }

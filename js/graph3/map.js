@@ -229,7 +229,7 @@ function setStudioState(state) {
 function ready(error,
     geojsonData, userData, genderData, ageData, daysData, countryTopAnimes, countryTopStudios,
     animeData,
-    studioData, studioCountries, studioNumCountries, studioNumAnimes, studioCountryTopAnimes, 
+    studioData, studioCountries, studioNumCountries, studioNumAnimes, studioCountryTopAnimes,
 ) {
     if (error) throw error;
 
@@ -291,13 +291,10 @@ function ready(error,
         .style("fill", d => d.properties.color)
         .on("mouseover", function (d) {
             if (studioFocus == false) {
-                // Color in blue on mouseover
-                d3.select(this).style("fill", "#2c7bb6");
+                d3.select(this).style("fill", "#2c7bb6"); // Blue
             } else {
-                // Color in light blue on mouseover
-                d3.select(this).style("fill", "#a6cee3");
+                d3.select(this).style("fill", "#a6cee3"); // Light blue
             }
-
             // Set the value of the country selector to be the country name
             countrySelector.property("value", d.properties.admin);
         })
@@ -310,11 +307,18 @@ function ready(error,
         })
         .on("click", function (d) {
             if (studioFocus == false) {
+                // Color the countries according to the number of users
+                countries.style("fill", d => d.properties.color)
                 onCountryFocus(d, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData, studioCountryTopAnimes)
             } else {
-                // I selected a country while in studio focus mode
+                // Color all countries who have at least one anime from the selected studio in blue, the rest in gray
+                countries.style("fill", d => studioCountryNames.includes(d.properties.admin) ? "#0000ff" : "#ccc")
                 onStudioCountryFocus(d, animeData, studioCountryTopAnimes)
             }
+            d3.select("#country" + d.properties.iso_a2)
+                .style("fill", "#2c7bb6")
+                .on("mouseover", null)
+                .on("mouseout", null)
         });
 
 }
@@ -337,13 +341,6 @@ function onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopS
     studioCountryNames = []
 
     setStudioState("studio-undefined")
-
-    // Color the countries according to the number of users
-    countries.style("fill", d => d.properties.color)
-    d3.select("#country" + countryFeature.properties.iso_a2)
-        .style("fill", "#2c7bb6")
-        .on("mouseover", null)
-        .on("mouseout", null)
 
     // Zoom on the country
     boxZoom(path.bounds(countryFeature), path.centroid(countryFeature), 20);
@@ -374,7 +371,6 @@ function onStudioFocus(studio, studioData, studioNumAnimes, studioCountries, stu
     studioCountries = studioCountries.filter(d => d.studio == studio);
     studioCountryNames = studioCountries.map(d => d.country);
     if (studioCountryNames.length == 0) {
-        setStudioState("studio-undefined")
         resetMap();
         return;
     }
@@ -399,12 +395,6 @@ function onStudioFocus(studio, studioData, studioNumAnimes, studioCountries, stu
 function onStudioCountryFocus(countryFeature, animeData, studioCountryTopAnimes) {
     let studio = studioSelector.property("value")
     let country = countryFeature.properties.admin
-
-    // d3.select("#country" + countryFeature.properties.iso_a2)
-    //     .style("fill", "#a6cee3")
-    //     .on("mouseover", null)
-    //     .on("mouseout", null)
-
     showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeData)
 }
 
@@ -414,15 +404,8 @@ function onStudioCountryFocus(countryFeature, animeData, studioCountryTopAnimes)
  */
 function initMap() {
     initZoom()
-    // init podiums
-    initPodiums()
-    // init ranking tables
-    initRankings()
     // init gender chart
     initGenderChart()
-    // init histogram
-
-    setCountryState(countryState)
 }
 
 /**

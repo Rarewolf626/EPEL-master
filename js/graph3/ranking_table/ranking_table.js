@@ -1,11 +1,15 @@
-function initRankings() {
-    d3.selectAll(".ranking").each(function () {
-        d3.select(this).selectAll("*").remove()
-        d3.select(this).selectAll("h6").remove()
-    })
-}
 
-
+/**
+ * 
+ * @param {*} rankingData 
+ * @param {*} tableId 
+ * @param {*} headerA 
+ * @param {*} headerB 
+ * @param {*} colA 
+ * @param {*} colB 
+ * @param {*} num_rows 
+ * @returns 
+ */
 function updateRankings(rankingData, tableId, headerA, headerB, colA, colB, num_rows = 10) {
     let rankings = d3.select("#" + tableId);
     rankings.selectAll("*").remove();
