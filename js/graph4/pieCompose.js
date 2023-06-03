@@ -29,7 +29,7 @@ class ComposePieChart extends HTMLElement {
         graph.style.setProperty('height', `100vh`)
         graph.style.setProperty('--tooltip-bg', 'red')
         graph.style.setProperty('background-color', colorBackGround)
-        const divTop = d3.select(graph).append("div").attr("id", "divTop").style("width", '100%').style("height", '15%')
+        const divTop = d3.select(graph).append("div").attr("id", "divTop").style("position", "relative").style("width", '95%').style("height", '15%').style("left", "5%")
         this.divTop = divTop
         const divLeft = d3.select(graph).append("div").attr("id", "divLeft").attr("class", "col-9 no-gutters").style("height", "85%")
         const divRight = d3.select(graph).append("div").attr("id", "divRight").attr("class", "col no-gutters").style("height", "85%")
