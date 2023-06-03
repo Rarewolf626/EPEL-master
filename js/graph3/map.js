@@ -168,42 +168,6 @@ let studioPanel = d3.select("#studio")
 let studioDefDivs = studioPanel.selectAll(".studio-defined")
 let studioUndefDivs = studioPanel.selectAll(".studio-undefined")
 
-// Function to set the visibility based on the state
-// function setState(state) {
-//     if (state === "country-defined") {
-//         countryDefDivs.style("display", "block");
-//         countryDefDivs.style("visibility", "visible")
-//         countryUndefDivs.style("display", "none");
-//         countryUndefDivs.style("visibility", "hidden")
-//     } else if (state === "country-undefined") {
-//         countryDefDivs.style("display", "none");
-//         countryDefDivs.style("visibility", "hidden")
-//         // e.g. a country that has no otakus
-//         if (countryFocus) {
-//             d3.selectAll("#country-info").style("display", "block");
-//             d3.selectAll("#country-info").style("visibility", "visible");
-//         } else {
-//             countryUndefDivs.style("display", "block");
-//             countryUndefDivs.style("visibility", "visible")
-//         }
-//     } else if (state === "studio-defined") {
-//         studioDefDivs.style("display", "block");
-//         studioDefDivs.style("visibility", "visible")
-
-//         studioUndefDivs.style("display", "none");
-//         studioUndefDivs.style("visibility", "hidden")
-//     } else if (state === "studio-undefined") {
-//         studioDefDivs.style("display", "none");
-//         studioDefDivs.style("visibility", "hidden")
-
-//         studioUndefDivs.style("display", "block");
-//         studioUndefDivs.style("visibility", "visible")
-//     }
-//     countryState = state;
-//     studioState = state;
-// }
-
-
 function setCountryState(state) {
     if (state === "country-defined") {
         countryDefDivs.style("display", "block");
@@ -237,7 +201,6 @@ function setStudioState(state) {
         studioDefDivs.style("display", "none");
         studioDefDivs.style("visibility", "hidden")
 
-        d3.selectAll("")
         studioUndefDivs.style("display", "block");
         studioUndefDivs.style("visibility", "visible")
     }
@@ -370,6 +333,8 @@ function onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopS
     studioSelector.property("value", "Select a studio...");
 
     studioCountryNames = []
+
+    setStudioState("studio-undefined")
 
     // Color the countries according to the number of users
     countries.style("fill", d => d.properties.color)
