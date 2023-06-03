@@ -84,6 +84,31 @@ function showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeDat
 }
 
 // ============================================= Country =============================================
+let countryPanel = d3.select("#country")
+let countryDefDivs = countryPanel.selectAll(".country-defined")
+let countryUndefDivs = countryPanel.selectAll(".country-undefined")
+
+// Function to set the visibility based on the state
+function setState(state) {
+    if (state === "country-defined") {
+        countryDefDivs.style("display", "block");
+        countryDefDivs.style("visibility", "visible")
+
+        countryUndefDivs.style("display", "none");
+        countryUndefDivs.style("visibility", "hidden")
+
+    } else if (state === "country-undefined") {
+        countryDefDivs.style("display", "none");
+        countryDefDivs.style("visibility", "hidden")
+
+        countryUndefDivs.style("display", "block");
+        countryUndefDivs.style("visibility", "visible")
+    }
+    currentCountryState = state;
+    console.log("State changed to " + currentCountryState);
+}
+
+
 /**
  *  Show the information about the currently selected country.
  * 
@@ -116,20 +141,31 @@ function showCountryInfo(countryFeature, countryTopAnimes, animeData, topStudios
             .style("font-size", "0.75em");
     }
 
+    // Country flag
+    updateFlag(countryFeature);
+
+
     // Country's number of users
     let numUsers = countryFeature.properties.value;
     let numUsersText = colLeft.append("h4")
     if (!numUsers) {
         numUsersText.text("No otakus here :(")
-    } else {
-        numUsersText.html(
-            `<span class="counter" id="country-num-users-ctr"></span> otaku${numUsers > 1 ? "s" : ""} (ranked #${countryFeature.properties.countRank})`
-        )
-        animateCounter("#country-num-users-ctr", numUsers)
+        // countryPanel.select("#country-stats-1").attr("style", "visibility: hidden;")
+        // countryPanel.select("#country-stats-2").attr("style", "visibility: hidden;")
+        // countryPanel.select("#country-num-days-row").attr("style", "visibility: hidden;")
+        // initMap();
+        setState("country-undefined")
+        return;
     }
+    setState("country-defined")
+    // countryPanel.select("#country-stats-1").attr("style", "visibility: visible;")
+    // countryPanel.select("#country-stats-2").attr("style", "visibility: visible;")
+    // countryPanel.select("#country-num-days-row").attr("style", "visibility: visible;")
+    numUsersText.html(
+        `<span class="counter" id="country-num-users-ctr"></span> otaku${numUsers > 1 ? "s" : ""} (ranked #${countryFeature.properties.countRank})`
+    )
+    animateCounter("#country-num-users-ctr", numUsers)
 
-    // Country flag
-    updateFlag(countryFeature);
 
     /* Country stats */
     // Top 3 animes
@@ -164,6 +200,9 @@ function showCountryInfo(countryFeature, countryTopAnimes, animeData, topStudios
  * @returns the DOM element containing the number of days spent watching anime in the country
  */
 function updateMeanDays(daysData, country) {
+    let countryNumDays = d3.select("#country-num-days")
+    countryNumDays.selectAll("*").remove();
+
     let countryDays = daysData.find(d => d.country == country);
     if (!countryDays) {
         return;
@@ -171,9 +210,6 @@ function updateMeanDays(daysData, country) {
 
     let formatResults = formatAsDays(countryDays.num_days_spent_watching_mean)
     let [numDays, numHours, numMinutes] = formatResults;
-
-    let countryNumDays = d3.select("#country-num-days")
-    countryNumDays.selectAll("*").remove();
 
     countryNumDays.html(`
     <span>On average, an otaku has spent</span><br>

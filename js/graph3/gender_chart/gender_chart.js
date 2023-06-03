@@ -26,6 +26,8 @@ let svgGender;
  */
 function initGenderChart() {
     d3.select("#country-gender-balance").selectAll("*").remove();
+    d3.select("#country-gender-balance").selectAll("h6").remove()
+
     svgGender = d3.select("#country-gender-balance")
         .append("svg")
         .attr("width", GENDER_WIDTH)
@@ -101,7 +103,7 @@ function updateGenderChart(genderData, country) {
 
 
     // Update the annotation
-    var t = svgGender.selectAll("text")
+    let t = svgGender.selectAll("text")
         .data(data_ready)
 
     t.enter()

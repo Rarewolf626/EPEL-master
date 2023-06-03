@@ -1,12 +1,14 @@
-let rankings;
-
 function initRankings() {
-    d3.select("#country-top-studios").selectAll("*").remove();
-    rankings = d3.select("#country-top-studios");
+    d3.selectAll(".ranking").each(function () {
+        d3.select(this).selectAll("*").remove()
+        d3.select(this).selectAll("h6").remove()
+    })
 }
 
-function updateRankings(rankingData, rankingId, headerA, headerB, colA, colB, num_rows = 10) {
-    d3.select("#country-top-studios").selectAll("*").remove();
+
+function updateRankings(rankingData, tableId, headerA, headerB, colA, colB, num_rows = 10) {
+    let rankings = d3.select("#" + tableId);
+    rankings.selectAll("*").remove();
     let table = rankings.append("table")
 
     /* Table header */
@@ -33,5 +35,11 @@ function updateRankings(rankingData, rankingId, headerA, headerB, colA, colB, nu
     rows.append("td")
         .text(d => formatAsThousands(d[colB]));
 
-    // rows.exit().remove();
+    rankings
+        .append("h6")
+        .text("The most rated studios")
+        .attr("class", "text-center")
+        .style("margin-top", "0.5em")
+
+    return rankings;
 }

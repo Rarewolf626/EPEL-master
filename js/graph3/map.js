@@ -307,9 +307,9 @@ function onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopS
     // Show info pane
     showCountryInfo(countryFeature, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData)
     // Select all the second th of the table and add a "a" that wen clicked, sets the studio selector to the corresponding studio 
-    d3.select("#country-top-studios")
-        .selectAll("td:nth-child(2) a")
-        .attr("onclick", d => "studioSelector.property(\"value\", \"" + d.studio + "\"); updateStudioInfo();")
+    // d3.select("#country-top-studios")
+    //     .selectAll("td:nth-child(2) a")
+    //     .attr("onclick", d => "studioSelector.property(\"value\", \"" + d.studio + "\"); updateStudioInfo();")
 }
 
 
@@ -356,15 +356,22 @@ function onStudioCountryFocus(countryFeature, animeData, studioCountryTopAnimes)
     showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeData)
 }
 
+let currentCountryState = "country-undefined"
+
 /**
  * Initialize the map
  */
 function initMap() {
     initZoom()
-    // init podium
-    // init table
+    // init podiums
+    initPodiums()
+    // init ranking tables
+    initRankings()
+    // init gender chart
     initGenderChart()
     // init histogram
+
+    setState(currentCountryState)
 }
 
 /**

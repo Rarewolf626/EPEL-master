@@ -1,3 +1,12 @@
+function initPodiums() {
+    d3.selectAll(".podium").each(function () {
+
+        d3.select(this).selectAll("*").remove()
+        d3.select(this).text("")
+        d3.select(this).selectAll("h6").remove()
+    })
+}
+
 
 function updatePodium(topAnimes, animeData, podiumId) {
     const podium = d3.select("#" + podiumId);

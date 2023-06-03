@@ -88,8 +88,15 @@
 						<span class="border-bottom"></span>
 					</div>
 
+					<!-- If country has no info -->
+					<div class="row justify-content-center d-flex flex-grow-1 country-undefined" id="country-no-info">
+						<div class="col-8">
+							<h4 class="text-center">No information available.</h4>
+						</div>
+					</div>
+
 					<!-- First row of stats -->
-					<div class="row justify-content-between d-flex flex-grow-1" id="country-stats-1">
+					<div class="row justify-content-between d-flex flex-grow-1 country-defined" id="country-stats-1">
 						<!-- Top 3 animes -->
 						<div class="col-6">
 							<div class="podium custom-column" id="country-top-animes" style="align-self: center;">
@@ -97,13 +104,12 @@
 						</div>
 						<!-- Top 5 studios -->
 						<div class="col-6">
-							<div class="custom-column" id="country-top-studios" style="align-self: center;">
-							</div>
+							<div class="ranking custom-column" id="country-top-studios" style="align-self: center;"></div>
 						</div>
 					</div>
 
 					<!-- Second row of stats -->
-					<div class="row justify-content-between d-flex flex-grow-1" id="country-stats-2">
+					<div class="row justify-content-between d-flex flex-grow-1 country-defined" id="country-stats-2">
 						<!-- Gender pie chart -->
 						<div class="col-md-auto">
 							<div class="custom-column" id="country-gender-balance" style="align-self: center;">
@@ -117,7 +123,7 @@
 						</div>
 					</div>
 
-					<div class="row" id="country-num-days-row" style="padding-top: 10px;">
+					<div class="row country-defined" id="country-num-days-row" style="padding-top: 10px;">
 						<h5 id="country-num-days" style="text-align: center;">
 						</h5>
 					</div>
