@@ -28,9 +28,8 @@ function updatePodium(topAnimes, animeData, podiumId) {
         const anime = animeData.find(a => a.anime_id === d.anime_id);
         return {
             anime_id: d.anime_id,
-            title: anime.title,
-            title_japanese: anime.title_japanese,
-            image_url: anime.image_url,
+            title: anime ? anime.title : "Unknown (Click on poster)",
+            image_url: anime ? anime.image_url : DEFAULT_IMG_URL,
             num_ratings: d.num_ratings
         };
     });
@@ -102,7 +101,7 @@ function updatePodium(topAnimes, animeData, podiumId) {
     // Animate the podium: appear from bottom to top
     podium.selectAll(".podium-step")
         .transition()
-        .duration(200)
+        .duration(500)
         .style("height", function () {
             switch (d3.select(this).attr("class")) {
                 case "podium-step gold":

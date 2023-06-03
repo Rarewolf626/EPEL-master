@@ -97,7 +97,7 @@ div[id^="country-stats"] div[class^="col"] {
 
 #studio-logo img {
     max-height: 200px;
-    width: auto
+    width: auto;
 }
 
 /* ======================================== fullPage.js ======================================== */

@@ -137,6 +137,7 @@ d3.queue()
     // Studios
     .defer(d3.csv, STUDIO_PATH + "studios_mal_clean.csv")
     .defer(d3.csv, STUDIO_STAT_PATH + "studio_country_num_ratings.csv/0.part")
+    .defer(d3.csv, STUDIO_STAT_PATH + "studio_num_countries.csv/0.part")
     .defer(d3.csv, STUDIO_STAT_PATH + "studio_num_animes.csv")
     .defer(d3.csv, STUDIO_STAT_PATH + "studio_country_top_animes_3.csv/0.part")
     .await(ready);
@@ -221,13 +222,14 @@ function setStudioState(state) {
  * @param {*} animeData Anime
  * @param {*} studioData Studio
  * @param {*} studioCountries Studio-Country-Number of ratings
+ * @param {*} studioNumCountries Studio-Number of countries
  * @param {*} studioNumAnimes Studio-Number of animes
  * @param {*} studioCountryTopAnimes Studio-Country-Top 3 animes (most rated)
  */
 function ready(error,
     geojsonData, userData, genderData, ageData, daysData, countryTopAnimes, countryTopStudios,
     animeData,
-    studioData, studioCountries, studioNumAnimes, studioCountryTopAnimes,
+    studioData, studioCountries, studioNumCountries, studioNumAnimes, studioCountryTopAnimes, 
 ) {
     if (error) throw error;
 
@@ -268,7 +270,7 @@ function ready(error,
             resetMap();
             return;
         }
-        onStudioFocus(studio, studioData, studioNumAnimes, studioCountries)
+        onStudioFocus(studio, studioData, studioNumAnimes, studioCountries, studioNumCountries)
     })
 
     /* Draw the map */
@@ -361,7 +363,7 @@ function onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopS
  * @param {*} studioCountries 
  * @returns 
  */
-function onStudioFocus(studio, studioData, studioNumAnimes, studioCountries) {
+function onStudioFocus(studio, studioData, studioNumAnimes, studioCountries, studioNumCountries) {
     countryFocus = false
     studioFocus = true
     countrySelector.property("value", COUNTRY_SELECTOR_DEFAULT_OPTION);
@@ -369,7 +371,8 @@ function onStudioFocus(studio, studioData, studioNumAnimes, studioCountries) {
     // Dezoom
     initZoom();
 
-    studioCountryNames = studioCountries.filter(d => d.studio == studio).map(d => d.country);
+    studioCountries = studioCountries.filter(d => d.studio == studio);
+    studioCountryNames = studioCountries.map(d => d.country);
     if (studioCountryNames.length == 0) {
         setStudioState("studio-undefined")
         resetMap();
@@ -383,7 +386,7 @@ function onStudioFocus(studio, studioData, studioNumAnimes, studioCountries) {
     countries.style("fill", d => studioCountryNames.includes(d.properties.admin) ? "#0000ff" : "#ccc")
 
     // Show info pane
-    showStudioInfo(studio, studioData, studioNumAnimes, studioCountries)
+    showStudioInfo(studio, studioData, studioNumAnimes, studioNumCountries)
 }
 
 

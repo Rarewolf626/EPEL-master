@@ -7,16 +7,13 @@
  * @param {*} studioNumAnimes Number of animes produced by each studio
  * @param {*} animeData Animes dataset
  * @param {*} studioTopAnimes Most rated animes of each studio
- * @param {*} studioCountries Country names where each studio is popular
+ * @param {*} studioNumCountries Country names where each studio is popular
  */
-function showStudioInfo(studio, studioData, studioNumAnimes, studioCountries) {
+function showStudioInfo(studio, studioData, studioNumAnimes, studioNumCountries) {
     // Switch to the studio tab
     studioTab.show()
 
     d3.select("#studio-country-info").selectAll("*").remove();
-
-    country_names = studioCountries.filter(d => d.studio == studio).map(d => d.country)
-    let numCountries = country_names.length
 
     studioData = studioData.find(d => d.studio_en == studio)
 
@@ -53,12 +50,22 @@ function showStudioInfo(studio, studioData, studioNumAnimes, studioCountries) {
 
 
     let numAnimes = studioNumAnimes.find(d => d.studio == studio).num_animes
+    studioNumCountries = studioNumCountries.find(d => d.studio == studio)
 
     let numInfo = d3.select("#studio-num-animes-num-countries")
     numInfo.selectAll("*").remove();
     numInfo.append("h5")
-        .text(`${numAnimes} anime${numAnimes > 1 ? "s" : ""}, watched in ${numCountries} countries`)
+        .html(`
+        <span class="counter" id="studio-num-animes-ctr"></span>
+        <span> anime${numAnimes > 1 ? "s" : ""}, watched in </span>
+        <span class="counter" id="studio-num-countries-ctr"></span>
+        <span> countries (ranked #${studioNumCountries.rank})</span>
+        `)
         .attr("class", "d-block text-center")
+        .attr("style", "margin-top: 0.5em;")
+
+    animateCounter("#studio-num-animes-ctr", numAnimes, 1000)
+    animateCounter("#studio-num-countries-ctr", studioNumCountries.num_countries, 1000)
 }
 
 /**
@@ -85,14 +92,14 @@ function showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeDat
 
     // Top 3 animes from this studio in this country
     info.append("div")
-        .attr("class", "podium")
+        .attr("class", "col-9 podium")
         .attr("id", "podium-studio-country-top-animes")
         .style("align-self", "center")
 
     updatePodium(studioCountryTopAnimes, animeData, "podium-studio-country-top-animes")
 }
 
-// ============================================= Country =============================================
+// ============================================= Country Tab =============================================
 
 
 /**
@@ -146,7 +153,7 @@ function showCountryInfo(countryFeature, countryTopAnimes, animeData, topStudios
     animateCounter("#country-num-users-ctr", numUsers)
 
 
-    /* Country stats */
+    /* Country stats (first row) */
     // Top 3 animes
     countryTopAnimes = countryTopAnimes.filter(d => d.country === engName).slice(0, 3);
     updatePodium(countryTopAnimes, animeData, "podium-country-top-animes")
@@ -156,22 +163,44 @@ function showCountryInfo(countryFeature, countryTopAnimes, animeData, topStudios
         .text("The most rated anime")
         .attr("class", "text-center")
         .style("margin-top", "0.5em")
-
     // Top studios
     topStudios = topStudios.filter(d => d.country === engName)
-    rankings = updateRankings(topStudios, "country-top-studios", "Studio", "Ratings", "studio", "num_ratings", num_rows = 10)
+    updateRankings(topStudios, "country-top-studios", "Studio", "Ratings", "studio", "num_ratings", num_rows = 10)
 
+
+    /* Country stats (second row) */
     // Gender balance
     updateGenderChart(genderData, engName);
-
-
     // Age distribution
     updateAgeChart(ageData, engName);
 
 
-    // Mean number of days spent watching anime
+    /* Mean number of days spent watching anime (third row) */
     updateMeanDays(daysData, engName);
 
+}
+
+/**
+ * Update the flag of the country.
+ * 
+ * @param {*} countryFeature  GeoJSON feature of the country
+ * @returns the DOM element containing the flag of the country
+ */
+function updateFlag(countryFeature) {
+    let countryFlag = d3.select("#country-flag")
+    countryFlag.selectAll("*").remove();
+    countryFlag.append("img")
+        .attr("src", countryFeature.properties.flag_path)
+        .attr("class", "rounded")
+        .attr("alt", countryFeature.properties.admin)
+        .attr("title", countryFeature.properties.admin)
+        .on("error", function () {
+            d3.select(this)
+                .attr("src", DEFAULT_IMG_URL)
+                .attr("onerror", null)
+        });
+
+    return countryFlag;
 }
 
 /**
@@ -208,26 +237,4 @@ function updateMeanDays(daysData, country) {
     animateCounter("#country-minutes-ctr", numMinutes)
 
     return countryNumDays;
-}
-
-/**
- *  Update the flag of the country.
- * @param {*} countryFeature  GeoJSON feature of the country
- * @returns the DOM element containing the flag of the country
- */
-function updateFlag(countryFeature) {
-    let countryFlag = d3.select("#country-flag")
-    countryFlag.selectAll("*").remove();
-    countryFlag.append("img")
-        .attr("src", countryFeature.properties.flag_path)
-        .attr("class", "rounded")
-        .attr("alt", countryFeature.properties.admin)
-        .attr("title", countryFeature.properties.admin)
-        .on("error", function () {
-            d3.select(this)
-                .attr("src", DEFAULT_IMG_URL)
-                .attr("onerror", null)
-        });
-
-    return countryFlag;
 }
