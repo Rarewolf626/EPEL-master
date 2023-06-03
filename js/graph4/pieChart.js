@@ -139,43 +139,45 @@ class PieChart extends HTMLElement {
         }
     }
 
-    addListeners() {
+    addListeners(ifOthersShow = false) {
         for (let k = 0; k < this.paths.length; k++) {
             this.paths[k].addEventListener('mouseover', () => this.handlePathHover(k))
             this.paths[k].addEventListener('mouseout', () => this.handlePathOut())
-            if (k !== this.kOther) {
-                this.paths[k].addEventListener('click', () => {
-                    const event = new CustomEvent(this.id, {
-                        detail: k,
-                        bubbles: true,
-                        cancelable: true,
-                        composed: false,
-                    });
-                    this.removeListeners()
-                    this.dispatchEvent(event)
-                })
-            } else {
-                this.paths[k].addEventListener("click", () => {
-                    const event = new CustomEvent(`clickOthers-${this.id}`, {
-                        detail: true,
-                        bubbles: true,
-                        cancelable: true,
-                        composed: false,
-                    });
-                    this.removeListeners()
-                    this.paths[k].addEventListener("click", () => {
-                        const event2 = new CustomEvent(`clickOthers-${this.id}`, {
-                            detail: false,
+            if (!ifOthersShow) {
+                if (k !== this.kOther) {
+                    this.paths[k].addEventListener('click', () => {
+                        const event = new CustomEvent(this.id, {
+                            detail: k,
                             bubbles: true,
                             cancelable: true,
                             composed: false,
                         });
                         this.removeListeners()
-                        this.addListeners()
-                        this.dispatchEvent(event2)
+                        this.dispatchEvent(event)
                     })
-                    this.dispatchEvent(event)
-                })
+                } else {
+                    this.paths[k].addEventListener("click", () => {
+                        const event = new CustomEvent(`clickOthers-${this.id}`, {
+                            detail: true,
+                            bubbles: true,
+                            cancelable: true,
+                            composed: false,
+                        });
+                        this.removeListeners()
+                        this.paths[k].addEventListener("click", () => {
+                            const event2 = new CustomEvent(`clickOthers-${this.id}`, {
+                                detail: false,
+                                bubbles: true,
+                                cancelable: true,
+                                composed: false,
+                            });
+                            this.removeListeners()
+                            this.addListeners()
+                            this.dispatchEvent(event2)
+                        })
+                        this.dispatchEvent(event)
+                    })
+                }
             }
         }
     }

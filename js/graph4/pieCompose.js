@@ -273,6 +273,8 @@ class ComposePieChart extends HTMLElement {
         svg.append("rect").attr("width", "100%").attr("height", "100%").attr("fill", this.colorBackGroundOthers)
         svg.append("text").text("Proportion of genre in Others").attr("font-size", "23").attr("fill", this.colorTextOthers).attr("x", "15%").attr("y", "15%")
         const gOthers = new PieChart(this.dataOthers, [...this.labelsOthers], "gOthers", `12%`, `15%`, `80%`, `70%`, this.colorsOthers, this.colorText)
+        gOthers.removeListeners()
+        gOthers.addListeners(true)
         svg.node().appendChild(gOthers.getShadow())
         gOthers.connectedCallback()
         this.gOthers = gOthers
