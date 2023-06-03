@@ -58,7 +58,7 @@ function drawAxes(nb) {
         .attr("class", "xAxis_Label")
         .attr("transform", "translate(" + (w / 2) + "," + (h + 40) + ")") // Adjust the position as needed
         .style("text-anchor", "middle")
-        .text("proportion of ratings")
+        .text("proportion of ratings (%)")
         .attr("fill", "black")
         .style("opacity", 0);
 
