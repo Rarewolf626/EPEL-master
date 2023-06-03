@@ -14,7 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" href="js/graph1/graph1.css" id="graph1-style">
 	<link rel="stylesheet" type="text/css" href="js/graph3/podium/podium.css">
-	<link rel="stylesheet" type="text/css" href="js/graph3/ranking-table/ranking-table.css">
+	<link rel="stylesheet" type="text/css" href="js/graph3/ranking_table/ranking_table.css">
 
 	<!-- Bootstrap -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
@@ -38,7 +38,7 @@
 		</ul>-->
 	</header>
 	<div id="fullpage">
-		
+
 		<!-- Home page -->
 		<div class="section active" id="home">
 			<div style="text-align:center">
@@ -48,19 +48,19 @@
 				<p>Introduction</p>
 				<div class="row no-gutters">
 					<div class="col no-gutters">
-						<div id="countryCounter" class="counter"></div>
+						<div id="countryCounter" class="counter" style="font-size: 100px;"></div>
 						<div id="countryCounter_desc" class="counter_desc">
 							<p>countries</p>
 						</div>
 					</div>
 					<div class="col no-gutters">
-						<div id="animeCounter" class="counter"></div>
+						<div id="animeCounter" class="counter" style="font-size: 100px;"></div>
 						<div id="animeCounter_desc" class="counter_desc">
 							<p>anime</p>
 						</div>
 					</div>
 					<div class="col no-gutters">
-						<div id="userCounter" class="counter"></div>
+						<div id="userCounter" class="counter" style="font-size: 100px;"></div>
 						<div id="userCounter_desc" class="counter_desc">
 							<p>users</p>
 						</div>
@@ -70,7 +70,7 @@
 		</div>
 
 		<!-- Transition to visualisation 1 -->
-		<div class="section">
+		<div class="section transition" id="viz1-transition">
 			<p class="transitionTitle"> Evolution in Anime tastes from 2006 to 2018</p>
 			<p class="transitionP1">Since 2006, Anime has experienced a consistent rise in popularity, however over time
 				preferences in Anime have changed, leading to the development of unique tastes in different countries.
@@ -105,7 +105,7 @@
 		</div>
 
 		<!-- Transition to visualisation 2 -->
-		<div class="section">
+		<div class="section transition" id="viz2-transition">
 			<p class="transitionTitle"> Variety of Characters in Anime</p>
 			<p class="transitionP1">Many individuals have a tendency to connect with characters in films, shows, books,
 				and anime is no exception. That is why, the inclusion of a diverse range of traits for anime characters
@@ -142,10 +142,26 @@
 		</div>
 
 		<!-- Transition to visualisation 3 -->
-		<div class="section">
-			<p class="transitionTitle">Worldwide Influence of Anime</p>
-			<p class="transitionP1">Anime are loved around the world</p>
-			<p class="transitionP2">The third visualization aims to show </p>
+		<div class="section transition" id="viz3-transition">
+			<p class="transitionTitle">Anime's Global Reach: A passion without borders</p>
+			<p class="transitionP1">
+				<!-- bold -->
+				Even though it is a <b>Japanese</b> art form, anime defy geographical boundaries, captivating viewers
+				worldwide
+				from diverse backgrounds worldwide, transcending gender, generation,
+				religion, race, and nationality.
+			</p>
+			<p class="transitionP2">This choropleth map showcases the distribution of otaku
+				enthusiasts across different countries. Each country is dynamically shaded with colors representing
+				the number of otakus residing within its borders.
+			<p class="transitionP2"> Selecting a country offers some insights into the diverse range of viewers who
+				inhabitate it: the mostpopular animes and studios in terms of the number of ratings, the gender balance,
+				and the distribution of ages.</p>
+			<p class="transitionP2">By selecting a studio, you can see some information like the number of animes it
+				produced and the number
+				of countries where its animes are popular. Selecting a country displays the most popular animes from
+				this
+				studio in this country,highlighting the creative prowess of that studio </p>
 		</div>
 
 		<!-- Visualization 3: World map -->
@@ -176,7 +192,7 @@
 			<div class="row no-gutters">
 				<!-- World map -->
 				<div class="col-7 rounded" id="map-holder">
-					<!-- <div id="map-holder"></div> -->
+					<div id="map-holder"></div>
 				</div>
 				<!-- Information Pane -->
 				<div class="col-sm rounded info-pane" id="info-pane-map">
@@ -196,7 +212,6 @@
 						<div class="tab-pane fade show active" id="studio" role="tabpanel" aria-labelledby="studio-tab">
 							<div class="container">
 								<p>Select/click on a country or studio to visualize statistics about it.</p>
-
 								<!-- Studio general information -->
 								<div class="row" id="studio-name"></div>
 								<div class="row" id="studio-logo"></div>
@@ -209,50 +224,54 @@
 					<!-- Country Pane -->
 					<div class="tab-pane fade" id="country" role="tabpanel" aria-labelledby="country-tab">
 						<!-- Country general information -->
-						<div class="row justify-content-between" id="country-info">
-							<!-- add a box shadow on bottom line of row border-->
-
+						<div class="row justify-content-between d-flex flex-grow-1" id="country-info">
 							<!-- Name + number of users -->
-							<div class="col-6">
-								<!-- <div class="leftside"> -->
-								<h2 id="countryName"></h2>
-								<h4 id="numUsers"></h4>
-								<!-- </div> -->
-							</div>
+							<div class="col-8" id="country-name-num-users"></div>
 							<!-- Flag -->
-							<div class="col-5" id="country-flag"></div>
+							<div class="col-md-auto" id="country-flag"></div>
 							<span class="border-bottom"></span>
 						</div>
 
 						<!-- First row of stats -->
-						<div class="row" id="country-stats-1">
+						<div class="row justify-content-between d-flex flex-grow-1" id="country-stats-1">
 							<!-- Top 3 animes -->
-							<div class="col-7 podium" id="country-top-animes"></div>
+							<div class="col-6">
+								<div class="podium custom-column" id="country-top-animes" style="align-self: center;">
+								</div>
+							</div>
 							<!-- Top 5 studios -->
-							<div class="col-4" id="country-top-studios"></div>
+							<div class="col-6">
+								<div class="custom-column" id="country-top-studios" style="align-self: center;">
+								</div>
+							</div>
 						</div>
 
-						<!-- Second row of stars -->
-						<div class="row justify-content-between" id="country-stats-2">
+						<!-- Second row of stats -->
+						<div class="row justify-content-between d-flex flex-grow-1" id="country-stats-2">
 							<!-- Gender pie chart -->
-							<div class="col-4" id="country-gender-balance">
-							</div>
+							<div class="col-md-auto">
+								<div class="custom-column" id="country-gender-balance" style="align-self: center;">
+								</div>
 
+							</div>
 							<!-- Age distribution histogram -->
-							<div class="col-6" id="country-age-distribution">
-								<svg id="country-age-histogram"></svg>
+							<div class="col-md-auto">
+								<div class="custom-column" id="country-age-distribution" style="align-self: center;">
+								</div>
 							</div>
 						</div>
-						<p id="country-gender-pie-chart-title"></p>
 
-						<h4 id="country-num-days" style="text-align: center;"></h4>
+						<div class="row" id="country-num-days-row" style="padding-top: 10px;">
+							<h5 id="country-num-days" style="text-align: center;">
+							</h5>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<!-- Transition to visualisation 4 -->
-		<div class="section">
+		<div class="section transition" id="viz4-transition">
 			<p class="transitionTitle"> Variety of Genres in Anime</p>
 			<p class="transitionP1">Genres in anime play a significant role in defining the storytelling, themes, and
 				overall experience of each series. Just like in other forms of entertainment, genres categorize anime
@@ -295,7 +314,11 @@
 <!-- Our scripts -->
 <script src="js/utils.js"></script>
 <!-- Home page-->
-<script src="js/counter.js"></script>
+<script>
+	animateCounter("#countryCounter", 204, duration = 2000);
+	animateCounter("#animeCounter", 14478, duration = 2000);
+	animateCounter("#userCounter", 302673, duration = 2000);
+</script>
 <!-- Graph 1 -->
 <script src="js/graph1/groupedBarChart.js"></script>
 <script src="js/graph1/circles.js"></script>
@@ -304,7 +327,7 @@
 
 <!-- Graph 3 -->
 <script src="js/graph3/podium/podium.js"></script>
-<script src="js/graph3/ranking-table/ranking-table.js"></script>
+<script src="js/graph3/ranking_table/ranking_table.js"></script>
 <script src="js/graph3/gender_chart/gender_chart.js"></script>
 <script src="js/graph3/age_chart/age_chart.js"></script>
 <script src="js/graph3/option_pane.js"></script>
@@ -319,13 +342,12 @@
 
 <script>
 	new fullpage('#fullpage', {
-		//menu: '#menu',
-        anchors: ['Home_page', 'Transition_1', 'Ratings_Evolution', 'Transition_2', 'Character_Trait_Cloud', 'Transition_3', 'World_Map', 'Transition_4',  'Genre_Explorer'],
-        autoScrolling: true,
+		anchors: ['Home_page', 'Transition_1', 'Ratings_Evolution', 'Transition_2', 'Character_Trait_Cloud', 'Transition_3', 'World_Map', 'Transition_4', 'Genre_Explorer'],
+		autoScrolling: true,
 		navigation: true,
-        navigationPosition: 'right',
-		navigationTooltips: ['Home Page', '', 'Ratings Evolution', '', 'Character Trait Cloud', '', 'World Map', '',  'Genre Explorer'],
-		sectionsColor : ["#00EEAA", "#d95f24","", "rgb(27, 158, 119)", "", "rgb(172, 0, 0)", "", "#FFDB66"]
+		navigationPosition: 'right',
+		navigationTooltips: ['Home Page', '', 'Ratings Evolution', '', 'Character Trait Cloud', '', 'World Map', '', 'Genre Explorer'],
+		sectionsColor: ["#00EEAA", "#d95f24", "", "rgb(27, 158, 119)", "", "rgb(172, 0, 0)", "", "#FFDB66"]
 	});
 </script>
 

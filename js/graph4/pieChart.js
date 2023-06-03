@@ -187,7 +187,6 @@ class PieChart extends HTMLElement {
     }
 
     setSVGAttribute(x, y, width, height) {
-        //console.log(document.querySelector(`#${this.id}`))
         const svg = document.querySelector(`#${this.id}`)
         svg.setAttribute("x", x)
         svg.setAttribute("y", y)

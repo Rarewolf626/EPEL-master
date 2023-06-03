@@ -11,12 +11,10 @@ class Legend extends HTMLElement {
         svg.setAttribute("id", "legendCompose")
         const labelHeight = (13 * height)
         /*const legend = /*d3.select(document.createElement("g"))d3.select(this.svg)
-            //.attr('transform', `translate(${radius * 2 + 20},0)`);
-        console.log(d3.select(this.svg))*/
+            //.attr('transform', `translate(${radius * 2 + 20},0)`);*/
         const legend = d3.select(svg)
 
         
-        //console.log(data)
         legend
             .selectAll('rect')
             .data(allColors)
@@ -80,7 +78,6 @@ class Legend extends HTMLElement {
             .attr("onselectstart", 'return false')
             .attr("onmousedown", 'return false')
 
-        //console.log(legend)
         this.svg = svg
         /*const test = document.querySelector('#pie-compose')
         test.appendChild(svg)*/

@@ -6,7 +6,7 @@
 <script src="https://d3js.org/d3.v4.js"></script>
 
 <!-- Create a div where the graph will take place -->
-<svg id="country-age-histogram"></svg>
+<div id="country-age-distribution"></div>
 
 <script src="age_chart.js"></script>
 
@@ -30,7 +30,7 @@
 
     function ready(error, ageData) {
         if (error) throw error
-        createAgeChart(ageData, "Papua New Guinea")
+        updateAgeChart(ageData, "France")
     }
 
 </script>

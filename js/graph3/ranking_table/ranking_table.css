@@ -9,15 +9,13 @@ td,
 th {
     border: 1px solid rgb(190, 190, 190);
     padding: 5px 10px;
+    text-align: center;
 }
 
 th {
     background-color: rgb(235, 235, 235);
 }
 
-td {
-    text-align: center;
-}
 
 tr:nth-child(odd) {
     background-color: #f1f1f1;

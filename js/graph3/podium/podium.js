@@ -1,3 +1,12 @@
+function initPodiums() {
+    d3.selectAll(".podium").each(function () {
+
+        d3.select(this).selectAll("*").remove()
+        d3.select(this).text("")
+        d3.select(this).selectAll("h6").remove()
+    })
+}
+
 
 function updatePodium(topAnimes, animeData, podiumId) {
     const podium = d3.select("#" + podiumId);
@@ -53,7 +62,7 @@ function updatePodium(topAnimes, animeData, podiumId) {
         .append("img")
         .on("error", function () {
             d3.select(this)
-                .attr("src", "../" + DEFAULT_IMG_URL)
+                .attr("src", DEFAULT_IMG_URL)
                 .attr("onerror", null)
         })
         .attr("class", "rounded mx-auto d-block")

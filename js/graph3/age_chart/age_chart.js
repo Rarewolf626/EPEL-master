@@ -60,8 +60,10 @@ function fillMissingYears(years) {
  * @returns 
  */
 function updateAgeChart(ageData, country) {
-  let svg = d3.select("#country-age-histogram")
-  svg.selectAll("*").remove();
+  let chart = d3.select("#country-age-distribution")
+  chart.selectAll("*").remove();
+
+
 
   let data = ageData.filter(d => d.country == country)
   if (data.length == 0) {
@@ -71,11 +73,11 @@ function updateAgeChart(ageData, country) {
 
   // set the dimensions and margins of the graph
   let margin = { top: 20, right: 30, bottom: 30, left: 40 },
-    width = 460 - margin.left - margin.right,
+    width = 400 - margin.left - margin.right,
     height = 280 - margin.top - margin.bottom;
 
   // append the svg object to the body of the page
-  svg = svg
+  let svg = chart.append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
@@ -162,6 +164,12 @@ function updateAgeChart(ageData, country) {
     .attr("height", function (d) { return height - yScale(d.num_users); })
     .attr("y", function (d) { return yScale(d.num_users); })
   // .delay(function (d, i) { return 0.1 * d.num_users })
+
+  chart
+    .append("h6")
+    .text("Age distribution")
+    .attr("class", "text-center")
+    .style("margin-top", "0.5em")
 
   return svg
 };

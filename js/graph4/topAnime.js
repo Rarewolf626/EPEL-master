@@ -17,7 +17,6 @@ class TopAnime extends HTMLElement {
             }
         }
         for (let i = 0; i<data.length; i++) {
-            //console.log(data[i])
             const percentHeight = 20
             const item = new AnimeItem([data[i]], 0, i*2, percentHeight, percentFontSize, colorBackGround, colorStar, colorText)
             svg.appendChild(item.getSVG())
@@ -47,7 +46,6 @@ class AnimeItem extends HTMLElement {
 
         const s = d3.select(svg).attr('width', "100%").attr('height', `${height}%`)
             .attr("x", x).attr("y", y).attr('viewBox', `0 0 ${width} 5`).attr("preserveAspectRatio", "xMidYMid meet")
-        //console.log(s)
         const rect = s.append("rect").attr('fill', colorBackGround).attr('width', '100%').attr('height', '100%')
             .attr('x', 0).attr('y', 0)
         const img = s.selectAll("image").data(data).enter().append("image").attr('width', /*`${coordWidthImage}%`*/"25%").attr('height', '100%')
@@ -60,7 +58,6 @@ class AnimeItem extends HTMLElement {
             .style("fill", colorText)
 
         const rating = parseFloat(data[0].score)/2
-        //console.log(rating)
         for (let i=0; i<5; i++) {
             var percent = "100%"
             const diff = rating - i - 1
@@ -72,7 +69,6 @@ class AnimeItem extends HTMLElement {
             }
             const x = width/**coordWidthImage/100*//4 + 0.3*(i+1) + 1*i
             const star = new Star(x, 2, 1, 1, percent, colorStar[0], colorStar[1], 0.2)
-            //console.log(star.getSVG())
             svg.appendChild(star.getSVG())
         }
         

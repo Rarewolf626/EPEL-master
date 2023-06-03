@@ -3,6 +3,40 @@
 }
 
 /* ===========================
+    Podium
+    =========================== */
+.podium {
+    /* width: 100%; */
+    display: flex;
+    align-items: flex-end;
+    
+}
+
+/* ===========================
+    Podium Element
+    =========================== */
+.podium-element {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    width: 33%;
+    border-radius: 5px;
+}
+
+.podium-element .title {
+    margin-bottom: 5px;
+}
+
+.podium-element .num_ratings {
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+/* ===========================
     Poster
     =========================== */
 .poster {
@@ -80,36 +114,6 @@
     margin-right: -4px;
     color: white;
     font-family: courier, sans;
-}
-
-/* ===========================
-    Podium
-    =========================== */
-.podium {
-    width: 100%;
-    display: flex;
-    align-items: flex-end;
-}
-
-.podium-element {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    text-align: center;
-    font-size: 13px;
-    font-weight: bold;
-    width: 25%;
-    border-radius: 5px;
-}
-
-.podium-element .title {
-    margin-bottom: 5px;
-}
-
-.podium-element .num_ratings {
-    font-size: 15px;
-    margin-top: 10px;
 }
 
 /* ===========================
