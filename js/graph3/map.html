@@ -17,7 +17,7 @@
 	<!-- Our styles -->
 	<link rel="stylesheet" type="text/css" href="../../style.css">
 	<link rel="stylesheet" type="text/css" href="podium/podium.css">
-	<link rel="stylesheet" type="text/css" href="ranking-table/ranking-table.css">
+	<link rel="stylesheet" type="text/css" href="ranking_table/ranking_table.css">
 </head>
 
 <body>
@@ -46,10 +46,10 @@
 		</div>
 
 		<!-- Main content -->
-		<div class="row no-gutters" id="map-content">
+		<div class="row no-gutters">
 			<!-- World map -->
 			<div class="col-7 rounded" id="map-holder">
-				<!-- <div id="map-holder"></div> -->
+				<div id="map-holder"></div>
 			</div>
 			<!-- Information Pane -->
 			<div class="col-sm rounded info-pane" id="info-pane-map">
@@ -68,17 +68,11 @@
 					<div class="tab-pane fade show active" id="studio" role="tabpanel" aria-labelledby="studio-tab">
 						<div class="container">
 							<p>Select/click on a country or studio to visualize statistics about it.</p>
-
-							<!-- Default -->
-							<!-- <div class="row-4 no-gutters" id ="country-rankings"> </div> -->
-
 							<!-- Studio general information -->
 							<div class="row" id="studio-name"></div>
 							<div class="row" id="studio-logo"></div>
 							<div class="row" id="studio-num-animes-num-countries"></div>
-
-							<div class="row" id="studio-country-info"></div>
-							<div class="row" id="studio-country-top-animes"></div>
+							<div class="row" id="studio-country-stats"></div>
 						</div>
 					</div>
 				</div>
@@ -86,48 +80,52 @@
 				<!-- Country Pane -->
 				<div class="tab-pane fade" id="country" role="tabpanel" aria-labelledby="country-tab">
 					<!-- Country general information -->
-					<div class="row justify-content-between" id="country-info">
-						<!-- add a box shadow on bottom line of row border-->
-
+					<div class="row justify-content-between d-flex flex-grow-1" id="country-info">
 						<!-- Name + number of users -->
-						<div class="col-6">
-							<!-- <div class="leftside"> -->
-							<h2 id="countryName"></h2>
-							<h4 id="numUsers"></h4>
-							<!-- </div> -->
-						</div>
+						<div class="col-8" id="country-name-num-users"></div>
 						<!-- Flag -->
-						<div class="col-5" id="country-flag"></div>
+						<div class="col-md-auto" id="country-flag"></div>
 						<span class="border-bottom"></span>
 					</div>
 
 					<!-- First row of stats -->
-					<div class="row justify-content-between" id="country-stats-1">
+					<div class="row justify-content-between d-flex flex-grow-1" id="country-stats-1">
 						<!-- Top 3 animes -->
-						<div class="col-5 podium" id="country-top-animes"></div>
+						<div class="col-6">
+							<div class="podium custom-column" id="country-top-animes" style="align-self: center;">
+							</div>
+						</div>
 						<!-- Top 5 studios -->
-						<div class="col-5" id="country-top-studios"></div>
-
+						<div class="col-6">
+							<div class="custom-column" id="country-top-studios" style="align-self: center;">
+							</div>
+						</div>
 					</div>
 
-					<!-- Second row of stars -->
-					<div class="row justify-content-between" id="country-stats-2">
+					<!-- Second row of stats -->
+					<div class="row justify-content-between d-flex flex-grow-1" id="country-stats-2">
 						<!-- Gender pie chart -->
-						<div class="col-4" id="country-gender-balance">
-						</div>
+						<div class="col-md-auto">
+							<div class="custom-column" id="country-gender-balance" style="align-self: center;">
+							</div>
 
+						</div>
 						<!-- Age distribution histogram -->
-						<div class="col-6" id="country-age-distribution">
-							<svg id="country-age-histogram"></svg>
+						<div class="col-md-auto">
+							<div class="custom-column" id="country-age-distribution" style="align-self: center;">
+							</div>
 						</div>
 					</div>
-					<p id="country-gender-pie-chart-title"></p>
 
-					<h4 id="country-num-days" style="text-align: center;"></h4>
+					<div class="row" id="country-num-days-row" style="padding-top: 10px;">
+						<h5 id="country-num-days" style="text-align: center;">
+						</h5>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 </body>
 
 <!-- D3.js -->
@@ -142,7 +140,7 @@
 <!-- Our scripts -->
 <script src="../utils.js"></script>
 <script src="podium/podium.js"></script>
-<script src="ranking-table/ranking-table.js"></script>
+<script src="ranking_table/ranking_table.js"></script>
 <script src="gender_chart/gender_chart.js"></script>
 <script src="age_chart/age_chart.js"></script>
 <script src="option_pane.js"></script>

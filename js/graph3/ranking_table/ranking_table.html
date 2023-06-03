@@ -3,114 +3,104 @@
 
 <head>
     <meta charset="utf-8">
-    <style>
-        table {
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
-        th,
-        td {
-            padding: 10px;
-            border: 1px solid black;
-        }
-    </style>
+    <!-- Our styles -->
+    <link rel="stylesheet" type="text/css" href="../../../style.css">
+    <!-- <link rel="stylesheet" type="text/css" href="podium/podium.css"> -->
+    <link rel="stylesheet" type="text/css" href="ranking_table.css">
 </head>
 
 <body>
-    <h2>Data Table</h2>
-    <table id="myTable">
-        <tr>
-            <th>Column 1</th>
-            <th>Column 2</th>
-        </tr>
-    </table>
 
     <button id="data1Button">Data 1</button>
     <button id="data2Button">Data 2</button>
 
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script>
-        // Sample data
-        const data1 = {
-            key1: "Value 1",
-            key2: "Value 2",
-            key3: "Value 3",
-            key4: "Value 4"
-        };
-
-        const data2 = {
-            key1: "Value 2",
-            key2: "Value 4",
-            key3: "Value 1",
-            key4: "Value 3"
-        };
-
-        // Define the initial data
-        let currentData = data1;
-
-        // Create the table with initial data
-        let table = d3.select("#myTable")
-            .selectAll("tr")
-            .data(Object.entries(currentData))
-            .enter()
-            .append("tr");
-
-        // Add cells to the table rows
-        table.append("td")
-            .text(d => d[0]);
-
-        table.append("td")
-            .text(d => d[1]);
-
-        // Function to update the table with new data
-        function updateTable(newData) {
-            // Update the current data
-            currentData = newData;
-
-            // Select the table rows
-            let rows = d3.select("#myTable")
-                .selectAll("tr")
-                .data(Object.entries(currentData));
-
-            // Remove any rows that are not present in the new data
-            rows.exit()
-                .remove();
-
-            // Update existing rows
-            rows.select("td")
-                .transition()
-                .duration(500)
-                .text(d => d[1]);
-
-            // Add new rows for the new data
-            let newRows = rows.enter()
-                .append("tr");
-
-            newRows.append("td")
-                .text(d => d[0])
-                .style("opacity", 0)
-                .transition()
-                .duration(500)
-                .style("opacity", 1);
-
-            newRows.append("td")
-                .text(d => d[1])
-                .style("opacity", 0)
-                .transition()
-                .duration(500)
-                .style("opacity", 1);
-        }
-
-        // Event handlers for the buttons
-        d3.select("#data1Button").on("click", () => {
-            updateTable(data1);
-        });
-
-        d3.select("#data2Button").on("click", () => {
-            updateTable(data2);
-        });
-    </script>
+    <div id="country-top-studios" style="align-self: center;">
+    </div>
 </body>
+
+<!-- D3.js -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
+
+<!-- Our scripts -->
+<script src="../../utils.js"></script>
+<script src="ranking_table.js"></script>
+
+<script>
+    const data1 = [
+        {
+            "country": "India",
+            "studio": "Madhouse",
+            "num_ratings": "21234"
+        },
+        {
+            "country": "India",
+            "studio": "A-1 Pictures",
+            "num_ratings": "17138"
+        },
+        {
+            "country": "India",
+            "studio": "J.C.Staff",
+            "num_ratings": "16857"
+        },
+        {
+            "country": "India",
+            "studio": "Production I.G",
+            "num_ratings": "13285"
+        },
+        {
+            "country": "India",
+            "studio": "Pierrot",
+            "num_ratings": "12677"
+        }
+    ]
+    const data2 = [
+        {
+            "country": "Russia",
+            "studio": "Madhouse",
+            "num_ratings": "124791"
+        },
+        {
+            "country": "Russia",
+            "studio": "J.C.Staff",
+            "num_ratings": "104724"
+        },
+        {
+            "country": "Russia",
+            "studio": "Production I.G",
+            "num_ratings": "85690"
+        },
+        {
+            "country": "Russia",
+            "studio": "Studio Deen",
+            "num_ratings": "71177"
+        },
+        {
+            "country": "Russia",
+            "studio": "Sunrise",
+            "num_ratings": "70126"
+        }
+    ]
+
+    updateRankings(data1, "country-top-studios", "Studio", "Ratings", "studio", "num_ratings", num_rows = 5)
+
+    // Event handlers for the buttons
+    d3.select("#data1Button").on("click", () => {
+        updateRankings(data1, "country-top-studios", "Studio", "Ratings", "studio", "num_ratings", num_rows = 5)
+    });
+
+    d3.select("#data2Button").on("click", () => {
+        updateRankings(data2, "country-top-studios", "Studio", "Ratings", "studio", "num_ratings", num_rows = 5)
+    });
+</script>
 
 </html>
