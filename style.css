@@ -10,13 +10,19 @@ body {
 
 
 #home .counter {
-    font-size: 100px;
+    font-size: 75px;
+    color: #1c439b;
 }
 
 #home .counter_desc {
     font-size: 40px;
+    margin-top: -5%;
+    color: #1c439b;
 }
 
+.mal {
+    color: #1c439b;
+}
 
 .transitionTitle {
     font-size: 60px;
@@ -36,6 +42,16 @@ body {
     margin-left: 50px;
     margin-right: 50px;
 }
+
+
+#viz1-transition .outer {
+    color: #404040
+}
+
+#viz1-transition .inner {
+    color: #CCCCCC
+}
+
 
 /* ======================================== GRAPH 1 ======================================== */
 .float-child {
