@@ -57,7 +57,7 @@ const CLIENT_WIDTH = d3.select("#map-holder").node().clientWidth,
     CLIENT_HEIGHT = d3.select("#map-holder").node().clientHeight;
 
 /**
- * Initiate the zoom: calculate zoom/pan limits and set zoom to default value
+ * Initiate the zoom: calculate zoom/pan limits and set zoom to default value.
  */
 function initZoom() {
     // set extent of zoom to chosen values
@@ -73,7 +73,8 @@ function initZoom() {
 
 
 /**
- * Zoom to show a bounding box, with optional additional padding as percentage of box size
+ * Zoom to show a bounding box, with optional additional padding as percentage of box size.
+ * 
  * @param {*} box  [[left, bottom], [right, top]] in map units
  * @param {*} centroid  [longitude, latitude] of box in map units
  * @param {*} paddingPerc  padding as percentage of box size
@@ -115,33 +116,6 @@ function boxZoom(box, centroid, paddingPerc) {
 }
 
 
-
-// Load all the json data from data/map asynchronously and call the ready function to draw the map
-d3.queue()
-    // Countries
-    .defer(d3.json, GEOJSON_PATH + "custom50_processed.json")
-    .defer(d3.csv, COUNTRY_STAT_PATH + "country_num_users.csv")
-    .defer(d3.csv, COUNTRY_STAT_PATH + "country_gender_balance.csv")
-    .defer(d3.csv, COUNTRY_STAT_PATH + "country_users_ages.csv", function (d) {
-        return {
-            country: d.country,
-            birth_year: +d.birth_year,
-            num_users: +d.num_users,
-        }
-    })
-    .defer(d3.csv, COUNTRY_STAT_PATH + "country_num_days_spent_watching_mean.csv")
-    .defer(d3.csv, COUNTRY_STAT_PATH + "country_top_animes_3.csv/0.part")
-    .defer(d3.csv, COUNTRY_STAT_PATH + "country_top_studios.csv/0.part")
-    // Anime
-    .defer(d3.csv, DATA_PATH + "anime_cleaned.csv")
-    // Studios
-    .defer(d3.csv, STUDIO_PATH + "studios_mal_clean.csv")
-    .defer(d3.csv, STUDIO_STAT_PATH + "studio_country_num_ratings.csv/0.part")
-    .defer(d3.csv, STUDIO_STAT_PATH + "studio_num_countries.csv/0.part")
-    .defer(d3.csv, STUDIO_STAT_PATH + "studio_num_animes.csv")
-    .defer(d3.csv, STUDIO_STAT_PATH + "studio_country_top_animes_3.csv/0.part")
-    .await(ready);
-
 let countryFocus = false
 let studioFocus = false
 
@@ -169,6 +143,11 @@ let studioPanel = d3.select("#studio")
 let studioDefDivs = studioPanel.selectAll(".studio-defined")
 let studioUndefDivs = studioPanel.selectAll(".studio-undefined")
 
+/**
+ * Set the state of the country panel.
+ * 
+ * @param {*} state country-defined or "country-undefined
+ */
 function setCountryState(state) {
     if (state === "country-defined") {
         countryDefDivs.style("display", "block");
@@ -191,6 +170,11 @@ function setCountryState(state) {
     countryState = state;
 }
 
+/**
+ * Set the state of the studio panel.
+ * 
+ * @param {*} state studio-defined or studio-undefined
+ */
 function setStudioState(state) {
     if (state === "studio-defined") {
         studioDefDivs.style("display", "block");
@@ -208,8 +192,35 @@ function setStudioState(state) {
 }
 
 
+// Load all the json data from data/map asynchronously and call the ready function to draw the map
+d3.queue()
+    // Countries
+    .defer(d3.json, GEOJSON_PATH + "custom50_processed.json")
+    .defer(d3.csv, COUNTRY_STAT_PATH + "country_num_users.csv")
+    .defer(d3.csv, COUNTRY_STAT_PATH + "country_gender_balance.csv")
+    .defer(d3.csv, COUNTRY_STAT_PATH + "country_users_ages.csv", function (d) {
+        return {
+            country: d.country,
+            birth_year: +d.birth_year,
+            num_users: +d.num_users,
+        }
+    })
+    .defer(d3.csv, COUNTRY_STAT_PATH + "country_num_days_spent_watching_mean.csv")
+    .defer(d3.csv, COUNTRY_STAT_PATH + "country_top_animes_3.csv/0.part")
+    .defer(d3.csv, COUNTRY_STAT_PATH + "country_top_studios.csv/0.part")
+    // Anime
+    .defer(d3.csv, DATA_PATH + "anime_cleaned.csv")
+    // Studios
+    .defer(d3.csv, STUDIO_PATH + "studios_mal_clean.csv")
+    .defer(d3.csv, STUDIO_STAT_PATH + "studio_country_num_ratings.csv/0.part")
+    .defer(d3.csv, STUDIO_STAT_PATH + "studio_num_countries.csv/0.part")
+    .defer(d3.csv, STUDIO_STAT_PATH + "studio_num_animes.csv")
+    .defer(d3.csv, STUDIO_STAT_PATH + "studio_country_top_animes_3.csv/0.part")
+    .await(ready);
+
 /**
- * Draw the map and all the other elements
+ * Draw the map and all the other elements.
+ * 
  * @param {*} error  Error message
  * @param {*} geojsonData  Geojson data
  * @param {*} userData  Country-Number of users
@@ -258,7 +269,7 @@ function ready(error,
             resetMap();
             return;
         }
-        onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData, studioCountryTopAnimes);
+        onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData);
     })
 
     // Studio selector
@@ -303,34 +314,26 @@ function ready(error,
         })
         .on("click", function (d) {
             if (studioFocus == false) {
-                // Color the countries according to the number of users
-                countries.style("fill", d => d.properties.color)
-                onCountryFocus(d, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData, studioCountryTopAnimes)
+                onCountryFocus(d, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData)
             } else {
-                // Color all countries who have at least one anime from the selected studio in blue, the rest in gray
-                countries.style("fill", d => studioCountryNames.includes(d.properties.admin) ? "#0000ff" : "#ccc")
                 onStudioCountryFocus(d, animeData, studioCountryTopAnimes)
             }
-            // Color the selected country in blue
-            d3.select("#country" + d.properties.iso_a2)
-                .style("fill", "#2c7bb6")
-                .on("mouseover", null)
-                .on("mouseout", null)
         });
 
 }
 
 /**
+ * Describes what happens on country focus mode (when a country is clicked or selected from the dropdown menu)
  * 
- * @param {*} countryFeature 
- * @param {*} countryTopAnimes 
- * @param {*} animeData 
- * @param {*} countryTopStudios 
- * @param {*} genderData 
- * @param {*} ageData 
- * @param {*} daysData 
+ * @param {*} countryFeature GeoJSON feature of the country
+ * @param {*} countryTopAnimes Country-Top 3 animes (most rated)
+ * @param {*} animeData Anime data
+ * @param {*} countryTopStudios Country-Top studios (most rated)
+ * @param {*} genderData Country-Gender balance
+ * @param {*} ageData Country-Age distribution
+ * @param {*} daysData Country-Mean number of days spent watching anime
  */
-function onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData, studioCountryTopAnimes) {
+function onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopStudios, genderData, ageData, daysData) {
     countryFocus = true
     studioFocus = false
     studioSelector.property("value", "Select a studio...");
@@ -338,7 +341,13 @@ function onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopS
     studioCountryNames = []
 
     setStudioState("studio-undefined")
+    // Color the countries according to the number of users
     countries.style("fill", d => d.properties.color);
+    // Color the selected country in blue
+    d3.select("#country" + countryFeature.properties.iso_a2)
+        .style("fill", "#2c7bb6")
+        .on("mouseover", null)
+        .on("mouseout", null)
 
     // Zoom on the country
     boxZoom(path.bounds(countryFeature), path.centroid(countryFeature), 20);
@@ -349,14 +358,13 @@ function onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopS
 
 
 /**
+ * Describes what happens on studio focus mode (when a studio is selected in the studio selector)
  * 
- * @param {*} studio 
- * @param {*} studioData 
- * @param {*} studioNumAnimes 
- * @param {*} animeData 
- * @param {*} studioTopAnimes 
- * @param {*} studioCountries 
- * @returns 
+ * @param {*} studio The selected studio
+ * @param {*} studioData Studio data
+ * @param {*} studioNumAnimes Studio-Number of animes
+ * @param {*} studioCountries Studio-Countries
+ * @param {*} studioNumCountries Studio-Number of countries
  */
 function onStudioFocus(studio, studioData, studioNumAnimes, studioCountries, studioNumCountries) {
     countryFocus = false
@@ -385,27 +393,38 @@ function onStudioFocus(studio, studioData, studioNumAnimes, studioCountries, stu
 
 
 /**
- * 
- * @param {*} countryFeature 
- * @param {*} animeData 
- * @param {*} studioCountryTopAnimes 
+ * Describes what happens when a country is clicked on studio focus mode.
+ *  
+ * @param {*} countryFeature  GeoJSON feature of the country
+ * @param {*} animeData  Anime data
+ * @param {*} studioCountryTopAnimes Top animes of the selected studio for each country
  */
 function onStudioCountryFocus(countryFeature, animeData, studioCountryTopAnimes) {
     let studio = studioSelector.property("value")
     let country = countryFeature.properties.admin
+
+    // Color all countries who have at least one anime from the selected studio in blue, the rest in gray
+    countries.style("fill", d => studioCountryNames.includes(d.properties.admin) ? "#0000ff" : "#ccc")
+    // Color the selected country in blue
+    
+    d3.select("#country" + countryFeature.properties.iso_a2)
+        .style("fill", "#2c7bb6")
+        .on("mouseover", null)
+        .on("mouseout", null)
+
     showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeData)
 }
 
 
 /**
- * Initialize the map
+ * Initialize the map.
  */
 function initMap() {
     initZoom()
 }
 
 /**
- * Reset the map to its initial state
+ * Reset the map to its initial state.
  */
 function resetMap() {
     countryTab.show()

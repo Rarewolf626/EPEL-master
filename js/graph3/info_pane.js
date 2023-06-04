@@ -94,13 +94,14 @@ function showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeDat
             "No data available for this country")
 
     if (!isDataAvailable) return;
+    
     // Top 3 animes from this studio in this country
     info.append("div")
         .attr("class", "col-9 podium")
         .attr("id", "podium-studio-country-top-animes")
         .style("align-self", "center")
 
-    updatePodium(studioCountryTopAnimes, animeData, "#podium-studio-country-top-animes", title="")
+    updatePodium(studioCountryTopAnimes, animeData, "#podium-studio-country-top-animes", title = "")
 }
 
 // ============================================= Country Tab =============================================
@@ -169,7 +170,7 @@ function showCountryInfo(countryFeature, countryTopAnimes, animeData, topStudios
     /* Country stats (second row) */
     // Gender balance
     updateGenderChart(genderData, engName);
-    
+
     // Age distribution
     updateAgeChart(ageData, engName);
 
@@ -182,11 +183,11 @@ function showCountryInfo(countryFeature, countryTopAnimes, animeData, topStudios
  * Update the flag of the country.
  * 
  * @param {*} countryFeature  GeoJSON feature of the country
- * @returns the DOM element containing the flag of the country
  */
 function updateFlag(countryFeature) {
-    let countryFlag = d3.select("#country-flag")
+    const countryFlag = d3.select("#country-flag")
     countryFlag.selectAll("*").remove();
+
     countryFlag.append("img")
         .attr("src", countryFeature.properties.flag_path)
         .attr("class", "rounded")
@@ -197,8 +198,6 @@ function updateFlag(countryFeature) {
                 .attr("src", DEFAULT_IMG_URL)
                 .attr("onerror", null)
         });
-
-    return countryFlag;
 }
 
 /**
@@ -206,16 +205,13 @@ function updateFlag(countryFeature) {
  * 
  * @param {*} daysData  Data about the number of days spent watching anime in each country
  * @param {*} country  Country name
- * @returns the DOM element containing the number of days spent watching anime in the country
  */
 function updateMeanDays(daysData, country) {
-    let countryNumDays = d3.select("#country-num-days")
+    const countryNumDays = d3.select("#country-num-days")
     countryNumDays.selectAll("*").remove();
 
     let countryDays = daysData.find(d => d.country == country);
-    if (!countryDays) {
-        return;
-    }
+    if (!countryDays) return;
 
     let formatResults = formatAsDays(countryDays.num_days_spent_watching_mean)
     let [numDays, numHours, numMinutes] = formatResults;
@@ -233,6 +229,4 @@ function updateMeanDays(daysData, country) {
     animateCounter("#country-days-ctr", numDays)
     animateCounter("#country-hours-ctr", numHours)
     animateCounter("#country-minutes-ctr", numMinutes)
-
-    return countryNumDays;
 }

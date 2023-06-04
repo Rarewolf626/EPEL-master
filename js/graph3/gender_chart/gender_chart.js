@@ -35,9 +35,8 @@ let svgGender = containerGender
 /**
  * Update the gender chart
  * 
- * @param {*} genderData 
- * @param {*} country 
- * @returns 
+ * @param {*} genderData Data containing the gender balance for each country
+ * @param {*} country Country to display
  */
 function updateGenderChart(genderData, country) {
     containerGender.selectAll("h6").remove();

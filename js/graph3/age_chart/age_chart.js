@@ -1,7 +1,9 @@
 /**
+ * Fills in missing years in the age distribution data
+ * Example: [2000, 2002, 2003] -> [2000, 2001, 2002, 2003]
  * 
- * @param {*} years 
- * @returns 
+ * @param {*} years The years in the data
+ * @returns  The years in the data, with missing years filled in
  */
 function fillMissingYears(years) {
   let filledYears = [];
@@ -18,9 +20,9 @@ function fillMissingYears(years) {
 
 /**
  * Creates a histogram of the age distribution of users in a country
+ * 
  * @param {*} ageData 
  * @param {*} country 
- * @returns 
  */
 function updateAgeChart(ageData, country) {
   const container = d3.select("#country-age-distribution")

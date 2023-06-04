@@ -1,14 +1,14 @@
 
 /**
+ * Update the ranking table contained in the containerId with the rankingData.
  * 
- * @param {*} rankingData 
- * @param {*} containerId 
- * @param {*} headerA 
- * @param {*} headerB 
- * @param {*} colA 
- * @param {*} colB 
- * @param {*} num_rows 
- * @returns 
+ * @param {*} rankingData Data containing the rows of the table
+ * @param {*} containerId Id of the container to append the table to
+ * @param {*} headerA Header of the first column
+ * @param {*} headerB Header of the second column
+ * @param {*} colA Name of the key in rankingData to use for the first column
+ * @param {*} colB Name of the key in rankingData to use for the second column
+ * @param {*} num_rows Number of rows to display
  */
 function updateRankings(rankingData, containerId, headerA, headerB, colA, colB, num_rows = 10) {
     const container = d3.select(containerId);

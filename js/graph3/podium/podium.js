@@ -1,9 +1,9 @@
 /**
+ * Update the podium contained in the containerId with the topAnimes.
  * 
- * @param {*} topAnimes 
- * @param {*} animeData 
- * @param {*} containerId 
- * @returns 
+ * @param {*} topAnimes Data containing the most rated animes
+ * @param {*} animeData Anime data
+ * @param {*} containerId Id of the container to append the podium to
  */
 function updatePodium(topAnimes, animeData, containerId, title="The most rated anime") {
     const container = d3.select(containerId);
