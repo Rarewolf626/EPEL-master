@@ -1,6 +1,10 @@
+/**
+ * class to create and display legend of pie chart
+ */
 class Legend extends HTMLElement {
-    constructor(allColors, x, y, width, height, colorText="red", widthCoord = 8*13) {
+    constructor(allColors, x, y, width, height, colorText="red") {
         super()
+        //init the container
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
         const a = 8 * 13
         svg.setAttribute('viewBox', `0 0 ${a} 5`)
@@ -9,13 +13,10 @@ class Legend extends HTMLElement {
         svg.setAttribute('width', width)
         svg.setAttribute('height', height)
         svg.setAttribute("id", "legendCompose")
-        const labelHeight = (13 * height)
-        /*const legend = /*d3.select(document.createElement("g"))d3.select(this.svg)
-            //.attr('transform', `translate(${radius * 2 + 20},0)`);*/
         const legend = d3.select(svg)
 
-        
-        legend
+        //init rect color
+        const rects = legend
             .selectAll('rect')
             .data(allColors)
             .enter()
@@ -27,26 +28,9 @@ class Legend extends HTMLElement {
             .attr('fill', d => d.color)
             .attr('stroke', 'grey')
             .style('stroke-width', '0.015')
-            .on("click", (d) => {
-                const event = new CustomEvent("click-legend", {
-                    detail: d.genre,
-                    bubbles: true,
-                    cancelable: true,
-                    composed: false,
-                });
-                this.dispatchEvent(event)
-            })
-            .on("dblclick", (d) => {
-                const event = new CustomEvent("dblclick-legend", {
-                    detail: d.genre,
-                    bubbles: true,
-                    cancelable: true,
-                    composed: false,
-                });
-                this.dispatchEvent(event)
-            })
-
-        legend
+        this.onDblClick(this.onClick(rects))
+        //init text
+        const texts = legend
             .selectAll('text')
             .data(allColors)
             .enter()
@@ -57,30 +41,41 @@ class Legend extends HTMLElement {
             .style('font-family', 'sans-serif')
             .style('font-size', `1.09`)
             .style("fill", colorText)
-            .on("click", (d) => {
-                const event = new CustomEvent("click-legend", {
-                    detail: d.genre,
-                    bubbles: true,
-                    cancelable: true,
-                    composed: false,
-                });
-                this.dispatchEvent(event)
-            })
-            .on("dblclick", (d) => {
-                const event = new CustomEvent("dblclick-legend", {
-                    detail: d.genre,
-                    bubbles: true,
-                    cancelable: true,
-                    composed: false,
-                });
-                this.dispatchEvent(event)
-            })
-            .attr("onselectstart", 'return false')
-            .attr("onmousedown", 'return false')
+        this.onDblClick(this.onClick(texts)).attr("onselectstart", 'return false').attr("onmousedown", 'return false')
 
         this.svg = svg
-        /*const test = document.querySelector('#pie-compose')
-        test.appendChild(svg)*/
+    }
+    /**
+     * add eventListener click and create customEvent and dispatch it
+     * @param {*} component component which we want add event click
+     * @returns component
+     */
+    onClick(component) {
+        return component.on("click", (d) => {
+            const event = new CustomEvent("click-legend", {
+                detail: d.genre,
+                bubbles: true,
+                cancelable: true,
+                composed: false,
+            });
+            this.dispatchEvent(event)
+        })
+    }
+    /**
+     * add eventListener dblclick and create customEvent and dispatch it
+     * @param {*} component component which we want add event dblclick
+     * @returns component
+     */
+    onDblClick(component) {
+        return component.on("dblclick", (d) => {
+            const event = new CustomEvent("dblclick-legend", {
+                detail: d.genre,
+                bubbles: true,
+                cancelable: true,
+                composed: false,
+            });
+            this.dispatchEvent(event)
+        })
     }
 
     getSVG() {

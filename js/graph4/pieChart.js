@@ -24,6 +24,7 @@ class Point {
 class PieChart extends HTMLElement {
     constructor(data, labels, id, x, y, width, height, colors = ['#FAAA32', '#3EFA7D', '#FA6A25', '#0C94FA', '#FA1F19', '#0CFAE2', '#AB6D23'], colorText = "red", donut = '0.02', proportion = '0.8', scaleSelect = '0.8', scaleAngle = '1.1', gap = '0.015') {
         super()
+        //init attributes
         this.colorText = colorText
         const shadow = this.attachShadow({ mode: 'open' })
         this.shadow = shadow
@@ -43,7 +44,7 @@ class PieChart extends HTMLElement {
         </svg>`)
         const pathGroup = svg.querySelector('.pathGroup')
         const maskGroup = svg.querySelector('.maskGroup')
-        var kOther = 0
+        let kOther = 0
 
         this.paths = this.data.map((_, k) => {
             const color = colors[k % (colors.length)]
@@ -262,8 +263,6 @@ class PieChart extends HTMLElement {
             this.labels[i].classed('is-active', false)
             this.labels[i].style("opacity", "0")
         }
-        //this.labels[k].classed('is-active', false)
-        //this.labels[k].style("opacity", "0")
         this.draw()
     }
 
@@ -281,10 +280,6 @@ class PieChart extends HTMLElement {
             }
         }
         const diff = Math.PI * 2 - sum
-        /*if (diff >=Math.PI / 2) {
-            this.draw()
-            return
-        }*/
         angles[index] = diff
         for (let k = 0; k < this.data.length; k++) {
             if (progress === 1) {
