@@ -17,6 +17,32 @@ function fillMissingYears(years) {
   return filledYears;
 }
 
+// Add the tooltip container
+const tooltipAge = d3.select("body")
+  .append("div")
+  .style("position", "absolute")
+  .style("pointer-events", "none")
+  .style("visibility", "hidden")
+  .style("background-color", "white")
+  .style("padding", "0.5em")
+  .style("font-family", "Arial");
+
+function handleMouseOver(d) {
+  // Show the tooltip when hovering over a rectangle
+  tooltipAge.style("visibility", "visible");
+}
+
+function handleMouseMove(d) {
+  // Update the position of the tooltip to follow the mouse pointer
+  tooltipAge.style("left", d3.event.pageX + "px")
+    .style("top", d3.event.pageY + "px")
+    .html(`${d.birth_year}: ${d.num_users} otaku${d.num_users > 1 ? "s" : ""}`); // Display the number related to the rectangle
+}
+
+function handleMouseOut(d) {
+  // Hide the tooltip when moving the mouse away from the rectangle
+  tooltipAge.style("visibility", "hidden");
+}
 
 /**
  * Creates a histogram of the age distribution of users in a country
@@ -96,7 +122,7 @@ function updateAgeChart(ageData, country) {
     .attr("text-anchor", "end")
     .text(xLabel)
 
-  // append the bar rectangles to the svg element
+  // Append the bar rectangles to the SVG element
   svg.selectAll("mybar")
     .data(data)
     .enter()
@@ -106,14 +132,24 @@ function updateAgeChart(ageData, country) {
     .attr("height", function (d) { return height - yScale(0); })
     .attr("y", function (d) { return yScale(0); })
     .style("fill", "#69b3a2")
+    .on("mouseover", function (d) {
+      d3.select(this).style("fill", "#4e8a7c") // Brigthen the bar
+      handleMouseOver(d)
+    })
+    .on("mousemove", function (d) {
+      handleMouseMove(d)
+    })
+    .on("mouseout", function (d) {
+      d3.select(this).style("fill", "#69b3a2") // Back to normal color
+      handleMouseOut(d)
+    });
 
   // Animation
   svg.selectAll("rect")
     .transition()
     .duration(800)
     .attr("height", function (d) { return height - yScale(d.num_users); })
-    .attr("y", function (d) { return yScale(d.num_users); })
-  // .delay(function (d, i) { return 0.1 * d.num_users })
+    .attr("y", function (d) { return yScale(d.num_users); });
 
   container
     .append("h6")
