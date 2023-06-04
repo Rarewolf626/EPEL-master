@@ -1,4 +1,4 @@
-// ============================================= Studio =============================================
+// ============================================= Studio Tab =============================================
 /**
  * Show the information about the currently selected studio.
  * 
@@ -104,9 +104,8 @@ function showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeDat
     updatePodium(studioCountryTopAnimes, animeData, "#podium-studio-country-top-animes", title = "")
 }
 
+
 // ============================================= Country Tab =============================================
-
-
 /**
  *  Show the information about the currently selected country.
  * 

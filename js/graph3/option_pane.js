@@ -1,10 +1,12 @@
+// ============================================= Studio =============================================
 /**
+ * Creates a dropdown menu to select a studio.
  * 
- * @param {*} studioData 
- * @returns 
+ * @param {*} studioData Studio data
+ * @returns The dropdown menu
  */
 function createStudioSelector(studioData) {
-    let studioSelector = d3.select("#studio-selector");
+    const studioSelector = d3.select("#studio-selector");
 
     studioSelector.selectAll("option")
         .data(studioData)
@@ -17,15 +19,17 @@ function createStudioSelector(studioData) {
 }
 
 
+// ============================================= Country =============================================
 /**
+ * Creates a dropdown menu to select a country.
  * 
- * @param {*} geojsonData 
- * @returns 
+ * @param {*} geojsonData GeoJSON data
+ * @returns The dropdown menu
  */
 function createCountrySelector(geojsonData) {
-    let countrySelector = d3.select("#country-selector");
+    const countrySelector = d3.select("#country-selector");
 
-    // Keep only the admin, sovereignt, iso_a2 properties
+    // Sort the data by alphabetically by the name of the sovereignt country
     data = geojsonData.features
         .map(d => {
             return {
@@ -52,9 +56,10 @@ function createCountrySelector(geojsonData) {
         }
     }
 
-    // Set of the countries which are the sovereignt of another country (remove duplicates)
+    // Set of the countries which are the sovereignt of another country
     let sovereigntSet = new Set(data.filter(d => d.admin != d.sovereignt).map(d => d.sovereignt));
 
+    // Add first the countries which do not have a sovereignt country
     countrySelector.selectAll("option")
         .data(data.filter(d => !sovereigntSet.has(d.sovereignt)))
         .enter()
@@ -63,12 +68,13 @@ function createCountrySelector(geojsonData) {
         .text(d => getFlagEmoji(d.iso_a2) + " " + d.admin)
         .attr("label", d => getFlagEmoji(d.iso_a2) + " " + d.admin)
 
+    // Add the countries which have a sovereignt country, and group them in an optgroup
     let optgroups = countrySelector.selectAll("optgroup")
         .data(data.filter(d => sovereigntSet.has(d.admin)))
         .enter()
         .append("optgroup")
         .attr("label", d => getFlagEmoji(d.iso_a2) + " " + d.admin);
-    // The sovereignt itself
+    // Put the sovereignt country first
     optgroups.append("option")
         .attr("value", d => d.admin)
         .text(d => getFlagEmoji(d.iso_a2) + " " + d.admin);
@@ -76,7 +82,6 @@ function createCountrySelector(geojsonData) {
     optgroups.each(function (d) {
         let optgroup = d3.select(this);
         let territories = data.filter(item => item.sovereignt === d.admin);
-        // Before each name, add a "bullet" so as to make a bullet list
         optgroup.selectAll("option")
             .data(territories)
             .enter()
@@ -98,8 +103,6 @@ function createCountrySelector(geojsonData) {
             // Inserts the optgroup before the node found above
             countrySelector.node().insertBefore(optgroup, countrySelector.node().childNodes[index]);
         });
-
-
 
     return countrySelector;
 }

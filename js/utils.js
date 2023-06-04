@@ -27,6 +27,12 @@ function animateCounter(selector, endValue, duration = 1500) {
         .duration(duration);
 }
 
+/**
+ * Converts a number of days (float) to the integer number of days, hours, and minutes.
+ * 
+ * @param {*} days  The number of days
+ * @returns An array of the number of days, hours, and minutes
+ */
 function formatAsDays(days) {
     const hours = days * 24;
     const minutes = hours * 60;
@@ -41,8 +47,8 @@ function formatAsDays(days) {
  * Returns the flag emoji string for a given country.
  * Adapted from https://dev.to/jorik/country-code-to-flag-emoji-a21.
  * 
- * @param {*} countryCode  The country code
- * @returns  The flag emoji
+ * @param {*} countryCode The country code
+ * @returns The flag emoji
  */
 function getFlagEmoji(countryCode) {
     const codePoints = countryCode
