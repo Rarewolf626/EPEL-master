@@ -1,6 +1,3 @@
-let genderChart;
-// chart.selectAll("*").remove();
-
 // set the dimensions and margins of the graph
 const GENDER_WIDTH = 200,
     GENDER_HEIGHT = 200,
@@ -19,28 +16,21 @@ const ARC_GENERATOR = d3.arc()
     .innerRadius(0)
     .outerRadius(GENDER_RADIUS)
 
-let svgGender;
-
-/**
- * Initialize the gender chart
- */
-function initGenderChart() {
-    genderChart = d3.select("#country-gender-balance")
-
-    svgGender = genderChart
-        .append("svg")
-        .attr("width", GENDER_WIDTH)
-        .attr("height", GENDER_HEIGHT)
-        .append("g")
-        .attr("transform", "translate(" + GENDER_WIDTH / 2 + "," + GENDER_HEIGHT / 2 + ")");
-
-}
-
 let tooltipGender = d3.select("body")
     .append("div")
     .style("position", "absolute")
     .style("z-index", "10")
     .style("visibility", "hidden");
+
+
+let containerGender = d3.select("#country-gender-balance");
+let svgGender = containerGender
+    .append("svg")
+    .attr("width", GENDER_WIDTH)
+    .attr("height", GENDER_HEIGHT)
+    .append("g")
+    .attr("transform", "translate(" + GENDER_WIDTH / 2 + "," + GENDER_HEIGHT / 2 + ")");
+
 
 /**
  * Update the gender chart
@@ -50,17 +40,10 @@ let tooltipGender = d3.select("body")
  * @returns 
  */
 function updateGenderChart(genderData, country) {
-    genderChart.selectAll("h6").remove()
-    genderChart.selectAll("svg").remove();
-    // genderChart.selectAll("*").remove();
+    containerGender.selectAll("h6").remove();
 
     let data = genderData.find(d => d.country == country)
-    if (!data) {
-        return;
-    }
-
-    initGenderChart();
-
+    if (!data) return;
 
     let genderBalance = { "Male": data["Male"], "Female": data["Female"], "Non-Binary": data["Non-Binary"] }
 
@@ -124,10 +107,8 @@ function updateGenderChart(genderData, country) {
 
     t.exit().remove()
 
-    genderChart.append("h6")
+    containerGender.append("h6")
         .text("Gender balance")
         .attr("class", "text-center")
         .style("margin-top", "0.5em")
-
-    return svgGender;
 }

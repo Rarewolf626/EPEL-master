@@ -1,47 +1,3 @@
-// Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
-// Its opacity is set to 0: we don't see it by default.
-let tooltipAgeChart = d3.select("#country-age-distribution")
-  .append("div")
-  .style("opacity", 0)
-  .attr("class", "tooltip")
-  .style("background-color", "black")
-  .style("color", "white")
-  .style("border-radius", "5px")
-  .style("padding", "10px")
-
-// A function that change this tooltip when the user hover a point.
-// Its opacity is set to 1: we can now see it. Plus it sets the text and position of tooltip depending on the datapoint (d)
-let showTooltip = function (d) {
-  tooltipAgeChart
-    .transition()
-    .duration(100)
-    .style("opacity", 1)
-  tooltipAgeChart
-    .html("Birth year: " + d.birth_year + " (" + d.num_users + " users)")
-    .style("left", (d3.mouse(this)[0] + 20) + "px")
-    .style("top", (d3.mouse(this)[1]) + "px")
-}
-let moveTooltip = function (d) {
-  tooltipAgeChart
-    .style("left", (d3.mouse(this)[0] + 20) + "px")
-    .style("top", (d3.mouse(this)[1]) + "px")
-}
-// A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
-let hideTooltip = function (d) {
-  tooltipAgeChart
-    .transition()
-    .duration(100)
-    .style("opacity", 0)
-}
-// d3.select("#x-axis-group")
-// .append("text")
-// .attr("x", width + margin.right/4)
-// .attr("y", -10)
-// .attr("fill", "currentColor")
-// .attr("text-anchor", "middle")
-// .text(xLabel)
-
-
 /**
  * 
  * @param {*} years 
@@ -67,16 +23,8 @@ function fillMissingYears(years) {
  * @returns 
  */
 function updateAgeChart(ageData, country) {
-  let chart = d3.select("#country-age-distribution")
-  chart.selectAll("*").remove();
-
-
-
-  let data = ageData.filter(d => d.country == country)
-  if (data.length == 0) {
-    // d3.select("#country-age-distribution").append("paragraph").text("No data available for this country")
-    return;
-  }
+  const container = d3.select("#country-age-distribution")
+  container.selectAll("*").remove();
 
   // set the dimensions and margins of the graph
   let margin = { top: 20, right: 30, bottom: 30, left: 40 },
@@ -84,11 +32,14 @@ function updateAgeChart(ageData, country) {
     height = 230 - margin.top - margin.bottom;
 
   // append the svg object to the body of the page
-  let svg = chart.append("svg")
+  let svg = container.append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  let data = ageData.filter(d => d.country == country)
+  if (data.length == 0) return;
 
   // X axis: scale and draw
   let years = data.map(d => d.birth_year)
@@ -153,15 +104,6 @@ function updateAgeChart(ageData, country) {
     .attr("height", function (d) { return height - yScale(0); })
     .attr("y", function (d) { return yScale(0); })
     .style("fill", "#69b3a2")
-    .on("mouseover", function (d) {
-      d3.select(this).style("fill", "#4e8a7c") // Brigthen the bar
-      // showTooltip(d)
-    })
-    .on("mousemove", moveTooltip)
-    .on("mouseleave", function (d) {
-      d3.select(this).style("fill", "#69b3a2") // Back to normal color
-      // hideTooltip(d)
-    })
 
   // Animation
   svg.selectAll("rect")
@@ -171,11 +113,9 @@ function updateAgeChart(ageData, country) {
     .attr("y", function (d) { return yScale(d.num_users); })
   // .delay(function (d, i) { return 0.1 * d.num_users })
 
-  chart
+  container
     .append("h6")
     .text("Age distribution")
     .attr("class", "text-center")
     .style("margin-top", "0.5em")
-
-  return svg
 };
