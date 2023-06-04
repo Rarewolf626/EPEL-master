@@ -27,6 +27,8 @@ You can find the [instructions](/reports/milestone2/milestone2_instructions.pdf)
 
 You can find the [instructions](/reports/milestone3/milestone3_instructions.pdf).
 
+The screencast is available [on YouTube](https://www.youtube.com/watch?v=FJeq680bvf4).
+
 To run our website, nothing complicated, just follow [this link](https://com-480-data-visualization.github.io/project-2023-vizmoica/)! 
 
 Have fun! 楽しんできてください！
