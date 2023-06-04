@@ -2,7 +2,7 @@
 /**
  * 
  * @param {*} rankingData 
- * @param {*} tableId 
+ * @param {*} containerId 
  * @param {*} headerA 
  * @param {*} headerB 
  * @param {*} colA 
@@ -10,11 +10,14 @@
  * @param {*} num_rows 
  * @returns 
  */
-function updateRankings(rankingData, tableId, headerA, headerB, colA, colB, num_rows = 10) {
-    let rankings = d3.select("#" + tableId);
-    rankings.selectAll("*").remove();
-    let table = rankings.append("table")
+function updateRankings(rankingData, containerId, headerA, headerB, colA, colB, num_rows = 10) {
+    const container = d3.select(containerId);
+    container.selectAll("*").remove();
+
+    let table = container.append("table")
         .classed("center-table", true)
+
+    if (rankingData.length === 0) return;
 
     /* Table header */
     let thead = table.append("thead");
@@ -43,11 +46,10 @@ function updateRankings(rankingData, tableId, headerA, headerB, colA, colB, num_
     rows.append("td")
         .text(d => formatAsThousands(d[colB]));
 
-    rankings
+    container
         .append("h6")
         .text("The most rated studios")
         .attr("class", "text-center")
         .style("margin-top", "0.5em")
 
-    return rankings;
 }

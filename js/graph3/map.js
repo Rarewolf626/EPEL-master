@@ -201,7 +201,6 @@ function setStudioState(state) {
     } else if (state === "studio-undefined") {
         studioDefDivs.style("display", "none");
         studioDefDivs.style("visibility", "hidden")
-
         studioUndefDivs.style("display", "block");
         studioUndefDivs.style("visibility", "visible")
     }
@@ -339,6 +338,7 @@ function onCountryFocus(countryFeature, countryTopAnimes, animeData, countryTopS
     studioCountryNames = []
 
     setStudioState("studio-undefined")
+    countries.style("fill", d => d.properties.color);
 
     // Zoom on the country
     boxZoom(path.bounds(countryFeature), path.centroid(countryFeature), 20);
@@ -402,8 +402,6 @@ function onStudioCountryFocus(countryFeature, animeData, studioCountryTopAnimes)
  */
 function initMap() {
     initZoom()
-    // init gender chart
-    initGenderChart()
 }
 
 /**

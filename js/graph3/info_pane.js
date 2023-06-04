@@ -100,7 +100,7 @@ function showStudioCountryInfo(studio, country, studioCountryTopAnimes, animeDat
         .attr("id", "podium-studio-country-top-animes")
         .style("align-self", "center")
 
-    updatePodium(studioCountryTopAnimes, animeData, "podium-studio-country-top-animes")
+    updatePodium(studioCountryTopAnimes, animeData, "#podium-studio-country-top-animes", title="")
 }
 
 // ============================================= Country Tab =============================================
@@ -160,24 +160,18 @@ function showCountryInfo(countryFeature, countryTopAnimes, animeData, topStudios
     /* Country stats (first row) */
     // Top 3 animes
     countryTopAnimes = countryTopAnimes.filter(d => d.country === engName).slice(0, 3);
-    updatePodium(countryTopAnimes, animeData, "podium-country-top-animes")
-    d3.selectAll("#country-top-animes").selectAll("h6").text("").remove()
-    d3.selectAll("#country-top-animes")
-        .append("h6")
-        .text("The most rated anime")
-        .attr("class", "text-center")
-        .style("margin-top", "0.5em")
+    updatePodium(countryTopAnimes, animeData, "#country-top-animes")
+
     // Top studios
     topStudios = topStudios.filter(d => d.country === engName)
-    updateRankings(topStudios, "country-top-studios", "Studio", "Ratings", "studio", "num_ratings", num_rows = 10)
-
+    updateRankings(topStudios, "#country-top-studios", "Studio", "Ratings", "studio", "num_ratings", num_rows = 10)
 
     /* Country stats (second row) */
     // Gender balance
     updateGenderChart(genderData, engName);
+    
     // Age distribution
     updateAgeChart(ageData, engName);
-
 
     /* Mean number of days spent watching anime (third row) */
     updateMeanDays(daysData, engName);

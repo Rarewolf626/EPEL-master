@@ -2,13 +2,16 @@
  * 
  * @param {*} topAnimes 
  * @param {*} animeData 
- * @param {*} podiumId 
+ * @param {*} containerId 
  * @returns 
  */
-function updatePodium(topAnimes, animeData, podiumId) {
-    const podium = d3.select("#" + podiumId);
-    podium.selectAll("*").remove();
-    podium.text("");
+function updatePodium(topAnimes, animeData, containerId, title="The most rated anime") {
+    const container = d3.select(containerId);
+    container.selectAll("*").remove();
+
+    let podium = container.append("div")
+        .classed("podium", true)
+        .style("align-self", "center")
 
     if (topAnimes.length === 0) return;
 
@@ -106,4 +109,11 @@ function updatePodium(topAnimes, animeData, podiumId) {
                     return "25px";
             }
         });
+
+    // Title
+    container
+        .append("h6")
+        .text(title)
+        .attr("class", "text-center")
+        .style("margin-top", "0.5em");
 }
