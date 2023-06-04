@@ -25,7 +25,7 @@ You can find the [instructions](/reports/milestone2/milestone2_instructions.pdf)
 
 **80% of the final grade**
 
-You can find the [instructions](/reports/milestone3/milestone3_instructions.pdf).
+You can find the [instructions](/reports/milestone3/milestone3_instructions.pdf) and the [process book](/reports/milestone3/ProcessBook.pdf)
 
 The screencast is available [on YouTube](https://www.youtube.com/watch?v=FJeq680bvf4).
 
